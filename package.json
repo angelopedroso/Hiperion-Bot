@@ -11,6 +11,7 @@
     "@prisma/client": "^4.15.0",
     "@types/node": "^20.3.0",
     "dotenv": "^16.1.4",
+    "eslint": "^8.42.0",
     "picocolors": "^1.0.0",
     "qrcode": "^1.5.3",
     "ts-node": "^10.9.1",
@@ -19,6 +20,7 @@
     "whatsapp-web.js": "^1.21.0"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^1.2.0",
     "@types/qrcode": "^1.5.0",
     "prisma": "^4.15.0"
   }
