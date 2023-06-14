@@ -1,7 +1,19 @@
 import { Client, LocalAuth } from 'whatsapp-web.js'
-import constants from '../constants'
 
-export const client = new Client({
+interface IConstants {
+  // WhatsApp status broadcast
+  statusBroadcast: string
+
+  // WhatsApp session storage
+  sessionPath: string
+}
+
+const constants: IConstants = {
+  statusBroadcast: 'status@broadcast',
+  sessionPath: './',
+}
+
+const client = new Client({
   authStrategy: new LocalAuth({
     clientId: undefined,
     dataPath: constants.sessionPath,
@@ -19,3 +31,5 @@ export const client = new Client({
     ],
   },
 })
+
+export { constants, client }

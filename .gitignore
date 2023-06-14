@@ -132,3 +132,6 @@ dist
 #whatsapp-web.js
 .wwebjs_cache
 session
+
+# prisma 
+prisma

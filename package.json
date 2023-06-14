@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.6.3",
+    "@prisma/client": "^4.15.0",
+    "@types/node": "^20.3.0",
     "dotenv": "^16.1.4",
     "picocolors": "^1.0.0",
     "qrcode": "^1.5.3",
@@ -17,6 +19,7 @@
     "whatsapp-web.js": "^1.21.0"
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.0"
+    "@types/qrcode": "^1.5.0",
+    "prisma": "^4.15.0"
   }
 }

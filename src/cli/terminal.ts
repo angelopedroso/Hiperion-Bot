@@ -32,3 +32,8 @@ export const printFooter = () => {
 export const printError = (error: string) => {
   log.error(color.bgRed(color.white('An error occurred: ')) + error)
 }
+
+export const printAllGroupsCreated = () => {
+  s.stop('Checking if exists all groups in database')
+  s.start('Starting')
+}
