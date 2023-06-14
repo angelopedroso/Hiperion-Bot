@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { printAllGroupsCreated } from 'cli/terminal'
 import { PrismaQuery } from 'lib/auth/prisma-query'
@@ -12,7 +13,7 @@ export async function createAllGroupsOnReady(groups: Chat[]) {
       const chat = group as GroupChat
 
       const participantIds = chat.participants.map(
-        (participant) => participant.id.user
+        (participant) => participant.id.user,
       )
 
       const existingParticipants = await prisma.participant.findMany({
@@ -24,11 +25,14 @@ export async function createAllGroupsOnReady(groups: Chat[]) {
       })
 
       const existingParticipantsMap = new Map(
-        existingParticipants.map((participant) => [participant.id, participant])
+        existingParticipants.map((participant) => [
+          participant.id,
+          participant,
+        ]),
       )
 
       const participantsToCreate = chat.participants.filter(
-        (participant) => !existingParticipantsMap.has(participant.id.user)
+        (participant) => !existingParticipantsMap.has(participant.id.user),
       )
 
       await Promise.all(
@@ -40,7 +44,7 @@ export async function createAllGroupsOnReady(groups: Chat[]) {
                 ? 'admin'
                 : 'membro',
           })
-        })
+        }),
       )
 
       const existingGroup = await db.findGroupById(chat.id._serialized)
