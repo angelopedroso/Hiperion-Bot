@@ -134,4 +134,4 @@ dist
 session
 
 # prisma 
-prisma
+prisma/dev.db

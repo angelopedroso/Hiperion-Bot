@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id             String                 @id
+  participantes  Participant[]
+  bemvindo       Boolean
+  link_detector  Boolean
+  trava_detector TravaDetector?
+  porn_detector  Boolean
+  black_list     ParticipantBlackList[]
+
+  @@map("groups")
+}
+
+model Participant {
+  id                     String                 @id
+  tipo                   String // 'admin' ou 'membro'
+  isBlacklisted          Boolean                @default(false)
+  group                  Group?                 @relation(fields: [group_id], references: [id])
+  group_id               String?
+  participant_black_list ParticipantBlackList[]
+
+  @@map("participants")
+}
+
+model TravaDetector {
+  id             String   @id @default(uuid())
+  status         Boolean? @default(false)
+  max_characters Int?     @default(0)
+  group          Group    @relation(fields: [group_id], references: [id])
+  group_id       String   @unique
+
+  @@map("trava_detector")
+}
+
+model ParticipantBlackList {
+  id             String      @id @default(uuid())
+  participante   Participant @relation(fields: [participanteId], references: [id])
+  participanteId String
+  group          Group       @relation(fields: [group_id], references: [id])
+  group_id       String
+
+  @@map("participant_black_list")
+}
