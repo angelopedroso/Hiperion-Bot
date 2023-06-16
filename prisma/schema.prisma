@@ -6,49 +6,45 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model Group {
-  id             String                 @id
-  participantes  Participant[]
-  bemvindo       Boolean
-  link_detector  Boolean
-  trava_detector TravaDetector?
-  porn_detector  Boolean
-  black_list     ParticipantBlackList[]
+// Arquivo: schema.prisma
+// participante:
+// {"id":string,"tipo":string}
 
-  @@map("groups")
-}
+// grupo:
+// {"id":string,"participantes": array de id de participantes,"bemvindo":boolean,"antilink": boolean, "antitrava":objeto com status: boolean e max_characters: int,"antiflood":boolean,"antiporno":boolean,"lista_negra":array de participantes}
 
 model Participant {
-  id                     String                 @id
-  tipo                   String // 'admin' ou 'membro'
-  isBlacklisted          Boolean                @default(false)
-  group                  Group?                 @relation(fields: [group_id], references: [id])
-  group_id               String?
-  participant_black_list ParticipantBlackList[]
-
-  @@map("participants")
+  id                String           @id @default(uuid())
+  p_id              String           @unique
+  tipo              ParticipantType?
+  group_participant Group[]          @relation("participants_group")
+  group_black_list  Group[]          @relation("participant_black_list")
 }
 
-model TravaDetector {
+model Group {
+  id            String        @id @default(uuid())
+  g_id          String        @unique
+  participants  Participant[] @relation("participants_group")
+  black_list    Participant[] @relation("participant_black_list")
+  bem_vindo     Boolean?      @default(false)
+  anti_link     Boolean?      @default(false)
+  anti_porn     Boolean?      @default(false)
+  anti_trava    AntiTrava?    @relation(fields: [anti_trava_id], references: [id])
+  anti_trava_id String?       @unique
+}
+
+model AntiTrava {
   id             String   @id @default(uuid())
   status         Boolean? @default(false)
   max_characters Int?     @default(0)
-  group          Group    @relation(fields: [group_id], references: [id])
-  group_id       String   @unique
-
-  @@map("trava_detector")
+  group          Group?
 }
 
-model ParticipantBlackList {
-  id             String      @id @default(uuid())
-  participante   Participant @relation(fields: [participanteId], references: [id])
-  participanteId String
-  group          Group       @relation(fields: [group_id], references: [id])
-  group_id       String
-
-  @@map("participant_black_list")
+enum ParticipantType {
+  admin
+  membro
 }
