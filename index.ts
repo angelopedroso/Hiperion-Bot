@@ -1,4 +1,15 @@
 import { client, constants } from '@config/startupConfig'
+import { Events, GroupChat, GroupNotification, Message } from 'whatsapp-web.js'
+import qrCode from 'qrcode'
+
+import { configDotenv } from 'dotenv'
+
+import { createAllGroupsOnReady } from 'api/group/createAllGroupsOnReady'
+
+import { ZapConstructor } from '@modules/zapConstructor'
+import { linkDetector } from '@modules/linkDetector'
+import { bemVindo } from '@modules/bemVindo'
+
 import {
   printAuthenticated,
   printAuthenticationFailure,
@@ -6,15 +17,10 @@ import {
   printFooter,
   printQRCode,
 } from 'cli/terminal'
-import qrCode from 'qrcode'
-import { Events, GroupChat, Message } from 'whatsapp-web.js'
-import { linkDetector } from '@modules/linkDetector'
-import { ZapConstructor } from '@modules/zapConstructor'
-import { PrismaQuery } from 'lib/auth/prisma-query'
-import { createAllGroupsOnReady } from 'api/group/createAllGroupsOnReady'
 
 let botReadyTimestamp: Date | null = null
-const db = PrismaQuery()
+
+configDotenv()
 
 const start = () => {
   printHeader()
@@ -38,7 +44,9 @@ const start = () => {
   client.on(Events.READY, async () => {
     botReadyTimestamp = new Date()
 
-    const groups = (await client.getChats()).filter((g) => g.isGroup)
+    const groups = (await client.getChats()).filter(
+      (g) => g.isGroup,
+    ) as GroupChat[]
 
     await createAllGroupsOnReady(groups)
 
@@ -60,26 +68,8 @@ const start = () => {
     await linkDetector(zap)
   })
 
-  client.on(Events.GROUP_JOIN, async (message: Message) => {
-    const chat = (await message.getChat()) as GroupChat
-
-    await db.createGroup({
-      id: message.id.remote,
-      participantes: chat.participants.map((participant) => {
-        return {
-          id: participant.id.user,
-          tipo:
-            participant.isAdmin || participant.isSuperAdmin
-              ? 'admin'
-              : 'membro',
-        }
-      }),
-      bemvindo: false,
-      linkDetector: false,
-      pornDetector: false,
-      travaDetector: { status: false, maxCharacters: 0 },
-      blackList: [],
-    })
+  client.on(Events.GROUP_JOIN, async (notification: GroupNotification) => {
+    await bemVindo(notification)
   })
 
   client.initialize()
