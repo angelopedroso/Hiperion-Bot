@@ -1,6 +1,8 @@
+import { Participant } from '@prisma/client'
+import { prisma } from 'lib/prisma'
 import { Chat, Client, Contact, GroupChat, Message } from 'whatsapp-web.js'
 
-export function ZapConstructor(client: Client, message: Message) {
+export function ZapConstructor(client?: Client, message?: Message) {
   async function getChat() {
     if (!message) throw Error('Message not initialized')
     return await message?.getChat()
@@ -24,7 +26,24 @@ export function ZapConstructor(client: Client, message: Message) {
       .some((admin) => admin.id._serialized === userId)
   }
 
-  return { getChat, getGroupChat, getUser, getUserIsAdmin, message }
+  async function getExistsUserInDB(userId: string) {
+    const existsUser = await prisma.participant.findUnique({
+      where: {
+        id: userId,
+      },
+    })
+
+    return existsUser
+  }
+
+  return {
+    getChat,
+    getGroupChat,
+    getUser,
+    getUserIsAdmin,
+    getExistsUserInDB,
+    message,
+  }
 }
 
 export type ZapType = {
@@ -32,5 +51,6 @@ export type ZapType = {
   getGroupChat: () => Promise<GroupChat>
   getUser: () => Promise<Contact>
   getUserIsAdmin: (userId: string) => Promise<boolean>
-  message: Message
+  getExistsUserInDB: (userId: string) => Promise<Participant | null>
+  message?: Message
 }

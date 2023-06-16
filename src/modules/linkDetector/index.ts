@@ -10,7 +10,7 @@ const linkDetector = async ({ message, ...zap }: ZapType) => {
 
   const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
-  if (isUrl.test(message.body) && !isAdmin) {
+  if (isUrl.test(message!.body) && !isAdmin) {
     const groupChat = await zap.getGroupChat()
     const msgs = await chat.fetchMessages({ limit: 1, fromMe: false })
 
@@ -21,7 +21,7 @@ const linkDetector = async ({ message, ...zap }: ZapType) => {
 
     if (invalidLinks.length !== 0) {
       groupChat.removeParticipants([user.id._serialized])
-      message.delete(true)
+      message?.delete(true)
     }
   }
 }
