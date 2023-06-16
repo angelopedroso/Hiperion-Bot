@@ -17,7 +17,8 @@ export const printQRCode = (qr: string) => {
 
 export const printAuthenticated = () => {
   s.stop('Session started!')
-  s.start('Opening session')
+  log.success('Opened session')
+  s.start('Checking if exists all groups in database')
 }
 
 export const printAuthenticationFailure = () => {
@@ -26,14 +27,13 @@ export const printAuthenticationFailure = () => {
 
 export const printFooter = () => {
   s.stop('Loaded!')
-  outro('Whatsapp HIPERION is ready to use.')
+  outro('Whatsapp HIPERION is ready to use. 🎉')
+}
+
+export const printLog = (info: any) => {
+  log.info(color.bgGreen(color.white('Info: ')) + info)
 }
 
 export const printError = (error: string) => {
   log.error(color.bgRed(color.white('An error occurred: ')) + error)
-}
-
-export const printAllGroupsCreated = () => {
-  s.stop('Checking if exists all groups in database')
-  s.start('Starting')
 }
