@@ -1,51 +1,38 @@
 import { prisma } from 'lib/prisma'
-import { prismaGroup, prismaParticipant } from '@typings/prismaQueryTypes'
+import { CompleteGroup } from '@typings/prismaQueryTypes'
+import { Participant } from '@prisma/client'
 
 export function PrismaQuery() {
   return {
-    async createGroup(group: prismaGroup) {
+    async createGroup(group: Partial<CompleteGroup>) {
       await prisma.group.create({
         data: {
-          id: group.id,
-          link_detector: group.linkDetector,
-          bemvindo: group.bemvindo,
-          porn_detector: group.pornDetector,
-          trava_detector: {
-            create: {
-              status: group.travaDetector.status,
-              max_characters: group.travaDetector.maxCharacters,
-            },
+          g_id: group.g_id as string,
+          anti_trava: {
+            create: {},
           },
-          participantes: {
-            create: group.participantes?.map((participante) => ({
-              id: participante.id,
-              tipo: participante.tipo,
-            })),
-          },
-          black_list: {
-            create: group.blackList?.map((participante) => ({
-              participante: { connect: { id: participante.participanteId } },
-            })),
+          participants: {
+            connect: group.participants?.map((participant) => {
+              return {
+                p_id: participant.p_id,
+              }
+            }),
           },
         },
       })
     },
 
-    async updateGroup(groupId: string, data: Partial<prismaGroup>) {
-      const participantes = data.participantes
-      delete data.participantes
-
+    async updateGroupExceptParticipants(
+      groupId: string,
+      data: Partial<CompleteGroup>,
+    ) {
       await prisma.group.update({
         where: {
-          id: groupId,
+          g_id: groupId,
         },
         data: {
           ...data,
-          participantes: {
-            set: participantes?.map((participante) => ({
-              id: participante.id,
-            })),
-          },
+          participants: {},
         },
       })
     },
@@ -80,19 +67,32 @@ export function PrismaQuery() {
       return participants
     },
 
-    async createParticipant(participant: prismaParticipant) {
+    async createParticipant(participant: Participant) {
       await prisma.participant.create({
         data: {
-          id: participant.id,
+          p_id: participant.p_id,
           tipo: participant.tipo,
         },
       })
     },
 
-    async deleteParticipantsWhenGroupDeleted(groupId: string) {
-      await prisma.participant.deleteMany({
+    async addParticipantInGroup(userId: string, groupId: string) {
+      await prisma.group.update({
         where: {
-          group_id: groupId,
+          id: groupId,
+        },
+        data: {
+          participants: {
+            connectOrCreate: {
+              where: {
+                p_id: userId,
+              },
+              create: {
+                p_id: userId,
+                tipo: 'membro',
+              },
+            },
+          },
         },
       })
     },
