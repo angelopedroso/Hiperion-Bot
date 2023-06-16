@@ -1,149 +1,93 @@
-// eslint-disable-next-line no-unused-vars
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-import { printAllGroupsCreated } from 'cli/terminal'
-import { PrismaQuery } from 'lib/auth/prisma-query'
+import { ParticipantType } from '@prisma/client'
+import { printError } from 'cli/terminal'
 import { prisma } from 'lib/prisma'
-import { Chat, GroupChat } from 'whatsapp-web.js'
+import { GroupChat } from 'whatsapp-web.js'
 
-export async function createAllGroupsOnReady(groups: Chat[]) {
-  const db = PrismaQuery()
+export async function createAllGroupsOnReady(groups: GroupChat[]) {
+  try {
+    const updates = []
 
-  for (const group of groups) {
-    try {
-      const chat = group as GroupChat
+    for (const group of groups) {
+      const {
+        id: { _serialized: groupId },
+        participants,
+      } = group
 
-      const participantIds = chat.participants.map(
-        (participant) => participant.id.user,
-      )
+      const participantData = participants.map((participant) => ({
+        p_id: participant.id.user,
+        tipo: ParticipantType[
+          participant.isAdmin || participant.isSuperAdmin ? 'admin' : 'membro'
+        ],
+      }))
 
-      const existingParticipants = await prisma.participant.findMany({
-        where: {
-          id: {
-            in: participantIds,
-          },
+      const allParticipants = await prisma.participant.findMany({
+        select: {
+          p_id: true,
+          tipo: true,
         },
       })
 
-      const existingParticipantsMap = new Map(
-        existingParticipants.map((participant) => [
-          participant.id,
-          participant,
-        ]),
-      )
+      const existsGroup = await prisma.group.findUnique({
+        where: { g_id: groupId },
+        include: { participants: true },
+      })
 
-      const participantsToCreate = chat.participants.filter(
-        (participant) => !existingParticipantsMap.has(participant.id.user),
-      )
+      const participantsToCreate = participantData.filter((p) => {
+        return !allParticipants.includes(p)
+      })
 
-      await Promise.all(
-        participantsToCreate.map(async (participant) => {
-          await db.createParticipant({
-            id: participant.id.user,
-            tipo:
-              participant.isAdmin || participant.isSuperAdmin
-                ? 'admin'
-                : 'membro',
-          })
-        }),
-      )
-
-      const existingGroup = await db.findGroupById(chat.id._serialized)
-
-      const participants = chat.participants.map((participant) => ({
-        id: participant.id.user,
-        tipo:
-          participant.isAdmin || participant.isSuperAdmin
-            ? 'admin'
-            : ('membro' as 'admin' | 'membro'),
-      }))
-
-      if (existingGroup) {
-        await db.updateGroup(chat.id._serialized, {
-          participantes: participants,
-        })
+      if (existsGroup) {
+        for (const p of participantsToCreate) {
+          updates.push(
+            prisma.group.update({
+              where: { g_id: groupId },
+              data: {
+                participants: {
+                  connect: {
+                    p_id: p.p_id,
+                  },
+                },
+              },
+            }),
+          )
+        }
       } else {
-        await db.createGroup({
-          id: chat.id._serialized,
-          participantes: participants,
-          bemvindo: false,
-          linkDetector: false,
-          pornDetector: false,
-          travaDetector: { status: false, maxCharacters: 0 },
-          blackList: [],
-        })
-      }
-    } catch (error: PrismaClientKnownRequestError | any) {
-      if (error.code === 'P2002') {
-        console.log('Erro grupo já existe: ' + error.message)
-      } else {
-        console.log('Erro: ' + error.message)
+        updates.push(
+          prisma.group.create({
+            data: {
+              g_id: groupId,
+              anti_trava: {
+                create: {},
+              },
+            },
+          }),
+        )
+
+        for (const p of participantsToCreate) {
+          updates.push(
+            prisma.group.update({
+              where: { g_id: groupId },
+              data: {
+                participants: {
+                  connectOrCreate: {
+                    where: {
+                      p_id: p.p_id,
+                    },
+                    create: {
+                      p_id: p.p_id,
+                      tipo: p.tipo,
+                    },
+                  },
+                },
+              },
+            }),
+          )
+        }
       }
     }
+
+    await prisma.$transaction(updates)
+  } catch (error: Error | any) {
+    printError(error.message)
   }
-
-  return printAllGroupsCreated()
 }
-
-// import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-// import { printAllGroupsCreated } from 'cli/terminal'
-// import { PrismaQuery } from 'lib/auth/prisma-query'
-// import { prisma } from 'lib/prisma'
-// import { Chat, GroupChat } from 'whatsapp-web.js'
-
-// export async function createAllGroupsOnReady(groups: Chat[]) {
-//   const db = PrismaQuery()
-
-//   for (const group of groups) {
-//     try {
-//       const chat = group as GroupChat
-
-//       const existingGroup = await db.findGroupById(chat.id._serialized)
-
-//       for (const participant of chat.participants) {
-//         const existingParticipant = await prisma.participant.findUnique({
-//           where: {
-//             id: participant.id.user,
-//           },
-//         })
-
-//         if (!existingParticipant) {
-//           await db.createParticipant({
-//             id: participant.id.user,
-//             tipo:
-//               participant.isAdmin || participant.isSuperAdmin
-//                 ? 'admin'
-//                 : 'membro',
-//           })
-//         }
-//       }
-
-//       if (!existingGroup) {
-//         const participants = chat.participants
-
-//         await db.createGroup({
-//           id: group.id._serialized,
-//           participantes: participants.map((participant) => ({
-//             id: participant.id.user,
-//             tipo:
-//               participant.isAdmin || participant.isSuperAdmin
-//                 ? 'admin'
-//                 : 'membro',
-//           })),
-//           bemvindo: false,
-//           linkDetector: false,
-//           pornDetector: false,
-//           travaDetector: { status: false, maxCharacters: 0 },
-//           blackList: [],
-//         })
-//       }
-//     } catch (error: PrismaClientKnownRequestError | any) {
-//       if (error.code === 'P2002') {
-//         console.log('Erro grupo já existe: ' + error.message)
-//       } else {
-//         console.log('Erro: ' + error.message)
-//       }
-//     }
-//   }
-
-//   return printAllGroupsCreated()
-// }
