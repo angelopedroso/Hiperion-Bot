@@ -1,14 +1,12 @@
-import { client, constants } from '@config/startupConfig'
+import { configDotenv } from 'dotenv'
+
+import { client } from '@config/startupConfig'
 import { Events, GroupChat, GroupNotification, Message } from 'whatsapp-web.js'
 import qrCode from 'qrcode'
 
-import { configDotenv } from 'dotenv'
-
 import { createAllGroupsOnReady } from 'api/group/createAllGroupsOnReady'
 
-import { ZapConstructor } from '@modules/zapConstructor'
-import { linkDetector } from '@modules/linkDetector'
-import { bemVindo } from '@modules/bemVindo'
+import { groupJoined } from '@modules/groupJoin'
 
 import {
   printAuthenticated,
@@ -17,10 +15,12 @@ import {
   printFooter,
   printQRCode,
 } from 'cli/terminal'
-
-let botReadyTimestamp: Date | null = null
+import { existsSync } from 'fs'
+import { messageGetter } from 'helpers/messageGetter'
 
 configDotenv()
+
+let botReadyTimestamp: Date | null = null
 
 const start = () => {
   printHeader()
@@ -54,27 +54,20 @@ const start = () => {
   })
 
   client.on(Events.MESSAGE_RECEIVED, async (message: Message) => {
-    if (message.from === constants.statusBroadcast) return
-    if (message.timestamp !== null) {
-      const messageTimestamp = new Date(message.timestamp * 1000)
-
-      if (botReadyTimestamp === null) return
-
-      if (messageTimestamp < botReadyTimestamp) return
-    }
-
-    const zap = ZapConstructor(client, message)
-
-    await linkDetector(zap)
+    messageGetter(message)
   })
 
   client.on(Events.GROUP_JOIN, async (notification: GroupNotification) => {
-    await bemVindo(notification)
+    await groupJoined(notification, botReadyTimestamp)
   })
 
   client.initialize()
 }
 
-start()
+if (!existsSync('.env')) {
+  printHeader()
+} else {
+  start()
+}
 
 export { botReadyTimestamp }
