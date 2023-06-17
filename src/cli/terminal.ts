@@ -1,11 +1,54 @@
-import { intro, note, outro, spinner, log } from '@clack/prompts'
+import {
+  intro,
+  note,
+  outro,
+  spinner,
+  log,
+  text,
+  group,
+  cancel,
+} from '@clack/prompts'
+import { createEnvFile } from '@modules/createEnv'
+import { existsSync } from 'fs'
 import color from 'picocolors'
 
 const s = spinner()
 
-export const printHeader = () => {
+export const printHeader = async () => {
   intro(color.bgGreen(color.white(' Whatsapp HIPERION ')))
   note('A Whatsapp bot to manage groups.')
+
+  if (!existsSync('.env')) {
+    const groupInfo = await group(
+      {
+        owner: () =>
+          text({
+            message: "Please, provide the owner's number (not is bot number).",
+            validate(value) {
+              if (value.length === 0) return `Number is required!`
+            },
+          }),
+        bot: () =>
+          text({
+            message: "Please, provide the bot's number.",
+            validate(value) {
+              if (value.length === 0) return `Number is required!`
+            },
+          }),
+      },
+      {
+        onCancel: () => {
+          cancel('Operation cancelled.')
+          process.exit(0)
+        },
+      },
+    )
+    log.success('Creating .env file')
+
+    await createEnvFile(groupInfo)
+    return
+  }
+
   s.start('Starting')
 }
 
