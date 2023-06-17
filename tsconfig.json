@@ -20,7 +20,8 @@
       "@config/*": ["config/*"],
       "@modules/*": ["modules/*"],
       "@utils/*": ["utils/*"],
-      "@typings/*": ["typings/*"]
+      "@typings/*": ["typings/*"],
+      "@lib/*": ["lib/*"]
     }
   },
   "exclude": ["node_modules", "dist", "__tests__"],
