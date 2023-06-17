@@ -1,3 +1,4 @@
+import { db } from '@lib/auth/prisma-query'
 import { ParticipantType } from '@prisma/client'
 import { printError } from 'cli/terminal'
 import { prisma } from 'lib/prisma'
@@ -39,15 +40,10 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       if (existsGroup) {
         for (const p of participantsToCreate) {
           updates.push(
-            prisma.group.update({
-              where: { g_id: groupId },
-              data: {
-                participants: {
-                  connect: {
-                    p_id: p.p_id,
-                  },
-                },
-              },
+            db.updateGroupOnReady(groupId, {
+              id: '',
+              p_id: p.p_id,
+              tipo: p.tipo,
             }),
           )
         }
@@ -65,21 +61,10 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
 
         for (const p of participantsToCreate) {
           updates.push(
-            prisma.group.update({
-              where: { g_id: groupId },
-              data: {
-                participants: {
-                  connectOrCreate: {
-                    where: {
-                      p_id: p.p_id,
-                    },
-                    create: {
-                      p_id: p.p_id,
-                      tipo: p.tipo,
-                    },
-                  },
-                },
-              },
+            db.updateGroupOnReady(groupId, {
+              id: '',
+              p_id: p.p_id,
+              tipo: p.tipo,
             }),
           )
         }
@@ -88,6 +73,6 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
 
     await prisma.$transaction(updates)
   } catch (error: Error | any) {
-    printError(error.message)
+    printError(error)
   }
 }

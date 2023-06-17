@@ -1,6 +1,14 @@
-import { Participant } from '@prisma/client'
-import { prisma } from 'lib/prisma'
-import { Chat, Client, Contact, GroupChat, Message } from 'whatsapp-web.js'
+import { db } from '@lib/auth/prisma-query'
+import { prisma } from '@lib/prisma'
+import { Group, Participant, Prisma } from '@prisma/client'
+import {
+  Chat,
+  Client,
+  Contact,
+  GroupChat,
+  GroupParticipant,
+  Message,
+} from 'whatsapp-web.js'
 
 export function ZapConstructor(client?: Client, message?: Message) {
   async function getChat() {
@@ -26,14 +34,48 @@ export function ZapConstructor(client?: Client, message?: Message) {
       .some((admin) => admin.id._serialized === userId)
   }
 
-  async function getExistsUserInDB(userId: string) {
-    const existsUser = await prisma.participant.findUnique({
-      where: {
-        id: userId,
-      },
-    })
+  async function getBotAdmin() {
+    const user = await getUserIsAdmin(process.env.NUMERO_BOT + '@c.us')
 
-    return existsUser
+    return user
+  }
+
+  function getAllParticipantsFormattedByParticipantSchema(
+    participants: GroupParticipant[],
+  ) {
+    return participants.map((p: any) => {
+      return {
+        id: '',
+        p_id: p.id._serialized,
+        tipo: p.isAdmin || p.isSuperAdmin ? 'admin' : 'membro',
+      }
+    }) as Participant[]
+  }
+
+  function createGroupOnBotJoin(groupId: string, participant: Participant[]) {
+    const querys = []
+    querys.push(
+      prisma.group.create({
+        data: {
+          g_id: groupId,
+          anti_trava: {
+            create: {},
+          },
+        },
+      }),
+    )
+
+    for (const p of participant) {
+      querys.push(
+        db.updateGroupOnReady(groupId, {
+          id: '',
+          p_id: p.p_id,
+          tipo: p.tipo,
+        }),
+      )
+    }
+
+    return querys
   }
 
   return {
@@ -41,7 +83,9 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getGroupChat,
     getUser,
     getUserIsAdmin,
-    getExistsUserInDB,
+    getBotAdmin,
+    createGroupOnBotJoin,
+    getAllParticipantsFormattedByParticipantSchema,
     message,
   }
 }
@@ -51,6 +95,13 @@ export type ZapType = {
   getGroupChat: () => Promise<GroupChat>
   getUser: () => Promise<Contact>
   getUserIsAdmin: (userId: string) => Promise<boolean>
-  getExistsUserInDB: (userId: string) => Promise<Participant | null>
+  getBotAdmin: () => Promise<boolean>
+  createGroupOnBotJoin: (
+    groupId: string,
+    participant: Participant[],
+  ) => Prisma.Prisma__GroupClient<Group, never>[]
+  getAllParticipantsFormattedByParticipantSchema: (
+    participants: GroupParticipant[],
+  ) => Participant[]
   message?: Message
 }
