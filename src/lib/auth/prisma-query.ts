@@ -77,6 +77,24 @@ export function PrismaQuery() {
     },
 
     async addParticipantInGroup(userId: string, groupId: string) {
+      const existsParticipantInGroup =
+        await prisma.participant.findUniqueOrThrow({
+          where: {
+            p_id: userId,
+          },
+          include: {
+            group_participant: true,
+          },
+        })
+
+      if (
+        existsParticipantInGroup &&
+        existsParticipantInGroup.group_participant.some(
+          (group) => group.g_id === groupId,
+        )
+      )
+        return
+
       await prisma.group.update({
         where: {
           id: groupId,
@@ -96,5 +114,46 @@ export function PrismaQuery() {
         },
       })
     },
+
+    updateGroupOnReady(groupId: string, p: Participant) {
+      return prisma.group.update({
+        where: { g_id: groupId },
+        data: {
+          participants: {
+            connectOrCreate: {
+              where: {
+                p_id: p.p_id,
+              },
+              create: {
+                p_id: p.p_id,
+                tipo: p.tipo,
+              },
+            },
+          },
+        },
+      })
+    },
+
+    async getGroupInfo(groupId: string) {
+      const groupInfo = await prisma.group.findUniqueOrThrow({
+        where: { g_id: groupId },
+        select: {
+          anti_link: true,
+          anti_porn: true,
+          bem_vindo: true,
+          black_list: true,
+          anti_trava: {
+            select: {
+              status: true,
+              max_characters: true,
+            },
+          },
+        },
+      })
+
+      return groupInfo
+    },
   }
 }
+
+export const db = PrismaQuery()
