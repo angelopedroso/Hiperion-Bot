@@ -26,7 +26,7 @@ export async function bemVindo(notification: GroupNotification) {
         await db.addParticipantInGroup(formattedUser, chat.id._serialized)
       }
     } catch (error: Error | any) {
-      printError(error.message)
+      printError(error)
     }
   }
 }
