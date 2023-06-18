@@ -17,15 +17,15 @@ export async function createEnvFile(infos: Info) {
      NOME_BOT=
      NUMERO_DONO=${bot}
      
-     # SightEngine
+     # SightEngine - https://dashboard.sightengine.com/login
      API_SIGHTENGINE_USER=
      API_SIGHTENGINE_SECRET=
      
-     # OPENAI
+     # OPENAI - https://platform.openai.com - OFF
      OPENAI_API_KEY=
      OPENAI_PASSWORD=
      
-     # DATABASE
+     # DATABASE (mysql) Example: "mysql://root:docker@localhost:3306/hiperion"
      DATABASE_URL=
     `
 
