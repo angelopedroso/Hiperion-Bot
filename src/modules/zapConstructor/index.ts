@@ -70,7 +70,6 @@ export function ZapConstructor(client?: Client, message?: Message) {
         db.updateGroupOnReady(groupId, {
           id: '',
           p_id: p.p_id,
-          tipo: p.tipo,
         }),
       )
     }

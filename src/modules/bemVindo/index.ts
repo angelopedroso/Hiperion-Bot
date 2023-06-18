@@ -1,7 +1,9 @@
+import { GroupChat, GroupNotification } from 'whatsapp-web.js'
 import { client } from '@config/startupConfig'
+
+import { PrismaQuery } from '@lib/auth/prisma-query'
+
 import { printError } from 'cli/terminal'
-import { PrismaQuery } from 'lib/auth/prisma-query'
-import { GroupNotification } from 'whatsapp-web.js'
 
 export async function bemVindo(notification: GroupNotification) {
   const db = PrismaQuery()
@@ -9,6 +11,8 @@ export async function bemVindo(notification: GroupNotification) {
   const chat = await client.getChatById(notification.chatId)
 
   if (chat.isGroup) {
+    const groupChat = chat as GroupChat
+
     try {
       for (const user of notification.recipientIds) {
         const userId = await client.getContactById(user)
@@ -23,7 +27,18 @@ export async function bemVindo(notification: GroupNotification) {
           },
         )
 
-        await db.addParticipantInGroup(formattedUser, chat.id._serialized)
+        const answer = await db.addParticipantInGroup(
+          formattedUser,
+          chat.id._serialized,
+        )
+
+        if (answer === 'ban') {
+          groupChat.removeParticipants([user])
+          client.sendMessage(
+            notification.chatId,
+            'Só é permitido estar em um grupo.',
+          )
+        }
       }
     } catch (error: Error | any) {
       printError(error)
