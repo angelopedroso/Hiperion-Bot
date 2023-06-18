@@ -1,5 +1,5 @@
 import { db } from '@lib/auth/prisma-query'
-import { ParticipantType } from '@prisma/client'
+import { Participant, ParticipantType, Prisma } from '@prisma/client'
 import { printError } from 'cli/terminal'
 import { prisma } from 'lib/prisma'
 import { GroupChat } from 'whatsapp-web.js'
@@ -7,6 +7,13 @@ import { GroupChat } from 'whatsapp-web.js'
 export async function createAllGroupsOnReady(groups: GroupChat[]) {
   try {
     const updates = []
+    let removeParticipantsPromises: Prisma.Prisma__ParticipantClient<
+      Participant,
+      never
+    >[] = []
+
+    const groupIds = groups.map((group) => group.id._serialized)
+    const allParticipantsGroups = await db.getParticipantsFromGroups(groupIds)
 
     for (const group of groups) {
       const {
@@ -21,33 +28,42 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
         ],
       }))
 
-      const allParticipants = await prisma.participant.findMany({
-        select: {
-          p_id: true,
-          tipo: true,
-        },
+      const currentParticipants = participantData.map(
+        (participant) => participant.p_id,
+      )
+
+      const participantsInGroup = allParticipantsGroups.find(
+        (group) => group.groupId === groupId,
+      )
+
+      const removedParticipants = participantsInGroup?.participants.filter(
+        (participant) => !currentParticipants.includes(participant.p_id),
+      )
+
+      const participantsToCreate = participantData.filter((participant) => {
+        return (
+          !participantsInGroup ||
+          participantsInGroup?.participants.some(
+            (existingParticipant) =>
+              existingParticipant.p_id !== participant.p_id,
+          )
+        )
       })
+
+      if (removedParticipants?.length) {
+        removeParticipantsPromises = removedParticipants.map(
+          ({ p_id: participantId }) => {
+            return db.removeParticipantsFromGroup(participantId, groupId)
+          },
+        )
+      }
 
       const existsGroup = await prisma.group.findUnique({
         where: { g_id: groupId },
         include: { participants: true },
       })
 
-      const participantsToCreate = participantData.filter((p) => {
-        return !allParticipants.includes(p)
-      })
-
-      if (existsGroup) {
-        for (const p of participantsToCreate) {
-          updates.push(
-            db.updateGroupOnReady(groupId, {
-              id: '',
-              p_id: p.p_id,
-              tipo: p.tipo,
-            }),
-          )
-        }
-      } else {
+      if (!existsGroup) {
         updates.push(
           prisma.group.create({
             data: {
@@ -58,20 +74,34 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
             },
           }),
         )
+      }
 
-        for (const p of participantsToCreate) {
-          updates.push(
-            db.updateGroupOnReady(groupId, {
-              id: '',
+      for (const p of participantsToCreate) {
+        const existsGroupType = await prisma.participantGroupType.findFirst({
+          where: {
+            participant: {
               p_id: p.p_id,
-              tipo: p.tipo,
-            }),
-          )
+            },
+            group: {
+              g_id: groupId,
+            },
+          },
+        })
+
+        updates.push(
+          db.updateGroupOnReady(groupId, {
+            id: '',
+            p_id: p.p_id,
+          }),
+        )
+
+        if (!existsGroupType) {
+          updates.push(db.createParticipantGroupType(groupId, p.p_id, p.tipo))
         }
       }
     }
 
-    await prisma.$transaction(updates)
+    await prisma.$transaction([...updates, ...removeParticipantsPromises])
   } catch (error: Error | any) {
     printError(error)
   }
