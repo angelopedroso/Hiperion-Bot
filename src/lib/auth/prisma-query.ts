@@ -1,6 +1,7 @@
 import { prisma } from 'lib/prisma'
 import { CompleteGroup } from '@typings/prismaQueryTypes'
-import { Participant } from '@prisma/client'
+import { Participant, ParticipantType } from '@prisma/client'
+import { printError } from 'cli/terminal'
 
 export function PrismaQuery() {
   return {
@@ -71,21 +72,19 @@ export function PrismaQuery() {
       await prisma.participant.create({
         data: {
           p_id: participant.p_id,
-          tipo: participant.tipo,
         },
       })
     },
 
     async addParticipantInGroup(userId: string, groupId: string) {
-      const existsParticipantInGroup =
-        await prisma.participant.findUniqueOrThrow({
-          where: {
-            p_id: userId,
-          },
-          include: {
-            group_participant: true,
-          },
-        })
+      const existsParticipantInGroup = await prisma.participant.findUnique({
+        where: {
+          p_id: userId,
+        },
+        include: {
+          group_participant: true,
+        },
+      })
 
       if (
         existsParticipantInGroup &&
@@ -93,7 +92,7 @@ export function PrismaQuery() {
           (group) => group.g_id === groupId,
         )
       )
-        return
+        return 'ban'
 
       await prisma.group.update({
         where: {
@@ -107,10 +106,83 @@ export function PrismaQuery() {
               },
               create: {
                 p_id: userId,
-                tipo: 'membro',
               },
             },
           },
+        },
+      })
+
+      const existsGroupType = await prisma.participantGroupType.findFirst({
+        where: {
+          group: {
+            g_id: groupId,
+          },
+          participant: {
+            p_id: userId,
+          },
+        },
+      })
+
+      if (!existsGroupType) {
+        await this.createParticipantGroupType(groupId, userId, 'membro')
+      }
+    },
+
+    async getParticipantsFromGroup(groupId: string) {
+      const existingParticipants = await prisma.group.findUnique({
+        where: {
+          g_id: groupId,
+        },
+        select: {
+          participants: true,
+        },
+      })
+
+      return existingParticipants
+    },
+
+    async getParticipantsFromGroups(groupIds: string[]) {
+      try {
+        const participantsInGroups = await prisma.group.findMany({
+          where: {
+            g_id: {
+              in: groupIds,
+            },
+          },
+          include: {
+            participants: true,
+          },
+        })
+
+        return participantsInGroups.map((group) => ({
+          groupId: group.g_id,
+          participants: group.participants,
+        }))
+      } catch (error: Error | any) {
+        printError(error)
+        return []
+      }
+    },
+
+    removeParticipantsFromGroup(participantId: string, groupId: string) {
+      return prisma.participant.update({
+        where: {
+          p_id: participantId,
+        },
+        data: {
+          group_participant: {
+            disconnect: {
+              g_id: groupId,
+            },
+          },
+        },
+      })
+    },
+
+    async deleteParticipant(participantId: string) {
+      await prisma.participant.delete({
+        where: {
+          p_id: participantId,
         },
       })
     },
@@ -126,8 +198,29 @@ export function PrismaQuery() {
               },
               create: {
                 p_id: p.p_id,
-                tipo: p.tipo,
               },
+            },
+          },
+        },
+      })
+    },
+
+    createParticipantGroupType(
+      groupId: string,
+      participantId: string,
+      tipo: ParticipantType,
+    ) {
+      return prisma.participantGroupType.create({
+        data: {
+          tipo,
+          group: {
+            connect: {
+              g_id: groupId,
+            },
+          },
+          participant: {
+            connect: {
+              p_id: participantId,
             },
           },
         },
