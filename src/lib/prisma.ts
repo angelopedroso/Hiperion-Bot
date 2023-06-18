@@ -1,3 +1,3 @@
-import { Prisma } from 'cached-prisma'
+import { PrismaClient } from '@prisma/client'
 
-export const prisma = new Prisma().client
+export const prisma = new PrismaClient()
