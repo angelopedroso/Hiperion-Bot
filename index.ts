@@ -17,7 +17,9 @@ import {
 } from 'cli/terminal'
 import { existsSync } from 'fs'
 import { messageGetter } from 'helpers/messageGetter'
+import { cacheMiddleware } from '@lib/prisma'
 
+cacheMiddleware()
 configDotenv()
 
 let botReadyTimestamp: Date | null = null

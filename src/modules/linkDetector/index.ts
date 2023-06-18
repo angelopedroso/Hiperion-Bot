@@ -13,7 +13,7 @@ const linkDetector = async ({ message, ...zap }: ZapType) => {
       const chat = await zap.getChat()
       const groupInfo = await db.getGroupInfo(chat.id._serialized)
 
-      if (groupInfo.anti_link) {
+      if (groupInfo?.anti_link) {
         const groupChat = await zap.getGroupChat()
         const msgs = await chat.fetchMessages({ limit: 1, fromMe: false })
 

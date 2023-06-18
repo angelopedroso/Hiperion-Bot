@@ -18,11 +18,9 @@ async function maliciousDetector({ message, ...zap }: ZapType) {
 
       const user = await zap.getUser()
 
-      const { anti_porn: antiPorn } = await db.getGroupInfo(
-        group.id._serialized,
-      )
+      const groupInfo = await db.getGroupInfo(group.id._serialized)
 
-      if (antiPorn) {
+      if (groupInfo?.anti_porn) {
         const isBotAdmin = await zap.getBotAdmin()
 
         const isSenderAdmin = await zap.getUserIsAdmin(message.from)

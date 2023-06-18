@@ -1,7 +1,8 @@
-import { prisma } from 'lib/prisma'
+import { prisma, redis } from 'lib/prisma'
 import { CompleteGroup } from '@typings/prismaQueryTypes'
 import { Participant, ParticipantType } from '@prisma/client'
 import { printError } from 'cli/terminal'
+import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
 export function PrismaQuery() {
   return {
@@ -153,11 +154,14 @@ export function PrismaQuery() {
             participants: true,
           },
         })
+        const participantsInGroupsFormatted = participantsInGroups.map(
+          (group) => ({
+            groupId: group.g_id,
+            participants: group.participants,
+          }),
+        )
 
-        return participantsInGroups.map((group) => ({
-          groupId: group.g_id,
-          participants: group.participants,
-        }))
+        return participantsInGroupsFormatted
       } catch (error: Error | any) {
         printError(error)
         return []
@@ -228,23 +232,36 @@ export function PrismaQuery() {
     },
 
     async getGroupInfo(groupId: string) {
-      const groupInfo = await prisma.group.findUniqueOrThrow({
-        where: { g_id: groupId },
-        select: {
-          anti_link: true,
-          anti_porn: true,
-          bem_vindo: true,
-          black_list: true,
-          anti_trava: {
-            select: {
-              status: true,
-              max_characters: true,
+      try {
+        const cache = await redis.get('group-info')
+
+        if (cache) {
+          return JSON.parse(cache) as groupInfoCache
+        }
+
+        const groupInfo = await prisma.group.findUnique({
+          where: { g_id: groupId },
+          select: {
+            anti_link: true,
+            anti_porn: true,
+            bem_vindo: true,
+            black_list: true,
+            anti_trava: {
+              select: {
+                status: true,
+                max_characters: true,
+              },
             },
           },
-        },
-      })
+        })
 
-      return groupInfo
+        await redis.set('group-info', JSON.stringify(groupInfo))
+        await redis.expire('group-info', 60 * 3)
+
+        return groupInfo
+      } catch (error: Error | any) {
+        printError('getGroupInfo Query: ' + error.message)
+      }
     },
   }
 }
