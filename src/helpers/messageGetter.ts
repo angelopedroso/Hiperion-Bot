@@ -5,6 +5,7 @@ import { checkGroupFeatures } from '@modules/checkGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
 
 import { botReadyTimestamp } from '../..'
+import { sendSticker } from '@modules/sendSticker'
 
 export async function messageGetter(message: Message) {
   if (message.from === constants.statusBroadcast) return
@@ -18,6 +19,7 @@ export async function messageGetter(message: Message) {
 
   const zap = ZapConstructor(client, message)
 
+  await sendSticker(zap)
   checkGroupFeatures(zap)
 
   if (message.body === 'off') {
