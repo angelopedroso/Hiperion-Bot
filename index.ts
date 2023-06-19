@@ -4,7 +4,7 @@ import { client } from '@config/startupConfig'
 import { Events, GroupChat, GroupNotification, Message } from 'whatsapp-web.js'
 import qrCode from 'qrcode'
 
-import { createAllGroupsOnReady } from 'api/group/createAllGroupsOnReady'
+import { createAllGroupsOnReady } from '@api/group/createAllGroupsOnReady'
 
 import { groupJoined } from '@modules/groupJoin'
 
@@ -15,6 +15,7 @@ import {
   printFooter,
   printQRCode,
 } from 'cli/terminal'
+
 import { existsSync } from 'fs'
 import { messageGetter } from 'helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'

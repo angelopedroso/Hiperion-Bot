@@ -168,6 +168,32 @@ export function PrismaQuery() {
       }
     },
 
+    async getBlackListFromGroups(groupIds: string[]) {
+      try {
+        const groupBlackList = await prisma.group.findMany({
+          where: {
+            g_id: {
+              in: groupIds,
+            },
+          },
+          select: {
+            black_list: true,
+            g_id: true,
+          },
+        })
+
+        const blackListFromGroupsFormatted = groupBlackList.map((group) => ({
+          groupId: group.g_id,
+          blackList: group.black_list,
+        }))
+
+        return blackListFromGroupsFormatted
+      } catch (error: Error | any) {
+        printError(error)
+        return []
+      }
+    },
+
     removeParticipantsFromGroup(participantId: string, groupId: string) {
       return prisma.participant.update({
         where: {
