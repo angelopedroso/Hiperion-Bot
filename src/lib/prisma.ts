@@ -9,8 +9,8 @@ const prisma = new PrismaClient()
 function cacheMiddleware() {
   const cacheMiddleware: Prisma.Middleware = createPrismaRedisCache({
     models: [
-      { model: 'Group', cacheTime: 180 },
-      { model: 'AntiTrava', cacheTime: 600 },
+      { model: 'Group', cacheTime: 60 * 8 },
+      { model: 'AntiTrava', cacheTime: 60 * 10 },
     ],
     storage: {
       type: 'redis',
