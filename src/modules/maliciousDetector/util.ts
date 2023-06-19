@@ -1,5 +1,4 @@
-import fse from 'fs-extra'
-import fs from 'fs'
+import fs from 'fs-extra'
 import axios from 'axios'
 import FormData from 'form-data'
 
@@ -8,7 +7,7 @@ export const checkIfContentIsExplict = async (
 ): Promise<boolean> => {
   const form = new FormData()
 
-  form.append('media', fse.createReadStream(filePath))
+  form.append('media', fs.createReadStream(filePath))
   form.append('models', 'nudity-2.0,offensive')
   form.append('api_user', process.env.API_SIGHTENGINE_USER + '')
   form.append('api_secret', process.env.API_SIGHTENGINE_SECRET + '')
@@ -20,7 +19,7 @@ export const checkIfContentIsExplict = async (
     headers: form.getHeaders(),
   })
 
-  fs.unlinkSync(filePath)
+  await fs.unlink(filePath)
 
   const probality = data.nudity.none < 0.15 || data.offensive.prob > 0.65
 

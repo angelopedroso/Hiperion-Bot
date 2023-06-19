@@ -3,7 +3,7 @@ import { MessageTypes } from 'whatsapp-web.js'
 import { ZapType } from '@modules/zapConstructor'
 import { db } from '@lib/auth/prisma-query'
 
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 
 import { getRandomName } from '@utils/generateRandomName'
@@ -38,7 +38,7 @@ async function maliciousDetector({ message, ...zap }: ZapType) {
             `assets/img/tmp/${getRandomName('.png')}`,
           )
 
-          fs.writeFileSync(filePath, media.data, { encoding: 'base64' })
+          await fs.writeFile(filePath, media.data, { encoding: 'base64' })
 
           const probality = await checkIfContentIsExplict(filePath)
 
