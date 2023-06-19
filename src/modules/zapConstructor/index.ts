@@ -77,6 +77,11 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return querys
   }
 
+  async function getGroupLink() {
+    const groupChat = await getGroupChat()
+    return await groupChat.getInviteCode()
+  }
+
   return {
     getChat,
     getGroupChat,
@@ -85,6 +90,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getBotAdmin,
     createGroupOnBotJoin,
     getAllParticipantsFormattedByParticipantSchema,
+    getGroupLink,
     message,
   }
 }
@@ -102,5 +108,6 @@ export type ZapType = {
   getAllParticipantsFormattedByParticipantSchema: (
     participants: GroupParticipant[],
   ) => Participant[]
+  getGroupLink: () => Promise<string>
   message?: Message
 }
