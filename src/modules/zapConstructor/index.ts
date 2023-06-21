@@ -1,6 +1,7 @@
 import { db } from '@lib/auth/prisma-query'
 import { prisma } from '@lib/prisma'
-import { Group, Participant, Prisma } from '@prisma/client'
+import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
+import { IParticipant } from '@typings/participant.interface'
 import {
   Chat,
   Client,
@@ -48,11 +49,11 @@ export function ZapConstructor(client?: Client, message?: Message) {
         id: '',
         p_id: p.id._serialized,
         tipo: p.isAdmin || p.isSuperAdmin ? 'admin' : 'membro',
-      }
-    }) as Participant[]
+      } as IParticipant
+    })
   }
 
-  function createGroupOnBotJoin(groupId: string, participant: Participant[]) {
+  function createGroupOnBotJoin(groupId: string, participant: IParticipant[]) {
     const querys = []
     querys.push(
       prisma.group.create({
@@ -72,6 +73,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
           p_id: p.p_id,
         }),
       )
+      querys.push(db.createParticipantGroupType(groupId, p.p_id, p.tipo))
     }
 
     return querys
@@ -103,11 +105,14 @@ export type ZapType = {
   getBotAdmin: () => Promise<boolean>
   createGroupOnBotJoin: (
     groupId: string,
-    participant: Participant[],
-  ) => Prisma.Prisma__GroupClient<Group, never>[]
+    participant: IParticipant[],
+  ) => (
+    | Prisma.Prisma__GroupClient<Group, never>
+    | Prisma.Prisma__ParticipantGroupTypeClient<ParticipantGroupType, never>
+  )[]
   getAllParticipantsFormattedByParticipantSchema: (
     participants: GroupParticipant[],
-  ) => Participant[]
+  ) => IParticipant[]
   getGroupLink: () => Promise<string>
   message?: Message
 }
