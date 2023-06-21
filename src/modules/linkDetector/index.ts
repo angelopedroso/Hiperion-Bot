@@ -2,8 +2,12 @@ import { ZapType } from '@modules/zapConstructor'
 import { isUrl, socialMediaRegex } from '@utils/globalVariable'
 import { db } from '@lib/auth/prisma-query'
 import { printError } from 'cli/terminal'
+import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
-const linkDetector = async ({ message, ...zap }: ZapType) => {
+const linkDetector = async (
+  { message, ...zap }: ZapType,
+  groupInfo: groupInfoCache | null | undefined,
+) => {
   try {
     const user = await zap.getUser()
 
@@ -11,9 +15,18 @@ const linkDetector = async ({ message, ...zap }: ZapType) => {
 
     if (isUrl.test(message!.body) && !isAdmin) {
       const chat = await zap.getChat()
-      const groupInfo = await db.getGroupInfo(chat.id._serialized)
 
       if (groupInfo?.anti_link) {
+        const isBotAdmin = await zap.getBotAdmin()
+
+        if (!isBotAdmin) {
+          await db.updateGroupExceptParticipants(chat.id._serialized, {
+            anti_link: false,
+          })
+
+          return
+        }
+
         const groupChat = await zap.getGroupChat()
         const msgs = await chat.fetchMessages({ limit: 1, fromMe: false })
 
