@@ -19,6 +19,7 @@ import {
 import { existsSync } from 'fs'
 import { messageGetter } from 'helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'
+import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 
 cacheMiddleware()
 configDotenv()
@@ -52,6 +53,7 @@ const start = () => {
     ) as GroupChat[]
 
     await createAllGroupsOnReady(groups)
+    await checkBlackListOnInit(groups)
 
     printFooter()
   })

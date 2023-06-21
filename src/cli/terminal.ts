@@ -8,7 +8,7 @@ import {
   group,
   cancel,
 } from '@clack/prompts'
-import { createEnvFile } from '@modules/createEnv'
+import { createEnvFile } from 'helpers/createEnv'
 import { existsSync } from 'fs'
 import color from 'picocolors'
 
