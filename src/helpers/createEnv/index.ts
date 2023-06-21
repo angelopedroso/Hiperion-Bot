@@ -27,6 +27,9 @@ export async function createEnvFile(infos: Info) {
      
      # DATABASE (mysql) Example: "mysql://root:docker@localhost:3306/hiperion"
      DATABASE_URL=
+
+     # REDIS (optional if you use a local redis)
+     REDIS_URI=
     `
 
   await writeFile(path.resolve('.env'), env, { encoding: 'utf-8' })
