@@ -42,7 +42,7 @@ export function PrismaQuery() {
     async findGroupById(groupId: string) {
       const group = await prisma.group.findUnique({
         where: {
-          id: groupId,
+          g_id: groupId,
         },
       })
 
@@ -52,7 +52,7 @@ export function PrismaQuery() {
     async deleteGroup(groupId: string) {
       await prisma.group.delete({
         where: {
-          id: groupId,
+          g_id: groupId,
         },
       })
     },
@@ -60,7 +60,7 @@ export function PrismaQuery() {
     async findParticipantsByIds(participantIds: string[]) {
       const participants = await prisma.participant.findMany({
         where: {
-          id: {
+          p_id: {
             in: participantIds,
           },
         },
@@ -84,20 +84,25 @@ export function PrismaQuery() {
         },
         include: {
           group_participant: true,
+          participant_group_type: true,
         },
       })
 
+      const participantType =
+        existsParticipantInGroup?.participant_group_type.find(
+          (p) => p.participantId === existsParticipantInGroup.id,
+        )
+
       if (
         existsParticipantInGroup &&
-        existsParticipantInGroup.group_participant.some(
-          (group) => group.g_id === groupId,
-        )
+        participantType?.tipo === 'membro' &&
+        existsParticipantInGroup.group_participant.length > 0
       )
         return 'ban'
 
       await prisma.group.update({
         where: {
-          id: groupId,
+          g_id: groupId,
         },
         data: {
           participants: {
@@ -271,6 +276,9 @@ export function PrismaQuery() {
             anti_link: true,
             anti_porn: true,
             bem_vindo: true,
+            one_group: true,
+            auto_invite_link: true,
+            auto_sticker: true,
             black_list: true,
             anti_trava: {
               select: {
