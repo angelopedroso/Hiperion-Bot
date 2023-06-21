@@ -2,6 +2,7 @@ import { db } from '@lib/auth/prisma-query'
 import { prisma } from '@lib/prisma'
 import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
 import { IParticipant } from '@typings/participant.interface'
+import { NUMERO_BOT } from '@utils/envs'
 import {
   Chat,
   Client,
@@ -36,7 +37,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
   }
 
   async function getBotAdmin() {
-    const user = await getUserIsAdmin(process.env.NUMERO_BOT + '@c.us')
+    const user = await getUserIsAdmin(NUMERO_BOT + '@c.us')
 
     return user
   }

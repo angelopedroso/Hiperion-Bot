@@ -1,8 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import { createPrismaRedisCache } from 'prisma-redis-middleware'
 import Redis from 'ioredis'
+import { REDIS_URI } from '@utils/envs'
 
-const redis = new Redis(process.env.REDIS_URI ? process.env.REDIS_URI : '') // Is optional, you can use the local redis, just leave Redis empty
+const redis = new Redis(REDIS_URI) // Is optional, you can use the local redis, just leave Redis empty
 
 const prisma = new PrismaClient()
 

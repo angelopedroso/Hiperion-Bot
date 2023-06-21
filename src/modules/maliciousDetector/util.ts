@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import axios from 'axios'
 import FormData from 'form-data'
+import { API_SIGHTENGINE_SECRET, API_SIGHTENGINE_USER } from '@utils/envs'
 
 export const checkIfContentIsExplict = async (
   filePath: string,
@@ -9,8 +10,8 @@ export const checkIfContentIsExplict = async (
 
   form.append('media', fs.createReadStream(filePath))
   form.append('models', 'nudity-2.0,offensive')
-  form.append('api_user', process.env.API_SIGHTENGINE_USER + '')
-  form.append('api_secret', process.env.API_SIGHTENGINE_SECRET + '')
+  form.append('api_user', API_SIGHTENGINE_USER + '')
+  form.append('api_secret', API_SIGHTENGINE_SECRET + '')
 
   const { data } = await axios({
     method: 'post',

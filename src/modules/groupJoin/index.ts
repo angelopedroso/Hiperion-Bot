@@ -2,6 +2,7 @@ import { prisma } from '@lib/prisma'
 import { bemVindo } from '@modules/bemVindo'
 import { removeFromGroup } from '@modules/removeFromGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
+import { NUMERO_BOT } from '@utils/envs'
 import {
   GroupChat,
   GroupNotification,
@@ -21,7 +22,7 @@ export async function groupJoined(
   }
 
   if (
-    notification.recipientIds.includes(process.env.NUMERO_BOT + '') &&
+    notification.recipientIds.includes(NUMERO_BOT) &&
     (notification.type === GroupNotificationTypes.ADD ||
       notification.type === GroupNotificationTypes.INVITE)
   ) {
