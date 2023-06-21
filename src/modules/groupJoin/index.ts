@@ -1,7 +1,12 @@
 import { prisma } from '@lib/prisma'
 import { bemVindo } from '@modules/bemVindo'
+import { removeFromGroup } from '@modules/removeFromGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
-import { GroupChat, GroupNotification } from 'whatsapp-web.js'
+import {
+  GroupChat,
+  GroupNotification,
+  GroupNotificationTypes,
+} from 'whatsapp-web.js'
 
 export async function groupJoined(
   notification: GroupNotification,
@@ -15,9 +20,11 @@ export async function groupJoined(
     if (messageTimestamp < botTS) return
   }
 
-  await bemVindo(notification)
-
-  if (notification.recipientIds.includes(process.env.NUMERO_BOT || '')) {
+  if (
+    notification.recipientIds.includes(process.env.NUMERO_BOT + '') &&
+    (notification.type === GroupNotificationTypes.ADD ||
+      notification.type === GroupNotificationTypes.INVITE)
+  ) {
     const group = (await notification.getChat()) as GroupChat
 
     const participants =
@@ -32,4 +39,10 @@ export async function groupJoined(
 
     await prisma.$transaction(create)
   }
+
+  if (notification.type === GroupNotificationTypes.LEAVE) {
+    await removeFromGroup(notification)
+  }
+
+  await bemVindo(notification)
 }
