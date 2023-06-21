@@ -10,15 +10,17 @@ import { getRandomName } from '@utils/generateRandomName'
 import { checkIfContentIsExplict } from './util'
 
 import { printError } from 'cli/terminal'
+import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
-async function maliciousDetector({ message, ...zap }: ZapType) {
+async function maliciousDetector(
+  { message, ...zap }: ZapType,
+  groupInfo: groupInfoCache | null | undefined,
+) {
   try {
     if (message?.type === MessageTypes.IMAGE) {
       const group = await zap.getGroupChat()
 
       const user = await zap.getUser()
-
-      const groupInfo = await db.getGroupInfo(group.id._serialized)
 
       if (groupInfo?.anti_porn) {
         const isBotAdmin = await zap.getBotAdmin()
@@ -29,6 +31,8 @@ async function maliciousDetector({ message, ...zap }: ZapType) {
           await db.updateGroupExceptParticipants(group.id._serialized, {
             anti_porn: false,
           })
+
+          return
         }
 
         if (!isSenderAdmin) {

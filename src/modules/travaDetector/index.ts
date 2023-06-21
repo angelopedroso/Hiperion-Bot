@@ -1,8 +1,12 @@
 import { db } from '@lib/auth/prisma-query'
 import { ZapType } from '@modules/zapConstructor'
+import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 import { MessageTypes } from 'whatsapp-web.js'
 
-export async function travaDectetor({ message, ...zap }: ZapType) {
+export async function travaDectetor(
+  { message, ...zap }: ZapType,
+  groupInfo: groupInfoCache | null | undefined,
+) {
   const groupChat = await zap.getGroupChat()
   const groupId = groupChat.id._serialized
 
@@ -13,8 +17,6 @@ export async function travaDectetor({ message, ...zap }: ZapType) {
   const isSenderAdmin = await zap.getUserIsAdmin(userId)
 
   if (message?.type !== MessageTypes.TEXT || isSenderAdmin) return
-
-  const groupInfo = await db.getGroupInfo(groupId)
 
   if (groupInfo?.anti_trava?.status && groupInfo.anti_trava.max_characters) {
     const isBotAdmin = await zap.getBotAdmin()
