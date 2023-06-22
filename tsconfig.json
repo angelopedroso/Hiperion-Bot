@@ -22,7 +22,8 @@
       "@utils/*": ["utils/*"],
       "@typings/*": ["typings/*"],
       "@lib/*": ["lib/*"],
-      "@api/*": ["api/*"]
+      "@api/*": ["api/*"],
+      "@assets/*": ["../assets/*"]
     }
   },
   "exclude": ["node_modules", "dist", "__tests__"],
