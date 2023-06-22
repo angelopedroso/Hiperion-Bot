@@ -264,7 +264,8 @@ export function PrismaQuery() {
 
     async getGroupInfo(groupId: string) {
       try {
-        const cache = await redis.get('group-info')
+        const cacheKey = `group-info:${groupId}`
+        const cache = await redis.get(cacheKey)
 
         if (cache) {
           return JSON.parse(cache) as groupInfoCache
@@ -289,8 +290,8 @@ export function PrismaQuery() {
           },
         })
 
-        await redis.set('group-info', JSON.stringify(groupInfo))
-        await redis.expire('group-info', 60 * 3)
+        await redis.set(cacheKey, JSON.stringify(groupInfo))
+        await redis.expire(cacheKey, 60 * 10)
 
         return groupInfo
       } catch (error: Error | any) {
