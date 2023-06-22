@@ -1,5 +1,6 @@
 import { ZapType } from '@modules/zapConstructor'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { NOME_BOT } from '@utils/envs'
 import { MessageTypes } from 'whatsapp-web.js'
 
 async function sendSticker({ message, ...zap }: ZapType) {
@@ -9,8 +10,8 @@ async function sendSticker({ message, ...zap }: ZapType) {
 
     await chat.sendMessage(media, {
       sendMediaAsSticker: true,
-      stickerAuthor: 'Hiperion',
-      stickerName: 'Feito por Hiperion',
+      stickerAuthor: NOME_BOT,
+      stickerName: `Feito por ${NOME_BOT}`,
     })
   }
 }
@@ -23,15 +24,15 @@ async function sendAutoSticker(
 
   if (!groupChat.isGroup) return
 
-  if (groupInfo?.auto_sticker) {
-    if (message?.hasMedia && message.type !== MessageTypes.STICKER) {
+  if (message?.hasMedia && message.type !== MessageTypes.STICKER) {
+    if (groupInfo?.auto_sticker) {
       const chat = await zap.getChat()
       const media = await message.downloadMedia()
 
       await chat.sendMessage(media, {
         sendMediaAsSticker: true,
-        stickerAuthor: 'Hiperion',
-        stickerName: 'Feito por Hiperion',
+        stickerAuthor: NOME_BOT,
+        stickerName: `Feito por ${NOME_BOT}`,
       })
     }
   }

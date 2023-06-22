@@ -10,8 +10,8 @@ export const checkIfContentIsExplict = async (
 
   form.append('media', fs.createReadStream(filePath))
   form.append('models', 'nudity-2.0,offensive')
-  form.append('api_user', API_SIGHTENGINE_USER + '')
-  form.append('api_secret', API_SIGHTENGINE_SECRET + '')
+  form.append('api_user', API_SIGHTENGINE_USER)
+  form.append('api_secret', API_SIGHTENGINE_SECRET)
 
   const { data } = await axios({
     method: 'post',
