@@ -1,4 +1,5 @@
 import { sendPing } from '@modules/ping'
+import { sendRules } from '@modules/rules'
 import { sendSticker } from '@modules/sticker'
 import { ZapType } from '@modules/zapConstructor'
 
@@ -11,5 +12,6 @@ const commandMap = new Map<string, CommandInfo>()
 
 commandMap.set('fs', { handler: sendSticker, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
+commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
 
 export { commandMap }

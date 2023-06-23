@@ -8,5 +8,8 @@
   "bemvindo": {
     "message": "Bem vindo(a) @{{user}} ao grupo *{{group}}*, leia as regras digitando *!regras* 😉",
     "onegroup": "Só é permitido estar em um grupo."
+  },
+  "regras": {
+    "error": "Só posso responder esse comando em grupos 😥"
   }
 }
