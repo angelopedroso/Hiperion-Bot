@@ -4,9 +4,11 @@ import { client } from '@config/startupConfig'
 import { db } from '@lib/auth/prisma-query'
 
 import { printError } from 'cli/terminal'
+import { ZapConstructor } from '@modules/zapConstructor'
 
 export async function bemVindo(notification: GroupNotification) {
   const chat = await client.getChatById(notification.chatId)
+  const zap = ZapConstructor()
 
   if (chat.isGroup) {
     const groupChat = chat as GroupChat
@@ -22,7 +24,10 @@ export async function bemVindo(notification: GroupNotification) {
 
           await client.sendMessage(
             notification.chatId,
-            `Bem vindo(a) @${formattedUser} ao grupo *${chat.name}*, leia as regras digitando *!regras* 😉`,
+            zap.translateMessage('bemvindo.message', {
+              user: formattedUser,
+              group: chat.name,
+            }),
             {
               mentions: [userId],
             },
@@ -37,7 +42,7 @@ export async function bemVindo(notification: GroupNotification) {
             groupChat.removeParticipants([user])
             client.sendMessage(
               notification.chatId,
-              'Só é permitido estar em um grupo.',
+              zap.translateMessage('bemvindo.onegroup'),
             )
           }
         }
