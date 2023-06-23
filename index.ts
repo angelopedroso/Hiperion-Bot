@@ -1,12 +1,19 @@
 import { configDotenv } from 'dotenv'
 
 import { client } from '@config/startupConfig'
-import { Events, GroupChat, GroupNotification, Message } from 'whatsapp-web.js'
+import {
+  Events,
+  GroupChat,
+  GroupNotification,
+  Message,
+  WAState,
+} from 'whatsapp-web.js'
 import qrCode from 'qrcode'
 
 import { createAllGroupsOnReady } from '@api/group/createAllGroupsOnReady'
 
 import { groupJoined } from '@modules/groupJoin'
+import { LANGUAGE } from '@utils/envs'
 
 import {
   printAuthenticated,
@@ -14,6 +21,7 @@ import {
   printHeader,
   printFooter,
   printQRCode,
+  printDisconnect,
 } from 'cli/terminal'
 
 import { existsSync } from 'fs'
@@ -21,8 +29,23 @@ import { messageGetter } from 'helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'
 import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 
+import i18next from 'i18next'
+import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
+import path from 'path'
+
 cacheMiddleware()
 configDotenv()
+
+i18next.use(FsBackend).init<FsBackendOptions>({
+  fallbackLng: LANGUAGE,
+  lng: LANGUAGE,
+  supportedLngs: ['en', 'pt'],
+  backend: {
+    loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
+  },
+  ns: ['commands'],
+  defaultNS: ['commands'],
+})
 
 let botReadyTimestamp: Date | null = null
 
@@ -64,6 +87,10 @@ const start = () => {
 
   client.on(Events.GROUP_JOIN, async (notification: GroupNotification) => {
     await groupJoined(notification, botReadyTimestamp)
+  })
+
+  client.on(Events.DISCONNECTED, (reason: WAState) => {
+    printDisconnect(reason)
   })
 
   client.initialize()

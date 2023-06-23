@@ -7,6 +7,7 @@ import {
   text,
   group,
   cancel,
+  select,
 } from '@clack/prompts'
 import { createEnvFile } from 'helpers/createEnv'
 import { existsSync } from 'fs'
@@ -23,17 +24,34 @@ export const printHeader = async () => {
       {
         owner: () =>
           text({
-            message: "Please, provide the owner's number (not is bot number).",
+            message:
+              "Please, provide the owner's number (not is bot number). The same number in your whatsapp",
             validate(value) {
               if (value.length === 0) return `Number is required!`
             },
           }),
         bot: () =>
           text({
-            message: "Please, provide the bot's number.",
+            message:
+              "Please, provide the bot's number. The same number in bot's whatsapp",
             validate(value) {
               if (value.length === 0) return `Number is required!`
             },
+          }),
+        lang: () =>
+          select({
+            message: 'Choose a language.',
+            initialValue: 'pt',
+            options: [
+              {
+                value: 'pt',
+                label: 'Português',
+              },
+              {
+                value: 'en',
+                label: 'English',
+              },
+            ],
           }),
       },
       {
@@ -79,4 +97,8 @@ export const printLog = (info: any) => {
 
 export const printError = (error: string) => {
   log.error(color.bgRed(color.white('An error occurred: ')) + error)
+}
+
+export const printDisconnect = (reason: string) => {
+  log.warn(color.bgYellow(color.white('Disconnected: ')) + reason)
 }

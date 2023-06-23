@@ -1,0 +1,12 @@
+{
+  "wrongcommand": "Acho que você digitou o comando *!{{command}}* errado 🙄. Use !{{command}} help para saber como utilizar",
+  "fs": {
+    "help": "Você pode fazer figurinhas de duas maneiras 😉\n\n- Enviando uma mídia com *!fs* na legenda.\n\n- Respondendo uma mídia com *!fs*.",
+    "nomedia": "Não encontrei uma mídia válida pra fazer figurinha.Consigo fazer figurinhas de imagens, videos ou gifs. Se certifique que você está tentando fazer uma figurinha a partir da mensagem correta 🤔",
+    "madeby": "Feito por {{name}}"
+  },
+  "bemvindo": {
+    "message": "Bem vindo(a) @{{user}} ao grupo *{{group}}*, leia as regras digitando *!regras* 😉",
+    "onegroup": "Só é permitido estar em um grupo."
+  }
+}

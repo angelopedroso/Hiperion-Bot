@@ -1,6 +1,7 @@
-const NOME_BOT = process.env.NOME_BOT || 'Hiperion'
-const NUMERO_DONO = process.env.NUMERO_DONO || ''
-const NUMERO_BOT = process.env.NUMERO_BOT || ''
+const BOT_NAME = process.env.BOT_NAME || 'Hiperion'
+const OWNER_NUM = process.env.OWNER_NUM || ''
+const BOT_NUM = process.env.BOT_NUM || ''
+const LANGUAGE = process.env.LANGUAGE || 'pt'
 
 const API_SIGHTENGINE_USER = process.env.API_SIGHTENGINE_USER || ''
 const API_SIGHTENGINE_SECRET = process.env.API_SIGHTENGINE_SECRET || ''
@@ -16,9 +17,10 @@ export {
   API_SIGHTENGINE_SECRET,
   API_SIGHTENGINE_USER,
   DATABASE_URL,
-  NOME_BOT,
-  NUMERO_BOT,
-  NUMERO_DONO,
+  BOT_NAME,
+  BOT_NUM,
+  OWNER_NUM,
+  LANGUAGE,
   OPENAI_API_KEY,
   OPENAI_PASSWORD,
   REDIS_URI,
