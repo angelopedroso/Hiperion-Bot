@@ -1,8 +1,8 @@
 import { db } from '@lib/auth/prisma-query'
 import { linkDetector } from '@modules/linkDetector'
 import { maliciousDetector } from '@modules/maliciousDetector'
-import { sendGroupInviteLink } from '@modules/sendGroupInvite'
-import { sendAutoSticker } from '@modules/sendSticker'
+import { sendGroupInviteLink } from '@modules/groupInvite'
+import { sendAutoSticker } from '@modules/sticker'
 import { travaDectetor } from '@modules/travaDetector'
 import { ZapType } from '@modules/zapConstructor'
 

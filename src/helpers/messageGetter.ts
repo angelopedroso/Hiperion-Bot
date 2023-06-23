@@ -5,6 +5,7 @@ import { checkGroupFeatures } from 'helpers/checkGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
 
 import { botReadyTimestamp } from '../..'
+import { registerModules } from '@modules/modulesWrapper'
 
 export async function messageGetter(message: Message) {
   if (message.from === constants.statusBroadcast) return
@@ -20,8 +21,5 @@ export async function messageGetter(message: Message) {
   const zap = ZapConstructor(client, message)
 
   checkGroupFeatures(zap)
-
-  if (message.body === 'off') {
-    process.exit(0)
-  }
+  registerModules(zap)
 }

@@ -7,15 +7,17 @@ import path from 'path'
 type Info = PromptGroupAwaitedReturn<{
   owner: string | symbol
   bot: string | symbol
+  lang: string | symbol
 }>
 
 export async function createEnvFile(infos: Info) {
-  const { owner, bot } = infos
+  const { owner, bot, lang } = infos
 
   const env = `
-     NOME_ADMINISTRADOR=${owner}
-     NOME_BOT=
-     NUMERO_DONO=${bot}
+     BOT_NAME=
+     OWNER_NUM=${owner}
+     BOT_NUM=${bot}
+     LANGUAGE=${lang}
      
      # SightEngine - https://dashboard.sightengine.com/login
      API_SIGHTENGINE_USER=
