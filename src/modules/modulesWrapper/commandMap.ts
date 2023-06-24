@@ -6,6 +6,7 @@ import { toggleLinkDetector } from '@modules/linkDetector/command'
 import { toggleMaliciousDetector } from '@modules/maliciousDetector/commands'
 import { sendPing } from '@modules/ping'
 import { sendRules } from '@modules/rules'
+import { shutDownBot } from '@modules/shutdown'
 import { sendSticker } from '@modules/sticker'
 import { toggleAutoSticker } from '@modules/sticker/command'
 import { toggleTravaDetector } from '@modules/travaDetector/command'
@@ -19,6 +20,7 @@ interface CommandInfo {
 const commandMap = new Map<string, CommandInfo>()
 
 commandMap.set('fs', { handler: sendSticker, expectedArgs: 0 })
+commandMap.set('off', { handler: shutDownBot, expectedArgs: 0 })
 commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
 commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
