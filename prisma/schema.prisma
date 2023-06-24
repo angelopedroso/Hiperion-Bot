@@ -53,7 +53,7 @@ model Group {
 model AntiTrava {
   id             String   @id @default(uuid())
   status         Boolean? @default(false)
-  max_characters Int?     @default(0)
+  max_characters Int?     @default(1000)
   group          Group?
 }
 
