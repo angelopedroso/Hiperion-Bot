@@ -23,9 +23,9 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
    ```plaintext
    BOT_NAME=
-   OWNER_NUM=${owner}
-   BOT_NUM=${bot}
-   LANGUAGE=${lang}
+   OWNER_NUM=
+   BOT_NUM=
+   LANGUAGE=
 
    # SightEngine - https://dashboard.sightengine.com/login
    API_SIGHTENGINE_USER=
@@ -50,11 +50,21 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    yarn start
    ```
 
+5. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
+
+   - Na raiz do projeto, execute o seguinte comando:
+
+     ```shell
+     docker-compose up -d
+     ```
+
+   > **Observação**: Isso iniciará os serviços do MySQL e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
+
 ## Comandos do Bot
 
 A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algum serviço de API é necessário.
 
-| Comando     | Descrição                                                                   | Requer API      |
+| Comando     | Descrição                                                                   | API Key         |
 | ----------- | --------------------------------------------------------------------------- | --------------- |
 | `!fs`       | Converte imagem, vídeo ou GIF em adesivo                                    |                 |
 | `!off`      | Desliga o bot                                                               |                 |
@@ -72,7 +82,17 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 
 ## Contribuição
 
-Se você deseja contribuir para este projeto, sinta-se à vontade para enviar pull requests. Faremos uma revisão e incorporaremos as alterações relevantes.
+Se você quiser contribuir para este projeto, siga as etapas abaixo:
+
+1. Faça um fork deste repositório.
+2. Crie um branch para sua contribuição: `git checkout -b sua-branch`.
+3. Faça as alterações desejadas e adicione a documentação, se necessário.
+4. Envie suas alterações: `git push origin sua-branch`.
+5. Abra um pull request neste repositório.
+
+---
+
+Agradeço antecipadamente por suas contribuições!
 
 ## Licença
 
