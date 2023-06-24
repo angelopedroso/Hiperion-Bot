@@ -1,4 +1,5 @@
 {
+  "notgrouperror": "Só posso responder esse comando em grupos 😥",
   "wrongcommand": "Acho que você digitou o comando *!{{command}}* errado 🙄. Use !{{command}} help para saber como utilizar",
   "fs": {
     "help": "Você pode fazer figurinhas de duas maneiras 😉\n\n- Enviando uma mídia com *!fs* na legenda.\n\n- Respondendo uma mídia com *!fs*.",
@@ -9,7 +10,5 @@
     "message": "Bem vindo(a) @{{user}} ao grupo *{{group}}*, leia as regras digitando *!regras* 😉",
     "onegroup": "Só é permitido estar em um grupo."
   },
-  "regras": {
-    "error": "Só posso responder esse comando em grupos 😥"
-  }
+  "groupstatus": "- *Detector de links:* {{link}}\n- *Detector de imagem ofensiva:* {{malicious}}\n- *Detector de travamento:* {{at}} caracteres\n- *Bem vindo:* {{bv}}\n- *Apenas um grupo:* {{og}}\n- *Auto convite:* {{ail}}\n- *Auto sticker:* {{as}}\n- *Lista negra:* {{bl}} usuário(os)"
 }

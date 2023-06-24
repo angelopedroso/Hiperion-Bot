@@ -1,4 +1,5 @@
 {
+  "notgrouperror": "I can only respond to this command in groups 😥",
   "wrongcommand": "I think you entered the command !{{command}} incorrectly 🙄. Use !{{command}} help to learn how to use it.",
   "fs": {
     "help": "You can create stickers in two ways 😉\n\n- Sending a media with *!fs* in the caption. \n\n- Replying to a media with *!fs*.",
@@ -9,7 +10,5 @@
     "message": "Welcome @{{user}} to the *{{group}}* group, please read the rules by typing *!regras* 😉",
     "onegroup": "You are only allowed to be in one group."
   },
-  "regras": {
-    "error": "I can only respond to this command in groups 😥"
-  }
+  "groupstatus": "- *Link Detector:* {{link}}\n- *Offensive Image Detector:* {{malicious}}\n- *Crash Detector:* {{at}} characters\n- *Welcome Message:* {{bv}}\n- *Only One Group:* {{og}}\n- *Auto Invitation:* {{ail}}\n- *Auto Sticker:* {{as}}\n- *Blacklist:* {{bl}} user(s)"
 }
