@@ -1,0 +1,5 @@
+{
+  "help": "Você pode fazer figurinhas de duas maneiras 😉\n\n- Enviando uma mídia com *!fs* na legenda.\n\n- Respondendo uma mídia com *!fs*.",
+  "nomedia": "Não encontrei uma mídia válida pra fazer figurinha.Consigo fazer figurinhas de imagens, videos ou gifs. Se certifique que você está tentando fazer uma figurinha a partir da mensagem correta 🤔",
+  "madeby": "Feito por {{name}}"
+}

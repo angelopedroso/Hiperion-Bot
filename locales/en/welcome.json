@@ -1,0 +1,4 @@
+{
+  "message": "Welcome @{{user}} to the *{{group}}* group, please read the rules by typing *!regras* 😉",
+  "onegroup": "You are only allowed to be in one group."
+}

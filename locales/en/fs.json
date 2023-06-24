@@ -1,0 +1,5 @@
+{
+  "help": "You can create stickers in two ways 😉\n\n- Sending a media with *!fs* in the caption. \n\n- Replying to a media with *!fs*.",
+  "nomedia": "I couldn't find a valid media to create a sticker. You can create stickers from images, videos, or gifs. Please make sure you are trying to create a sticker from the correct message 🤔.",
+  "madeby": "Made by {{name}}"
+}

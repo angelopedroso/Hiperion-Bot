@@ -23,7 +23,8 @@
       "@typings/*": ["typings/*"],
       "@lib/*": ["lib/*"],
       "@api/*": ["api/*"],
-      "@assets/*": ["../assets/*"]
+      "@assets/*": ["../assets/*"],
+      "@locales/*": ["../locales/*"]
     }
   },
   "exclude": ["node_modules", "dist", "__tests__"],

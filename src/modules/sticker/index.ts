@@ -14,7 +14,7 @@ async function sendSticker({ message, ...zap }: ZapType) {
     await chat.sendMessage(media, {
       sendMediaAsSticker: true,
       stickerAuthor: BOT_NAME,
-      stickerName: zap.translateMessage('fs.madeby', { name: BOT_NAME }),
+      stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
     })
 
     return
@@ -29,7 +29,7 @@ async function sendSticker({ message, ...zap }: ZapType) {
       chat.sendMessage(media, {
         sendMediaAsSticker: true,
         stickerAuthor: BOT_NAME,
-        stickerName: zap.translateMessage('fs.madeby', { name: BOT_NAME }),
+        stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
       })
     }
   }
@@ -51,7 +51,7 @@ async function sendAutoSticker(
       await chat.sendMessage(media, {
         sendMediaAsSticker: true,
         stickerAuthor: BOT_NAME,
-        stickerName: zap.translateMessage('fs.madeby', { name: BOT_NAME }),
+        stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
       })
     }
   }
