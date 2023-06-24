@@ -1,6 +1,7 @@
 import { prisma } from '@lib/prisma'
 import { bemVindo } from '@modules/bemVindo'
-import { removeFromGroup } from '@modules/removeFromGroup'
+import { addNewUser } from '@modules/groupNotification/addNewUser'
+import { removeFromGroup } from '@modules/groupNotification/removeFromGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
 import { BOT_NUM } from '@utils/envs'
 import {
@@ -13,6 +14,8 @@ export async function groupJoined(
   notification: GroupNotification,
   botTS: Date | null,
 ) {
+  const joinedType = [GroupNotificationTypes.ADD, GroupNotificationTypes.INVITE]
+
   if (notification.timestamp !== null) {
     const messageTimestamp = new Date(notification.timestamp * 1000)
 
@@ -23,8 +26,7 @@ export async function groupJoined(
 
   if (
     notification.recipientIds.includes(BOT_NUM) &&
-    (notification.type === GroupNotificationTypes.ADD ||
-      notification.type === GroupNotificationTypes.INVITE)
+    joinedType.includes(notification.type)
   ) {
     const group = (await notification.getChat()) as GroupChat
 
@@ -41,8 +43,15 @@ export async function groupJoined(
     await prisma.$transaction(create)
   }
 
-  if (notification.type === GroupNotificationTypes.LEAVE) {
+  if (
+    notification.type === GroupNotificationTypes.LEAVE ||
+    notification.type === GroupNotificationTypes.REMOVE
+  ) {
     await removeFromGroup(notification)
+  }
+
+  if (joinedType.includes(notification.type)) {
+    await addNewUser(notification)
   }
 
   await bemVindo(notification)

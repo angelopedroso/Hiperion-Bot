@@ -32,19 +32,6 @@ export async function bemVindo(notification: GroupNotification) {
               mentions: [userId],
             },
           )
-
-          const answer = await db.addParticipantInGroup(
-            formattedUser,
-            chat.id._serialized,
-          )
-
-          if (answer === 'ban' && groupInfo.one_group) {
-            groupChat.removeParticipants([user])
-            client.sendMessage(
-              notification.chatId,
-              zap.translateMessage('bemvindo.onegroup'),
-            )
-          }
         }
       } catch (error: Error | any) {
         printError(error)
