@@ -8,5 +8,5 @@ export async function sendRules({ message, ...zap }: ZapType) {
     return
   }
 
-  await message?.reply(zap.translateMessage('regras.error'))
+  await message?.reply(zap.translateMessage('notgrouperror'))
 }

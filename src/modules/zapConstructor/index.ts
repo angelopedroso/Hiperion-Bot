@@ -13,7 +13,10 @@ import {
   Message,
 } from 'whatsapp-web.js'
 
-type TranslationVariables = Record<string, string | number | boolean>
+type TranslationVariables = Record<
+  string,
+  string | number | boolean | undefined
+>
 
 export function ZapConstructor(client?: Client, message?: Message) {
   async function getChat() {

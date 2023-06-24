@@ -13,13 +13,19 @@ export async function registerModules(zap: ZapType) {
       const { handler, expectedArgs } = commandInfo
 
       if (args.includes('help')) {
+        if (
+          zap.translateMessage(`${commandName}.help`) === `${commandName}.help`
+        ) {
+          return
+        }
+
         await zap.message.reply(zap.translateMessage(`${commandName}.help`))
 
         return
       }
 
-      if (args.length === expectedArgs) {
-        handler(zap, args)
+      if (expectedArgs === 'any' || args.length === expectedArgs) {
+        await handler(zap, ...args)
         return
       }
 

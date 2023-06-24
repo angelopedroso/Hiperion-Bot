@@ -25,7 +25,7 @@ async function maliciousDetector(
       if (groupInfo?.anti_porn) {
         const isBotAdmin = await zap.getBotAdmin()
 
-        const isSenderAdmin = await zap.getUserIsAdmin(message.from)
+        const isSenderAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
         if (!isBotAdmin) {
           await db.updateGroupExceptParticipants(group.id._serialized, {
