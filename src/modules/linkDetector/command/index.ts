@@ -29,5 +29,5 @@ export async function toggleLinkDetector({ message, ...zap }: ZapType) {
     return
   }
 
-  await message?.reply(zap.translateMessage('notgrouperror'))
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
 }

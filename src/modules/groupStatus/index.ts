@@ -25,10 +25,10 @@ export async function sendGroupStatus({ message, ...zap }: ZapType) {
         : `🟥 - ${groupInfo?.anti_trava?.max_characters}`,
     }
 
-    await message?.reply(zap.translateMessage('groupstatus', config))
+    await message?.reply(zap.translateMessage('groupinfo', 'info', config))
 
     return
   }
 
-  await message?.reply(zap.translateMessage('notgrouperror'))
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
 }

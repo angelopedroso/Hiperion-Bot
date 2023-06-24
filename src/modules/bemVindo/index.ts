@@ -24,7 +24,7 @@ export async function bemVindo(notification: GroupNotification) {
 
           await client.sendMessage(
             notification.chatId,
-            zap.translateMessage('bemvindo.message', {
+            zap.translateMessage('welcome', 'message', {
               user: formattedUser,
               group: chat.name,
             }),

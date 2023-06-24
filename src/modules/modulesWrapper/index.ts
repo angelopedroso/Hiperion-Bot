@@ -1,5 +1,6 @@
 import { ZapType } from '@modules/zapConstructor'
 import { commandMap } from './commandMap'
+import { LocaleFileName } from '@locales/@types/command.interface'
 
 export async function registerModules(zap: ZapType) {
   if (zap.message?.body.startsWith('!')) {
@@ -14,12 +15,15 @@ export async function registerModules(zap: ZapType) {
 
       if (args.includes('help')) {
         if (
-          zap.translateMessage(`${commandName}.help`) === `${commandName}.help`
+          zap.translateMessage(commandName as LocaleFileName, 'help') ===
+          `${commandName}:help`
         ) {
           return
         }
 
-        await zap.message.reply(zap.translateMessage(`${commandName}.help`))
+        await zap.message.reply(
+          zap.translateMessage(commandName as LocaleFileName, 'help'),
+        )
 
         return
       }
@@ -30,7 +34,9 @@ export async function registerModules(zap: ZapType) {
       }
 
       await zap.message.reply(
-        zap.translateMessage('wrongcommand', { command: commandName }),
+        zap.translateMessage('wrongcmd', 'wrongcommand', {
+          command: commandName,
+        }),
       )
     }
   }

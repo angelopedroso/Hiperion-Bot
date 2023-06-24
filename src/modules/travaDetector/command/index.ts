@@ -60,5 +60,5 @@ export async function toggleTravaDetector(
     return
   }
 
-  await message?.reply(zap.translateMessage('notgrouperror'))
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
 }

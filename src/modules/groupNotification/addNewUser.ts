@@ -20,7 +20,7 @@ export async function addNewUser(notification: GroupNotification) {
       chat.removeParticipants([user])
       client.sendMessage(
         notification.chatId,
-        zap.translateMessage('bemvindo.onegroup'),
+        zap.translateMessage('welcome', 'onegroup'),
       )
     }
   })
