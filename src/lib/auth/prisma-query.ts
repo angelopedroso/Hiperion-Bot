@@ -1,6 +1,6 @@
 import { prisma, redis } from 'lib/prisma'
 import { CompleteGroup } from '@typings/prismaQueryTypes'
-import { Participant, ParticipantType } from '@prisma/client'
+import { Group, Participant, ParticipantType } from '@prisma/client'
 import { printError } from 'cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
@@ -297,6 +297,62 @@ export function PrismaQuery() {
       } catch (error: Error | any) {
         printError('getGroupInfo Query: ' + error.message)
       }
+    },
+
+    async getAllGroups() {
+      try {
+        const cache = await redis.get('all-groups')
+
+        if (cache) {
+          return JSON.parse(cache) as Group[]
+        }
+
+        const allGroups = await prisma.group.findMany({})
+
+        await redis.set('all-groups', JSON.stringify(allGroups))
+
+        return allGroups
+      } catch (error) {}
+    },
+
+    addToBlacklist(
+      groupId: string,
+      participantId: string,
+      allGroups: Group[] | undefined,
+    ) {
+      const querys = []
+      querys.push(
+        prisma.group.update({
+          where: { g_id: groupId },
+          data: {
+            black_list: {
+              connect: { p_id: participantId },
+            },
+          },
+        }),
+      )
+
+      const otherGroups = allGroups?.filter(
+        (otherGroup: any) => otherGroup.g_id !== groupId,
+      )
+      if (otherGroups) {
+        for (const otherGroup of otherGroups) {
+          querys.push(
+            prisma.group.update({
+              where: { g_id: otherGroup.g_id },
+              data: {
+                black_list: {
+                  connect: { p_id: participantId },
+                },
+              },
+            }),
+          )
+        }
+      }
+
+      redis.del('group-info:' + groupId)
+
+      return querys
     },
   }
 }
