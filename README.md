@@ -44,13 +44,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
    > **Observação**: O arquivo `.env` será gerado automaticamente na primeira execução do bot. O bot solicitará uma reinicialização após a criação do `.env`.
 
-4. Inicie o aplicativo com o seguinte comando:
-
-   ```shell
-   yarn start
-   ```
-
-5. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
+4. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
 
    - Na raiz do projeto, execute o seguinte comando:
 
@@ -59,6 +53,12 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
      ```
 
    > **Observação**: Isso iniciará os serviços do MySQL e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
+
+5. Inicie o aplicativo com o seguinte comando:
+
+   ```shell
+   yarn start
+   ```
 
 ## Comandos do Bot
 
