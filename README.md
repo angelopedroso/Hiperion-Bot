@@ -1,6 +1,9 @@
 # Hiperion Bot
+### Em desenvolvimento
 
+## Overview
 Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em inglês e português.
+> **Observação**: Esse bot jamais terá uma feature para enviar mensagens em massa no privado dos usuários ou em grupos.
 
 ## Requisitos
 
@@ -66,9 +69,9 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 
 | Comando     | Descrição                                                                   | API Key         |
 | ----------- | --------------------------------------------------------------------------- | --------------- |
-| `!fs`       | Converte imagem, vídeo ou GIF em adesivo                                    |                 |
+| `!fs`       | Converte imagem, vídeo ou GIF em stiker                                    |                 |
 | `!off`      | Desliga o bot                                                               |                 |
-| `!link`     | Recebe o link de convite do grupo                                           |                 |
+| `!link`     | Envia o link de convite do grupo                                           |                 |
 | `!ping`     | Verifica a latência do bot                                                  |                 |
 | `!regras`   | Mostra as regras do grupo                                                   |                 |
 | `!ld`       | Ativa/Desativa o detector de links em algum grupo                           |                 |
@@ -78,7 +81,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!asticker` | Ativa/Desativa a criação automática de adesivos em algum grupo              |                 |
 | `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |                 |
 | `!ginfo`    | Mostra as informações de um grupo                                           |                 |
-| `!blist`    | Adiciona o usuário à lista negra de grupos                                  |                 |
+| `!blist`    | Adiciona o usuário à lista negra de todos os grupos                                  |                 |
 
 ## Contribuição
 
