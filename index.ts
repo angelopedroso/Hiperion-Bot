@@ -43,8 +43,7 @@ i18next.use(FsBackend).init<FsBackendOptions>({
   backend: {
     loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
   },
-  ns: ['commands'],
-  defaultNS: ['commands'],
+  ns: ['fs', 'groupinfo', 'notgroup', 'welcome', 'wrongcmd'],
 })
 
 let botReadyTimestamp: Date | null = null

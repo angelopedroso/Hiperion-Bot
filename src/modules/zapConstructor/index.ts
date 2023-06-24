@@ -1,9 +1,3 @@
-import { db } from '@lib/auth/prisma-query'
-import { prisma } from '@lib/prisma'
-import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
-import { IParticipant } from '@typings/participant.interface'
-import { BOT_NUM } from '@utils/envs'
-import i18next from 'i18next'
 import {
   Chat,
   Client,
@@ -13,10 +7,22 @@ import {
   Message,
 } from 'whatsapp-web.js'
 
-type TranslationVariables = Record<
-  string,
-  string | number | boolean | undefined
->
+import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
+
+import { db } from '@lib/auth/prisma-query'
+import { prisma } from '@lib/prisma'
+
+import { IParticipant } from '@typings/participant.interface'
+
+import i18next from 'i18next'
+
+import { BOT_NUM } from '@utils/envs'
+
+import {
+  LocaleAttributeName,
+  LocaleFileName,
+  TranslationVariables,
+} from '@locales/@types/command.interface'
 
 export function ZapConstructor(client?: Client, message?: Message) {
   async function getChat() {
@@ -91,13 +97,14 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return await groupChat.getInviteCode()
   }
 
-  function translateMessage(
-    local: string,
+  function translateMessage<T extends LocaleFileName>(
+    cmd: T,
+    name: LocaleAttributeName<T>,
     variables?: TranslationVariables,
   ): string {
     const { t } = i18next
 
-    return t(`commands:${local}`, variables)
+    return t(`${cmd}:${name}`, variables)
   }
 
   return {
@@ -131,6 +138,10 @@ export type ZapType = {
     participants: GroupParticipant[],
   ) => IParticipant[]
   getGroupLink: () => Promise<string>
-  translateMessage: (local: string, variables?: TranslationVariables) => string
+  translateMessage: <T extends LocaleFileName>(
+    cmd: T,
+    name: LocaleAttributeName<T>,
+    variables?: TranslationVariables,
+  ) => string
   message?: Message
 }
