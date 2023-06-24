@@ -1,3 +1,4 @@
+import { banUser } from '@modules/admin'
 import { toggleWelcome } from '@modules/bemVindo/command'
 import { sendGroupInviteLink } from '@modules/groupInvite'
 import { toggleAutoInvite } from '@modules/groupInvite/commands'
@@ -24,6 +25,7 @@ commandMap.set('off', { handler: shutDownBot, expectedArgs: 0 })
 commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
 commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
+commandMap.set('ban', { handler: banUser, expectedArgs: 'any' })
 commandMap.set('ld', { handler: toggleLinkDetector, expectedArgs: 0 })
 commandMap.set('md', { handler: toggleMaliciousDetector, expectedArgs: 0 })
 commandMap.set('td', { handler: toggleTravaDetector, expectedArgs: 'any' })
