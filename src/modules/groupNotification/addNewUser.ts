@@ -11,6 +11,15 @@ export async function addNewUser(notification: GroupNotification) {
   notification.recipientIds.map(async (user) => {
     const formattedUser = user.replace('@c.us', '')
 
+    const blackListGroup = groupInfo?.black_list.find(
+      (p) => p.p_id === formattedUser,
+    )
+
+    if (blackListGroup) {
+      chat.removeParticipants([user])
+      return
+    }
+
     const answer = await db.addParticipantInGroup(
       formattedUser,
       chat.id._serialized,

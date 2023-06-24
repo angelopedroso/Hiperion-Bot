@@ -1,6 +1,7 @@
 import { Participant } from '@prisma/client'
 
 export type groupInfoCache = {
+  g_id?: string
   bem_vindo: boolean | null
   one_group: boolean | null
   auto_invite_link: boolean | null
