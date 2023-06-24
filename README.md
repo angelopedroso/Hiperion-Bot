@@ -1,6 +1,6 @@
 # Hiperion Bot
 
-Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca whatsapp-web.js. O bot oferece suporte aos comandos listados abaixo e permite a interação em inglês e português.
+Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em inglês e português.
 
 ## Requisitos
 
