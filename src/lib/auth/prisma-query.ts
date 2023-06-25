@@ -50,11 +50,20 @@ export function PrismaQuery() {
     },
 
     async deleteGroup(groupId: string) {
-      await prisma.group.delete({
-        where: {
-          g_id: groupId,
-        },
-      })
+      await prisma.$transaction([
+        prisma.participantGroupType.deleteMany({
+          where: {
+            group: {
+              g_id: groupId,
+            },
+          },
+        }),
+        prisma.group.delete({
+          where: {
+            g_id: groupId,
+          },
+        }),
+      ])
     },
 
     async findParticipantsByIds(participantIds: string[]) {
