@@ -77,15 +77,18 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!link`     | Recebe o link de convite do grupo                                           |             |
 | `!ping`     | Verifica a latência do bot                                                  |             |
 | `!regras`   | Mostra as regras do grupo                                                   |             |
+| `!join`     | Entra no grupo do convite                                                   |             |
+| `!leave`    | Saiu do grupo em questão                                                    |             |
+| `!add`      | Adiciona um usuário ao grupo                                                |             |
 | `!ban`      | Remove o usuário do grupo e adiciona em todas as listas negras              |             |
 | `!ld`       | Ativa/Desativa o detector de links em algum grupo                           |             |
 | `!md`       | Ativa/Desativa o detector de conteúdo malicioso em algum grupo              | SightEngine |
 | `!td`       | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
 | `!bv`       | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
+| `!bl`       | Adiciona o usuário à lista negra de todos os grupos                         |             |
 | `!asticker` | Ativa/Desativa a criação automática de adesivos em algum grupo              |             |
 | `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |             |
 | `!ginfo`    | Mostra as informações de um grupo                                           |             |
-| `!blist`    | Adiciona o usuário à lista negra de grupos                                  |             |
 
 ## Contribuição
 
