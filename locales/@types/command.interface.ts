@@ -4,6 +4,11 @@ export type LocaleFileName =
   | 'fs'
   | 'welcome'
   | 'wrongcmd'
+  | 'ban'
+  | 'acceptInvite'
+  | 'td'
+  | 'add'
+  | 'bl'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -11,6 +16,11 @@ interface LocaleAttributeMap {
   notgroup: 'error'
   fs: 'help' | 'nomedia' | 'madeby'
   wrongcmd: 'wrongcommand'
+  ban: 'help'
+  acceptInvite: 'error'
+  td: 'help'
+  add: 'help'
+  bl: 'error'
 }
 
 export type TranslationVariables = Record<
