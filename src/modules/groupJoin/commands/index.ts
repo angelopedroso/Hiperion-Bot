@@ -6,10 +6,12 @@ export async function joinNewGroup(
   groupInvite: string,
 ) {
   const isOwner = await zap.IsOwner()
+  const formattedGropInvite = groupInvite.split('com/')[1]
 
   try {
     if (isOwner) {
-      await client.acceptInvite(groupInvite)
+      await message?.react('👌🏼')
+      await client.acceptInvite(formattedGropInvite)
     }
   } catch (error) {
     await message?.reply(zap.translateMessage('acceptInvite', 'error'))
