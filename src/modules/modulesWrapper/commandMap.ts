@@ -1,4 +1,4 @@
-import { addUser, banUser } from '@modules/admin'
+import { addUser, banUser, demoteUser, promoteUser } from '@modules/admin'
 import { toggleWelcome } from '@modules/bemVindo/command'
 import { addUserInBlackList } from '@modules/blacklist'
 import { sendGroupInviteLink } from '@modules/groupInvite'
@@ -30,6 +30,8 @@ commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
 commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
 commandMap.set('add', { handler: addUser, expectedArgs: 1, phoneArg: true })
+commandMap.set('promote', { handler: promoteUser, expectedArgs: 'any' })
+commandMap.set('demote', { handler: demoteUser, expectedArgs: 'any' })
 commandMap.set('ban', { handler: banUser, expectedArgs: 'any' })
 commandMap.set('join', { handler: joinNewGroup, expectedArgs: 1 })
 commandMap.set('leave', { handler: leaveGroup, expectedArgs: 0 })

@@ -4,44 +4,53 @@ import { ZapType } from '@modules/zapConstructor'
 
 export async function banUser({ message, ...zap }: ZapType, userId: string) {
   const groupChat = await zap.getGroupChat()
+  const isBotAdmin = await zap.isBotAdmin()
 
   if (groupChat.isGroup) {
     const groupId = groupChat.id._serialized
     const user = await zap.getUser()
     const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
-    if (isAdmin) {
-      if (message?.hasQuotedMsg) {
-        const quotedMsg = await message.getQuotedMessage()
-        const user = await quotedMsg.getContact()
+    if (!isBotAdmin) {
+      await message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      return
+    }
 
-        groupChat.removeParticipants([user.id._serialized])
+    if (!isAdmin) {
+      await message?.react('❌')
+      return
+    }
 
-        const allGroups = await db.getAllGroups()
+    if (message?.hasQuotedMsg) {
+      const quotedMsg = await message.getQuotedMessage()
+      const user = await quotedMsg.getContact()
 
-        const blackList = db.addToBlacklist(groupId, user.id.user, allGroups)
+      groupChat.removeParticipants([user.id._serialized])
 
-        await prisma.$transaction(blackList)
+      const allGroups = await db.getAllGroups()
 
-        await message.react('😈')
+      const blackList = db.addToBlacklist(groupId, user.id.user, allGroups)
 
-        return
-      }
+      await prisma.$transaction(blackList)
 
-      if (userId) {
-        const user = userId.replace('@', '')
-        const formattedUser = `${user}@c.us`
+      await message.react('😈')
 
-        groupChat.removeParticipants([formattedUser])
+      return
+    }
 
-        const allGroups = await db.getAllGroups()
+    if (userId) {
+      const user = userId.replace('@', '')
+      const formattedUser = `${user}@c.us`
 
-        const blackList = db.addToBlacklist(groupId, user, allGroups)
+      groupChat.removeParticipants([formattedUser])
 
-        await prisma.$transaction(blackList)
+      const allGroups = await db.getAllGroups()
 
-        await message?.react('😈')
-      }
+      const blackList = db.addToBlacklist(groupId, user, allGroups)
+
+      await prisma.$transaction(blackList)
+
+      await message?.react('😈')
 
       return
     }
@@ -63,11 +72,105 @@ export async function addUser({ message, ...zap }: ZapType, userId: string) {
       return
     }
 
-    if (isAdmin) {
-      const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '') + '@c.us'
+    if (!isAdmin) {
+      await message?.react('❌')
+      return
+    }
 
-      await groupChat.addParticipants([formattedUser])
-      await message?.react('👌🏼')
+    const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '') + '@c.us'
+
+    await groupChat.addParticipants([formattedUser])
+    await message?.react('👌🏼')
+
+    return
+  }
+
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
+}
+
+export async function promoteUser(
+  { message, ...zap }: ZapType,
+  userId: string,
+) {
+  const groupChat = await zap.getGroupChat()
+  const isBotAdmin = await zap.isBotAdmin()
+
+  if (groupChat.isGroup) {
+    const user = await zap.getUser()
+    const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+
+    if (!isBotAdmin) {
+      await message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      return
+    }
+
+    if (!isAdmin) {
+      await message?.react('❌')
+      return
+    }
+
+    if (message?.hasQuotedMsg) {
+      const quotedMsg = await message.getQuotedMessage()
+      const user = await quotedMsg.getContact()
+
+      groupChat.promoteParticipants([user.id._serialized])
+
+      await message.react('😇')
+
+      return
+    }
+
+    if (userId) {
+      const user = userId.replace('@', '')
+      const formattedUser = `${user}@c.us`
+
+      groupChat.promoteParticipants([formattedUser])
+
+      await message?.react('😇')
+    }
+
+    return
+  }
+
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
+}
+
+export async function demoteUser({ message, ...zap }: ZapType, userId: string) {
+  const groupChat = await zap.getGroupChat()
+  const isBotAdmin = await zap.isBotAdmin()
+
+  if (groupChat.isGroup) {
+    const user = await zap.getUser()
+    const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+
+    if (!isBotAdmin) {
+      await message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      return
+    }
+
+    if (!isAdmin) {
+      await message?.react('❌')
+      return
+    }
+
+    if (message?.hasQuotedMsg) {
+      const quotedMsg = await message.getQuotedMessage()
+      const user = await quotedMsg.getContact()
+
+      groupChat.demoteParticipants([user.id._serialized])
+
+      await message.react('😇')
+
+      return
+    }
+
+    if (userId) {
+      const user = userId.replace('@', '')
+      const formattedUser = `${user}@c.us`
+
+      groupChat.demoteParticipants([formattedUser])
+
+      await message?.react('😇')
     }
 
     return
