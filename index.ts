@@ -58,6 +58,8 @@ i18next.use(FsBackend).init<FsBackendOptions>({
     'bl',
     'general',
     'td',
+    'promote',
+    'demote',
   ],
 })
 

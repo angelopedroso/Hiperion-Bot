@@ -10,6 +10,8 @@ export type LocaleFileName =
   | 'add'
   | 'bl'
   | 'general'
+  | 'promote'
+  | 'demote'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -23,6 +25,8 @@ interface LocaleAttributeMap {
   add: 'help'
   bl: 'error'
   general: 'botisnotadmin'
+  promote: 'help'
+  demote: 'help'
 }
 
 export type TranslationVariables = Record<
