@@ -1,10 +1,9 @@
 import { ZapType } from '@modules/zapConstructor'
-import { OWNER_NUM } from '@utils/envs'
 
 export async function shutDownBot({ message, ...zap }: ZapType) {
-  const user = await zap.getUser()
+  const isOwner = await zap.IsOwner()
 
-  if (user.id.user === OWNER_NUM) {
+  if (isOwner) {
     await message?.react('😴')
     process.exit(0)
   }
