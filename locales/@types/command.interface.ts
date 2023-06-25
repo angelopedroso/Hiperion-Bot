@@ -9,6 +9,7 @@ export type LocaleFileName =
   | 'td'
   | 'add'
   | 'bl'
+  | 'general'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -21,6 +22,7 @@ interface LocaleAttributeMap {
   td: 'help'
   add: 'help'
   bl: 'error'
+  general: 'botisnotadmin'
 }
 
 export type TranslationVariables = Record<
