@@ -4,7 +4,7 @@
 
 ## Overview
 
-Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em inglês e português.
+Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em **inglês (english)** e **português**.
 
 > **Observação**: Esse bot jamais terá uma feature para enviar mensagens em massa no privado dos usuários ou em grupos.
 
