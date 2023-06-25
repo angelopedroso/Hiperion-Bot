@@ -12,7 +12,10 @@ import qrCode from 'qrcode'
 
 import { createAllGroupsOnReady } from '@api/group/createAllGroupsOnReady'
 
+import { removeFromGroup } from '@modules/groupNotification/removeFromGroup'
+import { userTypeChanged } from '@modules/groupNotification/userTypeChanged'
 import { groupJoined } from '@modules/groupJoin'
+
 import { LANGUAGE } from '@utils/envs'
 
 import {
@@ -43,7 +46,19 @@ i18next.use(FsBackend).init<FsBackendOptions>({
   backend: {
     loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
   },
-  ns: ['fs', 'groupinfo', 'notgroup', 'welcome', 'wrongcmd'],
+  ns: [
+    'fs',
+    'groupinfo',
+    'notgroup',
+    'welcome',
+    'wrongcmd',
+    'acceptInvite',
+    'add',
+    'ban',
+    'bl',
+    'general',
+    'td',
+  ],
 })
 
 let botReadyTimestamp: Date | null = null
@@ -87,6 +102,17 @@ const start = () => {
   client.on(Events.GROUP_JOIN, async (notification: GroupNotification) => {
     await groupJoined(notification, botReadyTimestamp)
   })
+
+  client.on(Events.GROUP_LEAVE, async (notification: GroupNotification) => {
+    await removeFromGroup(notification)
+  })
+
+  client.on(
+    Events.GROUP_ADMIN_CHANGED,
+    async (notification: GroupNotification) => {
+      await userTypeChanged(notification)
+    },
+  )
 
   client.on(Events.DISCONNECTED, (reason: WAState) => {
     printDisconnect(reason)
