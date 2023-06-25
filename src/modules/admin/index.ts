@@ -1,6 +1,7 @@
 import { db } from '@lib/auth/prisma-query'
 import { prisma } from '@lib/prisma'
 import { ZapType } from '@modules/zapConstructor'
+import { BOT_NUM } from '@utils/envs'
 
 export async function banUser({ message, ...zap }: ZapType, userId: string) {
   const groupChat = await zap.getGroupChat()
@@ -104,7 +105,7 @@ export async function promoteUser(
       return
     }
 
-    if (!isAdmin) {
+    if (!isAdmin || user.id.user === BOT_NUM) {
       await message?.react('❌')
       return
     }
@@ -112,6 +113,12 @@ export async function promoteUser(
     if (message?.hasQuotedMsg) {
       const quotedMsg = await message.getQuotedMessage()
       const user = await quotedMsg.getContact()
+      const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+
+      if (isAdmin) {
+        await message?.react('❌')
+        return
+      }
 
       groupChat.promoteParticipants([user.id._serialized])
 
@@ -123,6 +130,12 @@ export async function promoteUser(
     if (userId) {
       const user = userId.replace('@', '')
       const formattedUser = `${user}@c.us`
+      const isAdmin = await zap.getUserIsAdmin(formattedUser)
+
+      if (isAdmin || user === BOT_NUM) {
+        await message?.react('❌')
+        return
+      }
 
       groupChat.promoteParticipants([formattedUser])
 
@@ -156,6 +169,12 @@ export async function demoteUser({ message, ...zap }: ZapType, userId: string) {
     if (message?.hasQuotedMsg) {
       const quotedMsg = await message.getQuotedMessage()
       const user = await quotedMsg.getContact()
+      const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+
+      if (!isAdmin || user.id.user === BOT_NUM) {
+        await message?.react('❌')
+        return
+      }
 
       groupChat.demoteParticipants([user.id._serialized])
 
@@ -167,6 +186,12 @@ export async function demoteUser({ message, ...zap }: ZapType, userId: string) {
     if (userId) {
       const user = userId.replace('@', '')
       const formattedUser = `${user}@c.us`
+      const isAdmin = await zap.getUserIsAdmin(formattedUser)
+
+      if (!isAdmin || user === BOT_NUM) {
+        await message?.react('❌')
+        return
+      }
 
       groupChat.demoteParticipants([formattedUser])
 
