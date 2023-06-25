@@ -11,7 +11,7 @@ export async function registerModules(zap: ZapType) {
     const commandInfo = commandMap.get(commandName)
 
     if (commandInfo) {
-      const { handler, expectedArgs } = commandInfo
+      const { handler, expectedArgs, phoneArg } = commandInfo
 
       if (args.includes('help')) {
         if (
@@ -25,6 +25,12 @@ export async function registerModules(zap: ZapType) {
           zap.translateMessage(commandName as LocaleFileName, 'help'),
         )
 
+        return
+      }
+
+      if (phoneArg) {
+        const phone = args.join(' ')
+        await handler(zap, phone)
         return
       }
 
