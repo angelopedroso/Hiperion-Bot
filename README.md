@@ -77,6 +77,8 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!link`     | Recebe o link de convite do grupo                                           |             |
 | `!ping`     | Verifica a latência do bot                                                  |             |
 | `!regras`   | Mostra as regras do grupo                                                   |             |
+| `!promote`  | Promove um usuário no grupo                                                 |             |
+| `!demote`   | Rebaixa um usuário no grupo                                                 |             |
 | `!join`     | Entra no grupo do convite                                                   |             |
 | `!leave`    | Saiu do grupo em questão                                                    |             |
 | `!add`      | Adiciona um usuário ao grupo                                                |             |
