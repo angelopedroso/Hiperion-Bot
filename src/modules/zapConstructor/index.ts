@@ -48,7 +48,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
       .some((admin) => admin.id._serialized === userId)
   }
 
-  async function getBotAdmin() {
+  async function isBotAdmin() {
     const user = await getUserIsAdmin(BOT_NUM + '@c.us')
 
     return user
@@ -57,27 +57,39 @@ export function ZapConstructor(client?: Client, message?: Message) {
   function getAllParticipantsFormattedByParticipantSchema(
     participants: GroupParticipant[],
   ) {
-    return participants.map((p: any) => {
+    return participants.map((p) => {
       return {
         id: '',
-        p_id: p.id._serialized,
+        p_id: p.id.user,
         tipo: p.isAdmin || p.isSuperAdmin ? 'admin' : 'membro',
       } as IParticipant
     })
   }
 
-  function createGroupOnBotJoin(groupId: string, participant: IParticipant[]) {
+  async function createGroupOnBotJoin(
+    groupId: string,
+    participant: IParticipant[],
+  ) {
     const querys = []
-    querys.push(
-      prisma.group.create({
-        data: {
-          g_id: groupId,
-          anti_trava: {
-            create: {},
+
+    const existsGroup = await prisma.group.findUnique({
+      where: {
+        g_id: groupId,
+      },
+    })
+
+    if (!existsGroup) {
+      querys.push(
+        prisma.group.create({
+          data: {
+            g_id: groupId,
+            anti_trava: {
+              create: {},
+            },
           },
-        },
-      }),
-    )
+        }),
+      )
+    }
 
     for (const p of participant) {
       querys.push(
@@ -118,7 +130,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getGroupChat,
     getUser,
     getUserIsAdmin,
-    getBotAdmin,
+    isBotAdmin,
     createGroupOnBotJoin,
     getAllParticipantsFormattedByParticipantSchema,
     getGroupLink,
@@ -133,14 +145,16 @@ export type ZapType = {
   getGroupChat: () => Promise<GroupChat>
   getUser: () => Promise<Contact>
   getUserIsAdmin: (userId: string) => Promise<boolean>
-  getBotAdmin: () => Promise<boolean>
+  isBotAdmin: () => Promise<boolean>
   createGroupOnBotJoin: (
     groupId: string,
     participant: IParticipant[],
-  ) => (
-    | Prisma.Prisma__GroupClient<Group, never>
-    | Prisma.Prisma__ParticipantGroupTypeClient<ParticipantGroupType, never>
-  )[]
+  ) => Promise<
+    | (
+        | Prisma.Prisma__GroupClient<Group, never>
+        | Prisma.Prisma__ParticipantGroupTypeClient<ParticipantGroupType, never>
+      )[]
+  >
   getAllParticipantsFormattedByParticipantSchema: (
     participants: GroupParticipant[],
   ) => IParticipant[]

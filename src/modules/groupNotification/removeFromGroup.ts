@@ -11,5 +11,5 @@ export async function removeFromGroup(notification: GroupNotification) {
       db.removeParticipantsFromGroup(formattedUser, notification.chatId),
     )
   })
-  prisma.$transaction(query)
+  await prisma.$transaction(query)
 }

@@ -21,7 +21,7 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
         const blackList = db.addToBlacklist(groupId, user.id.user, allGroups)
 
-        prisma.$transaction(blackList)
+        await prisma.$transaction(blackList)
 
         await message.react('😈')
 
@@ -38,7 +38,7 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
         const blackList = db.addToBlacklist(groupId, user, allGroups)
 
-        prisma.$transaction(blackList)
+        await prisma.$transaction(blackList)
 
         await message?.react('😈')
       }
@@ -52,16 +52,22 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
 export async function addUser({ message, ...zap }: ZapType, userId: string) {
   const groupChat = await zap.getGroupChat()
+  const isBotAdmin = await zap.isBotAdmin()
 
   if (groupChat.isGroup) {
     const user = await zap.getUser()
     const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
+    if (!isBotAdmin) {
+      await message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      return
+    }
+
     if (isAdmin) {
       const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '') + '@c.us'
 
       await groupChat.addParticipants([formattedUser])
-      await message?.reply('👌🏼')
+      await message?.react('👌🏼')
     }
 
     return

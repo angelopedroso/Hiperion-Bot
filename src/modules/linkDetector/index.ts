@@ -17,7 +17,7 @@ const linkDetector = async (
       const chat = await zap.getChat()
 
       if (groupInfo?.anti_link) {
-        const isBotAdmin = await zap.getBotAdmin()
+        const isBotAdmin = await zap.isBotAdmin()
 
         if (!isBotAdmin) {
           await db.updateGroupExceptParticipants(chat.id._serialized, {

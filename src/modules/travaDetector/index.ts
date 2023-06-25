@@ -19,7 +19,7 @@ export async function travaDectetor(
   if (message?.type !== MessageTypes.TEXT || isSenderAdmin) return
 
   if (groupInfo?.anti_trava?.status && groupInfo.anti_trava.max_characters) {
-    const isBotAdmin = await zap.getBotAdmin()
+    const isBotAdmin = await zap.isBotAdmin()
 
     if (isBotAdmin) {
       if (

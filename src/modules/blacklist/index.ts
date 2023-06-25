@@ -25,7 +25,7 @@ export async function addUserInBlackList(
           allGroups,
         )
 
-        prisma.$transaction(query)
+        await prisma.$transaction(query)
       }
 
       return
