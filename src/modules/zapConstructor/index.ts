@@ -16,7 +16,7 @@ import { IParticipant } from '@typings/participant.interface'
 
 import i18next from 'i18next'
 
-import { BOT_NUM } from '@utils/envs'
+import { BOT_NUM, OWNER_NUM } from '@utils/envs'
 
 import {
   LocaleAttributeName,
@@ -107,6 +107,12 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return t(`${cmd}:${name}`, variables)
   }
 
+  async function IsOwner() {
+    const user = await getUser()
+
+    return user.id.user === OWNER_NUM
+  }
+
   return {
     getChat,
     getGroupChat,
@@ -117,6 +123,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getAllParticipantsFormattedByParticipantSchema,
     getGroupLink,
     translateMessage,
+    IsOwner,
     message,
   }
 }
@@ -143,5 +150,6 @@ export type ZapType = {
     name: LocaleAttributeName<T>,
     variables?: TranslationVariables,
   ) => string
+  IsOwner: () => Promise<boolean>
   message?: Message
 }
