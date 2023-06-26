@@ -4,9 +4,14 @@ import { BOT_NAME } from '@utils/envs'
 
 import { MessageTypes } from 'whatsapp-web.js'
 
+type isViewOnce = {
+  isViewOnce: boolean
+}
+
+const validTypes = [MessageTypes.IMAGE, MessageTypes.VIDEO]
+
 async function sendSticker({ message, ...zap }: ZapType) {
   const chat = await zap.getChat()
-  const validTypes = [MessageTypes.IMAGE, MessageTypes.VIDEO]
 
   if (message?.hasMedia && validTypes.includes(message.type)) {
     const media = await message.downloadMedia()
@@ -39,11 +44,11 @@ async function sendAutoSticker(
   { message, ...zap }: ZapType,
   groupInfo: groupInfoCache | null | undefined,
 ) {
-  const types = [MessageTypes.IMAGE, MessageTypes.VIDEO]
+  const { isViewOnce } = message?.rawData as isViewOnce
 
-  if (message?.body.includes('!fs')) return
+  if (message?.body.includes('!fs') || isViewOnce) return
 
-  if (message?.hasMedia && types.includes(message.type)) {
+  if (message?.hasMedia && validTypes.includes(message.type)) {
     if (groupInfo?.auto_sticker) {
       const chat = await zap.getChat()
       const media = await message.downloadMedia()
