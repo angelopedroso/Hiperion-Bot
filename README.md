@@ -72,7 +72,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 
 | Comando     | Descrição                                                                   | API Key     |
 | ----------- | --------------------------------------------------------------------------- | ----------- |
-| `!fs`       | Converte imagem, vídeo ou GIF em adesivo                                    |             |
+| `!fs`       | Converte imagem, vídeo ou GIF em sticker                                    |             |
 | `!off`      | Desliga o bot                                                               |             |
 | `!link`     | Recebe o link de convite do grupo                                           |             |
 | `!ping`     | Verifica a latência do bot                                                  |             |
@@ -80,7 +80,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!promote`  | Promove um usuário no grupo                                                 |             |
 | `!demote`   | Rebaixa um usuário no grupo                                                 |             |
 | `!join`     | Entra no grupo do convite                                                   |             |
-| `!leave`    | Saiu do grupo em questão                                                    |             |
+| `!leave`    | Sai do grupo em questão                                                     |             |
 | `!add`      | Adiciona um usuário ao grupo                                                |             |
 | `!ban`      | Remove o usuário do grupo e adiciona em todas as listas negras              |             |
 | `!ld`       | Ativa/Desativa o detector de links em algum grupo                           |             |
@@ -88,9 +88,10 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!td`       | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
 | `!bv`       | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
 | `!bl`       | Adiciona o usuário à lista negra de todos os grupos                         |             |
-| `!asticker` | Ativa/Desativa a criação automática de adesivos em algum grupo              |             |
+| `!asticker` | Ativa/Desativa a criação automática de stickers em algum grupo              |             |
 | `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |             |
 | `!ginfo`    | Mostra as informações de um grupo                                           |             |
+| `!dload`    | Baixa conteúdos de diversas redes sociais                                   |             |
 
 ## Contribuição
 
