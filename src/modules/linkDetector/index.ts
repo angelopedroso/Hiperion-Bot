@@ -18,6 +18,8 @@ const linkDetector = async (
 
       if (groupInfo?.anti_link) {
         const isBotAdmin = await zap.isBotAdmin()
+        const groupChat = await zap.getGroupChat()
+        const msgs = await chat.fetchMessages({ limit: 1, fromMe: false })
 
         if (!isBotAdmin) {
           await db.updateGroupExceptParticipants(chat.id._serialized, {
@@ -27,8 +29,11 @@ const linkDetector = async (
           return
         }
 
-        const groupChat = await zap.getGroupChat()
-        const msgs = await chat.fetchMessages({ limit: 1, fromMe: false })
+        if (message?.body.includes('wa.me/settings')) {
+          groupChat.removeParticipants([user.id._serialized])
+          message?.delete(true)
+          return
+        }
 
         const invalidLinks = msgs
           .map((msg) => msg.links.filter((l) => !socialMediaRegex.test(l.link)))
