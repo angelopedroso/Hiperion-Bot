@@ -60,6 +60,7 @@ i18next.use(FsBackend).init<FsBackendOptions>({
     'td',
     'promote',
     'demote',
+    'dload',
   ],
 })
 
