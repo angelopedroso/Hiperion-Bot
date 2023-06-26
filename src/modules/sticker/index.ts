@@ -39,9 +39,7 @@ async function sendAutoSticker(
   { message, ...zap }: ZapType,
   groupInfo: groupInfoCache | null | undefined,
 ) {
-  const groupChat = await zap.getGroupChat()
-
-  if (!groupChat.isGroup || message?.body.includes('!fs')) return
+  if (message?.body.includes('!fs')) return
 
   if (message?.hasMedia && message.type !== MessageTypes.STICKER) {
     if (groupInfo?.auto_sticker) {
