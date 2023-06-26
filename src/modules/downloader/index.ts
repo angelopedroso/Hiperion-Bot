@@ -1,4 +1,4 @@
-import { socialMediaDownloader } from '@api/group/downloader'
+import { socialMediaDownloader } from '@api/downloader'
 import { ZapType } from '@modules/zapConstructor'
 
 export async function mediaDownloader(
