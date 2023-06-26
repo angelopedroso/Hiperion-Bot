@@ -39,9 +39,11 @@ async function sendAutoSticker(
   { message, ...zap }: ZapType,
   groupInfo: groupInfoCache | null | undefined,
 ) {
+  const types = [MessageTypes.IMAGE, MessageTypes.VIDEO]
+
   if (message?.body.includes('!fs')) return
 
-  if (message?.hasMedia && message.type !== MessageTypes.STICKER) {
+  if (message?.hasMedia && types.includes(message.type)) {
     if (groupInfo?.auto_sticker) {
       const chat = await zap.getChat()
       const media = await message.downloadMedia()
