@@ -1,6 +1,7 @@
 import { addUser, banUser, demoteUser, promoteUser } from '@modules/admin'
 import { toggleWelcome } from '@modules/bemVindo/command'
 import { addUserInBlackList } from '@modules/blacklist'
+import { mediaDownloader } from '@modules/downloader'
 import { sendGroupInviteLink } from '@modules/groupInvite'
 import { toggleAutoInvite } from '@modules/groupInvite/commands'
 import { joinNewGroup } from '@modules/groupJoin/commands'
@@ -47,5 +48,6 @@ commandMap.set('bv', { handler: toggleWelcome, expectedArgs: 0 })
 commandMap.set('asticker', { handler: toggleAutoSticker, expectedArgs: 0 })
 commandMap.set('ainvite', { handler: toggleAutoInvite, expectedArgs: 0 })
 commandMap.set('ginfo', { handler: sendGroupStatus, expectedArgs: 0 })
+commandMap.set('dload', { handler: mediaDownloader, expectedArgs: 'any' })
 
 export { commandMap }
