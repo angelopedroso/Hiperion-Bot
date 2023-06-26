@@ -1,8 +1,9 @@
 import { ZapType } from '@modules/zapConstructor'
-import { isUrl, socialMediaRegex } from '@utils/globalVariable'
 import { db } from '@lib/auth/prisma-query'
 import { printError } from 'cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { isSocialMediaLink } from '@utils/ifExistsLink'
+import LinkifyIt from 'linkify-it'
 
 const linkDetector = async (
   { message, ...zap }: ZapType,
@@ -10,10 +11,11 @@ const linkDetector = async (
 ) => {
   try {
     const user = await zap.getUser()
+    const linkify = LinkifyIt()
 
     const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
-    if (isUrl.test(message!.body) && !isAdmin) {
+    if (linkify.test(message!.body) && !isAdmin) {
       const chat = await zap.getChat()
 
       if (groupInfo?.anti_link) {
@@ -36,7 +38,7 @@ const linkDetector = async (
         }
 
         const invalidLinks = msgs
-          .map((msg) => msg.links.filter((l) => !socialMediaRegex.test(l.link)))
+          .map((msg) => msg.links.filter((l) => !isSocialMediaLink(l.link)))
           .filter((links) => links.length > 0)
           .flat()
 
