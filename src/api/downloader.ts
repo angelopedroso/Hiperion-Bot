@@ -12,6 +12,7 @@ export async function socialMediaDownloader(
   params: Params,
   isAudio: string | undefined,
 ) {
+  let media
   const { data } = await axios.post('https://donlod.hop.sh/api/json', params, {
     headers: {
       'Content-Type': 'application/json',
@@ -20,22 +21,24 @@ export async function socialMediaDownloader(
   })
 
   if (data.status === 'error') {
-    return 'errorNotFound'
+    return 'errorAxios'
   }
 
   if (data.status === 'stream') {
-    let media
-
     if (isAudio) {
       media = await convertToMp3(data.url)
     } else {
       media = await convertToMp4(data.url)
     }
-
-    return media
   }
 
-  const media = await MessageMedia.fromUrl(data.url)
+  if (data.status === 'redirect' || data.status === 'success') {
+    media = await MessageMedia.fromUrl(data.url)
+  }
+
+  if (media?.filesize && media.filesize >= 16 * 1000 * 1000) {
+    return 'errorSize'
+  }
 
   return media
 }

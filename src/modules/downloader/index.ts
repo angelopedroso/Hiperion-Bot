@@ -19,12 +19,14 @@ export async function mediaDownloader(
 
     const downloadMedia = await socialMediaDownloader(params, isAudio)
 
-    if (downloadMedia === 'errorNotFound') {
-      message?.reply(zap.translateMessage('dload', 'error'))
+    if (downloadMedia === 'errorAxios' || downloadMedia === 'errorSize') {
+      message?.reply(zap.translateMessage('dload', downloadMedia))
       return
     }
 
-    chat.sendMessage(downloadMedia)
+    if (downloadMedia) {
+      chat.sendMessage(downloadMedia)
+    }
   } catch (error: Error | any) {
     await message?.reply(zap.translateMessage('dload', 'errorAxios'))
   }
