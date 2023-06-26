@@ -28,7 +28,7 @@ interface LocaleAttributeMap {
   general: 'botisnotadmin'
   promote: 'help'
   demote: 'help'
-  dload: 'error' | 'errorAxios'
+  dload: 'error' | 'errorAxios' | 'errorSize'
 }
 
 export type TranslationVariables = Record<

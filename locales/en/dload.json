@@ -1,4 +1,5 @@
 {
   "error": "Oops, I couldn't download the content from this link 😢.\n\nI can only download content from the following social media platforms:\n- BiliBili\n- Instagram\n- Reddit\n- SoundCloud\n- TikTok\n- Tumblr\n- Twitter\n- Vimeo\n- Vine\n- VK\n- Youtube",
-  "errorAxios": "Oops, I couldn't download the content from this link 😢"
+  "errorAxios": "Oops, I couldn't download the content from this link 😢",
+  "errorSize": "File size is too big, max is 16MB 😑"
 }

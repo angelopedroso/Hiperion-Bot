@@ -1,4 +1,5 @@
 {
   "error": "Ops, não consegui baixar o conteúdo desse link 😢.\n\nEu só consigo baixar conteúdo das seguintes redes sociais:\n- BiliBili\n- Instagram\n- Reddit\n- SoundCloud\n- TikTok\n- Tumblr\n- Twitter\n- Vimeo\n- Vine\n- VK\n- Youtube",
-  "errorAxios": "Ops, não consegui baixar o conteúdo desse link 😢"
+  "errorAxios": "Ops, não consegui baixar o conteúdo desse link 😢",
+  "errorSize": "Tamanho do arquivo é muito grande, o máximo é 16MB 😑"
 }
