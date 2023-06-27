@@ -8,17 +8,18 @@ type Params = {
   aFormat: string
 }
 
-export async function socialMediaDownloader(
-  params: Params,
-  isAudio: string | undefined,
-) {
+export async function socialMediaDownloader(params: Params, isAudio: boolean) {
   let media
-  const { data } = await axios.post('https://donlod.hop.sh/api/json', params, {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+  const { data } = await axios.post(
+    'https://donlod.hop.sh/api/json',
+    JSON.stringify(params),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     },
-  })
+  )
 
   if (data.status === 'error') {
     return 'errorAxios'

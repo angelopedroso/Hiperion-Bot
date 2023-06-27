@@ -9,7 +9,6 @@ export function convertToMp3(url: string): Promise<MessageMedia> {
 
   return new Promise((resolve, reject) => {
     ffmpeg(url)
-      .toFormat('mp3')
       .save(filePath)
       .on('end', function () {
         const media = MessageMedia.fromFilePath(filePath)
@@ -17,7 +16,6 @@ export function convertToMp3(url: string): Promise<MessageMedia> {
         resolve(media)
       })
       .on('error', function (err) {
-        console.error('MP3: ' + err)
         reject(err)
       })
   })
@@ -28,7 +26,6 @@ export function convertToMp4(url: string): Promise<MessageMedia> {
 
   return new Promise((resolve, reject) => {
     ffmpeg(url)
-      .toFormat('mp4')
       .save(filePath)
       .on('end', () => {
         const media = MessageMedia.fromFilePath(filePath)
@@ -36,7 +33,6 @@ export function convertToMp4(url: string): Promise<MessageMedia> {
         resolve(media)
       })
       .on('error', (err) => {
-        console.error('MP4: ' + err)
         reject(err)
       })
   })
