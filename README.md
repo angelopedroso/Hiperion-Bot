@@ -8,6 +8,8 @@ Este repositório contém uma aplicação Node que implementa um bot para gerenc
 
 > **Observação**: Esse bot jamais terá uma feature para enviar mensagens em massa no privado dos usuários ou em grupos.
 
+> **Aviso**: Não me responsabilizo pelas as ações de quem for utilizá-lo.
+
 ## Requisitos
 
 Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
