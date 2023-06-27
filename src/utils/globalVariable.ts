@@ -13,6 +13,7 @@ const domains = [
   'm.facebook.com',
   'm.facebook.me',
   'fb.com',
+  'fb.watch',
   'twitter.com',
   't.twitter.com',
   't.co',
@@ -23,6 +24,9 @@ const domains = [
   'youtu.be',
   'reddit.com',
   'soundcloud.com',
-]
+] // You can add or remove url to link detector
 
-export { domains }
+const isUrl =
+  /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/im
+
+export { domains, isUrl }
