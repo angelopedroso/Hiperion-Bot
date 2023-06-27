@@ -1939,6 +1939,11 @@ mime@^3.0.0:
   resolved "https://registry.yarnpkg.com/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
   integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
+miniget@^4.2.2:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/miniget/-/miniget-4.2.3.tgz#3707a24c7c11c25d359473291638ab28aab349bd"
+  integrity sha512-SjbDPDICJ1zT+ZvQwK0hUcRY4wxlhhNpHL9nJOB2MEAXRGagTljsO8MEDzQMTFf0Q8g4QNi8P9lEm/g7e+qgzA==
+
 minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
@@ -2936,6 +2941,13 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+ytsr@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/ytsr/-/ytsr-3.8.2.tgz#10a60d0c1adcc3522b0810368c18dff49e875ba7"
+  integrity sha512-J+t+a1Ic6jL0Hd0zGX8eFn3uEKtXTf6naa96KO0q7H00GKBfCG8aXW55NAMnaBeUi9Hni6u1xKnf8xZF2F0E/A==
+  dependencies:
+    miniget "^4.2.2"
 
 zip-stream@^4.1.0:
   version "4.1.0"
