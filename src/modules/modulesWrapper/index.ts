@@ -11,7 +11,7 @@ export async function registerModules(zap: ZapType) {
     const commandInfo = commandMap.get(commandName)
 
     if (commandInfo) {
-      const { handler, expectedArgs, phoneArg } = commandInfo
+      const { handler, expectedArgs, fullArg } = commandInfo
 
       if (args.includes('help')) {
         if (
@@ -28,13 +28,16 @@ export async function registerModules(zap: ZapType) {
         return
       }
 
-      if (phoneArg) {
-        const phone = args.join(' ')
-        await handler(zap, phone)
+      if (fullArg) {
+        const arg = args.join(' ')
+        await handler(zap, arg)
         return
       }
 
-      if (expectedArgs === 'any' || args.length === expectedArgs) {
+      if (
+        (expectedArgs === 'any' && args.length >= 1) ||
+        args.length === expectedArgs
+      ) {
         await handler(zap, ...args)
         return
       }

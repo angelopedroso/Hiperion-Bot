@@ -20,7 +20,7 @@ import { ZapType } from '@modules/zapConstructor'
 interface CommandInfo {
   handler: (zap: ZapType, ...args: string[]) => Promise<void> | void
   expectedArgs: number | 'any'
-  phoneArg?: boolean
+  fullArg?: boolean
 }
 
 const commandMap = new Map<string, CommandInfo>()
@@ -30,7 +30,7 @@ commandMap.set('off', { handler: shutDownBot, expectedArgs: 0 })
 commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
 commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
-commandMap.set('add', { handler: addUser, expectedArgs: 1, phoneArg: true })
+commandMap.set('add', { handler: addUser, expectedArgs: 1, fullArg: true })
 commandMap.set('promote', { handler: promoteUser, expectedArgs: 'any' })
 commandMap.set('demote', { handler: demoteUser, expectedArgs: 'any' })
 commandMap.set('ban', { handler: banUser, expectedArgs: 'any' })
@@ -42,12 +42,16 @@ commandMap.set('td', { handler: toggleTravaDetector, expectedArgs: 'any' })
 commandMap.set('bl', {
   handler: addUserInBlackList,
   expectedArgs: 1,
-  phoneArg: true,
+  fullArg: true,
 })
 commandMap.set('bv', { handler: toggleWelcome, expectedArgs: 0 })
 commandMap.set('asticker', { handler: toggleAutoSticker, expectedArgs: 0 })
 commandMap.set('ainvite', { handler: toggleAutoInvite, expectedArgs: 0 })
 commandMap.set('ginfo', { handler: sendGroupStatus, expectedArgs: 0 })
-commandMap.set('dload', { handler: mediaDownloader, expectedArgs: 'any' })
+commandMap.set('dload', {
+  handler: mediaDownloader,
+  expectedArgs: 'any',
+  fullArg: true,
+})
 
 export { commandMap }
