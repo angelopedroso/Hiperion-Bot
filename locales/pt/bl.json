@@ -1,4 +1,5 @@
 {
   "help": "Você pode inserir um usuário na lista negra de uma forma 😉\n\n- Digitando *!bl* + *número de telefone*",
-  "error": "Não foi possível adicionar usuário na lista negra, verifique se o número de telefone está correto 🥱"
+  "error": "Não foi possível adicionar usuário na lista negra, verifique se o número de telefone está correto 🥱",
+  "errorR": "Não foi possível remover usuário da lista negra, verifique se o número de telefone está correto ou se o usuário realmente está na lista negra 🥱"
 }

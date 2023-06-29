@@ -1,4 +1,5 @@
 {
   "help": "You can add a user to the blacklist in one way 😉\n\n- Typing *!bl* + *phone number*",
-  "error": "Unable to add user to the blacklist, please check if the phone number is correct 🥱"
+  "error": "Unable to add user to the blacklist, please check if the phone number is correct 🥱",
+  "errorR": "Unable to remove user from the blacklist, please check if the phone number is correct or if the user is actually in the blacklist 🥱"
 }

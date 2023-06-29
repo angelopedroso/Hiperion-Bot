@@ -17,7 +17,7 @@ interface LocaleAttributeMap {
   fs: 'help' | 'nomedia' | 'madeby'
   wrongcmd: 'wrongcommand'
   acceptInvite: 'error'
-  bl: 'error'
+  bl: 'error' | 'errorR'
   general: 'botisnotadmin'
   dload: 'error' | 'errorAxios' | 'errorSize'
   about: 'message'
