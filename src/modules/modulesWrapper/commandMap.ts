@@ -1,7 +1,11 @@
 import { aboutBot } from '@modules/about'
 import { addUser, banUser, demoteUser, promoteUser } from '@modules/admin'
 import { toggleWelcome } from '@modules/bemVindo/command'
-import { addUserInBlackList } from '@modules/blacklist'
+import {
+  addUserInBlackList,
+  removeUserFromAllBlackList,
+  removeUserFromBlackList,
+} from '@modules/blacklist'
 import { mediaDownloader } from '@modules/downloader'
 import { sendGroupInviteLink } from '@modules/groupInvite'
 import { toggleAutoInvite } from '@modules/groupInvite/commands'
@@ -42,6 +46,16 @@ commandMap.set('md', { handler: toggleMaliciousDetector, expectedArgs: 0 })
 commandMap.set('td', { handler: toggleTravaDetector, expectedArgs: 'any' })
 commandMap.set('bl', {
   handler: addUserInBlackList,
+  expectedArgs: 1,
+  fullArg: true,
+})
+commandMap.set('rbl', {
+  handler: removeUserFromBlackList,
+  expectedArgs: 1,
+  fullArg: true,
+})
+commandMap.set('rblall', {
+  handler: removeUserFromAllBlackList,
   expectedArgs: 1,
   fullArg: true,
 })
