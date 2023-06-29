@@ -1,33 +1,35 @@
 # Hiperion Bot
 
-### Em desenvolvimento
+> Portuguese (README)[./locales/pt/README.md]
+
+### Under Development
 
 ## Overview
 
-Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em **inglês (english)** e **português**.
+This repository contains a Node application that implements a bot for managing WhatsApp groups using the [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js) library. The bot supports the commands listed below and allows interaction in **English** and **Portuguese**.
 
-> **Observação**: Esse bot jamais terá uma feature para enviar mensagens em massa no privado dos usuários ou em grupos.
+> **Note**: This bot will never have a feature to send bulk messages in private to users or groups.
 
-> **Aviso**: Não me responsabilizo pelas as ações de quem for utilizá-lo.
+> **Warning**: I am not responsible for the actions of anyone who uses it.
 
-## Requisitos
+## Requirements
 
-Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
+Make sure you have the following requirements installed in your environment:
 
-- Node.js 16 ou superior
-- Número de celular separado para uso exclusivo do bot
+- Node.js 16 or higher
+- Separate phone number for exclusive use by the bot
 - Google Chrome
 
-## Configuração
+## Configuration
 
-1. Clone este repositório para o seu ambiente local.
-2. Execute o seguinte comando para instalar as dependências usando o Yarn:
+1. Clone this repository to your local environment.
+2. Run the following command to install the dependencies using Yarn:
 
    ```shell
    yarn install
    ```
 
-3. Configure o arquivo `.env` com as informações necessárias:
+3. Configure the `.env` file with the necessary information:
 
    ```plaintext
    BOT_NAME=
@@ -43,72 +45,73 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    OPENAI_API_KEY=
    OPENAI_PASSWORD=
 
-   # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
+   # DATABASE (mysql) Example: "mysql://root:docker@localhost:3306/hiperion"
    DATABASE_URL=
 
-   # REDIS (opcional se você estiver usando um redis local)
+   # REDIS (optional if using a local Redis)
    REDIS_URI=
    ```
 
-   > **Observação**: O arquivo `.env` será gerado automaticamente na primeira execução do bot. O bot solicitará uma reinicialização após a criação do `.env`.
+   > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
 
-4. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
+4. To run MySQL and Redis in Docker, use Docker Compose. Make sure Docker Compose is installed in your environment.
 
-   - Na raiz do projeto, execute o seguinte comando:
+   - In the root of the project, run the following command:
 
      ```shell
      docker-compose up -d
      ```
 
-   > **Observação**: Isso iniciará os serviços do MySQL e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
+   > **Note**: This will start the MySQL and Redis services in Docker, as configured in the `docker-compose.yml` file already in the root of the project.
 
-5. Inicie o aplicativo com o seguinte comando:
+5. Start the application with the following command:
 
    ```shell
    yarn start
    ```
 
-## Comandos do Bot
+## Bot Commands
 
-A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algum serviço de API é necessário.
+The table below lists the available commands in the bot, their description, and if any API service is required.
 
-| Comando     | Descrição                                                                   | API Key     |
-| ----------- | --------------------------------------------------------------------------- | ----------- |
-| `!fs`       | Converte imagem, vídeo ou GIF em sticker                                    |             |
-| `!off`      | Desliga o bot                                                               |             |
-| `!link`     | Recebe o link de convite do grupo                                           |             |
-| `!ping`     | Verifica a latência do bot                                                  |             |
-| `!regras`   | Mostra as regras do grupo                                                   |             |
-| `!promote`  | Promove um usuário no grupo                                                 |             |
-| `!demote`   | Rebaixa um usuário no grupo                                                 |             |
-| `!join`     | Entra no grupo do convite                                                   |             |
-| `!leave`    | Sai do grupo em questão                                                     |             |
-| `!add`      | Adiciona um usuário ao grupo                                                |             |
-| `!ban`      | Remove o usuário do grupo e adiciona em todas as listas negras              |             |
-| `!ld`       | Ativa/Desativa o detector de links em algum grupo                           |             |
-| `!md`       | Ativa/Desativa o detector de conteúdo malicioso em algum grupo              | SightEngine |
-| `!td`       | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
-| `!bv`       | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
-| `!bl`       | Adiciona o usuário à lista negra de todos os grupos                         |             |
-| `!asticker` | Ativa/Desativa a criação automática de stickers em algum grupo              |             |
-| `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |             |
-| `!ginfo`    | Mostra as informações de um grupo                                           |             |
-| `!dload`    | Baixa conteúdos de diversas redes sociais                                   |             |
+| Command     | Description                                                     | API Key     |
+| ----------- | --------------------------------------------------------------- | ----------- |
+| `!fs`       | Converts an image, video, or GIF into a sticker                 |             |
+| `!off`      | Turns off the bot                                               |             |
+| `!link`     | Retrieves the group invitation link                             |             |
+| `!ping`     | Checks the bot's latency                                        |             |
+| `!regras`   | Shows the group rules                                           |             |
+| `!promote`  | Promotes a user in the group                                    |             |
+| `!demote`   | Demotes a user in the group                                     |             |
+| `!join`     | Joins the group from the invitation link                        |             |
+| `!leave`    | Leaves the specified group                                      |             |
+| `!add`      | Adds a user to the group                                        |             |
+| `!ban`      | Removes the user from the group and adds them to all blacklists |             |
+| `!ld`       | Enables/Disables the link detector in a group                   |             |
+| `!md`       | Enables/Disables the malicious content detector in a group      | SightEngine |
+| `!td`       | Enables/Disables WhatsApp-freezing message detector in a group  |             |
+| `!bv`       | Enables/Disables the welcome message when someone joins a group |             |
+| `!bl`       | Adds the user to the blacklist of all groups                    |             |
+| `!asticker` | Enables/Disables automatic sticker creation in a group          |             |
+| `!ainvite`  | Enables/Disables automatic invitation in a group                |             |
+| `!ginfo`    | Shows information about a group                                 |             |
+| `!dload`    | Downloads content from various social media platforms           |             |
 
-## Contribuição
+## Contribution
 
-Se você quiser contribuir para este projeto, siga as etapas abaixo:
+If you want to contribute to this project, please follow the steps below:
 
-1. Faça um fork deste repositório.
-2. Crie um branch para sua contribuição: `git checkout -b sua-branch`.
-3. Faça as alterações desejadas e adicione a documentação, se necessário.
-4. Envie suas alterações: `git push origin sua-branch`.
-5. Abra um pull request neste repositório.
+1. Fork this repository.
+2. Create a branch for your contribution: `git checkout -b sua-branch`.
+3. Make the desired changes and add documentation if necessary.
+4. Commit your changes: `git commit -m "Your message"`.
+5. Push your changes: `git push origin sua-branch`.
+6. Open a pull request in this repository.
 
 ---
 
-Agradeço antecipadamente por suas contribuições!
+Thank you in advance for your contributions!
 
-## Licença
+## License
 
-Este projeto está licenciado nos termos da Licença Apache 2.0. Para obter mais detalhes, consulte o arquivo [LICENSE](./LICENSE).
+This project is licensed under the terms of the Apache 2.0 License. For more details, see the [LICENSE](./LICENSE) file.
