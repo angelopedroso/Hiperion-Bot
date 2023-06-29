@@ -363,6 +363,64 @@ export function PrismaQuery() {
 
       return querys
     },
+
+    async removeFromBlacklist(groupId: string, participantId: string) {
+      await prisma.group.update({
+        where: {
+          g_id: groupId,
+        },
+        data: {
+          black_list: {
+            disconnect: {
+              p_id: participantId,
+            },
+          },
+        },
+      })
+
+      redis.del('group-info:' + groupId)
+    },
+
+    removeFromAllBlacklist(
+      groupId: string,
+      participantId: string,
+      allGroups: Group[] | undefined,
+    ) {
+      const querys = []
+      querys.push(
+        prisma.group.update({
+          where: { g_id: groupId },
+          data: {
+            black_list: {
+              disconnect: { p_id: participantId },
+            },
+          },
+        }),
+      )
+
+      const otherGroups = allGroups?.filter(
+        (otherGroup: any) => otherGroup.g_id !== groupId,
+      )
+
+      if (otherGroups) {
+        for (const otherGroup of otherGroups) {
+          querys.push(
+            prisma.group.update({
+              where: { g_id: otherGroup.g_id },
+              data: {
+                black_list: {
+                  disconnect: { p_id: participantId },
+                },
+              },
+            }),
+          )
+        }
+      }
+
+      redis.del('group-info:' + groupId)
+
+      return querys
+    },
   }
 }
 
