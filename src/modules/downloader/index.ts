@@ -17,12 +17,17 @@ export async function mediaDownloader(
   let url: string
   let isAudio: boolean
 
-  if (argsArray.length <= 1) {
-    url = argsArray[0]
-    isAudio = false
-  } else {
+  if (argsArray.length >= 2) {
     url = argsArray.slice(0, -1).join(' ')
     isAudio = argsArray.slice(-1).join('') === 'audio'
+  } else {
+    url = argsArray[0]
+    isAudio = false
+  }
+
+  if (message?.hasQuotedMsg) {
+    const quotedMsg = await message.getQuotedMessage()
+    url = quotedMsg.body
   }
 
   try {
