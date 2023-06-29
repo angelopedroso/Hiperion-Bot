@@ -90,6 +90,8 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!td`       | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
 | `!bv`       | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
 | `!bl`       | Adiciona o usuário à lista negra de todos os grupos                         |             |
+| `!rbl`      | Remove o usuário da lista negra do grupo                                    |             |
+| `!rblall`   | Remove o usuário de todas as lista negras dos grupos                        |             |
 | `!asticker` | Ativa/Desativa a criação automática de stickers em algum grupo              |             |
 | `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |             |
 | `!ginfo`    | Mostra as informações de um grupo                                           |             |

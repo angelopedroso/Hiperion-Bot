@@ -91,7 +91,9 @@ The table below lists the available commands in the bot, their description, and 
 | `!md`       | Enables/Disables the malicious content detector in a group      | SightEngine |
 | `!td`       | Enables/Disables WhatsApp-freezing message detector in a group  |             |
 | `!bv`       | Enables/Disables the welcome message when someone joins a group |             |
-| `!bl`       | Adds the user to the blacklist of all groups                    |             |
+| `!bl`       | Add the user to the blacklist of all groups                     |             |
+| `!rbl`      | Remove the user from the blacklist of the group                 |             |
+| `!rblall`   | Remove the user from all blacklists in all groups               |             |
 | `!asticker` | Enables/Disables automatic sticker creation in a group          |             |
 | `!ainvite`  | Enables/Disables automatic invitation in a group                |             |
 | `!ginfo`    | Shows information about a group                                 |             |
