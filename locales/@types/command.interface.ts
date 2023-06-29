@@ -8,6 +8,7 @@ export type LocaleFileName =
   | 'bl'
   | 'general'
   | 'dload'
+  | 'about'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -19,6 +20,7 @@ interface LocaleAttributeMap {
   bl: 'error'
   general: 'botisnotadmin'
   dload: 'error' | 'errorAxios' | 'errorSize'
+  about: 'message'
 }
 
 export type TranslationVariables = Record<
