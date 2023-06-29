@@ -54,6 +54,12 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return user
   }
 
+  async function IsOwner() {
+    const user = await getUser()
+
+    return user.id.user === OWNER_NUM
+  }
+
   function getAllParticipantsFormattedByParticipantSchema(
     participants: GroupParticipant[],
   ) {
@@ -117,12 +123,6 @@ export function ZapConstructor(client?: Client, message?: Message) {
     const { t } = i18next
 
     return t(`${cmd}:${name}`, variables)
-  }
-
-  async function IsOwner() {
-    const user = await getUser()
-
-    return user.id.user === OWNER_NUM
   }
 
   return {
