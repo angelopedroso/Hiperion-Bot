@@ -29,7 +29,13 @@ Make sure you have the following requirements installed in your environment:
    yarn install
    ```
 
-3. Configure the `.env` file with the necessary information:
+3. Run the following command to install database model:
+
+   ```shell
+   yarn prisma migrate dev
+   ```
+
+4. Configure the `.env` file with the necessary information:
 
    ```plaintext
    BOT_NAME=
@@ -54,7 +60,7 @@ Make sure you have the following requirements installed in your environment:
 
    > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
 
-4. To run MySQL and Redis in Docker, use Docker Compose. Make sure Docker Compose is installed in your environment.
+5. To run MySQL and Redis in Docker, use Docker Compose. Make sure Docker Compose is installed in your environment.
 
    - In the root of the project, run the following command:
 
@@ -64,7 +70,7 @@ Make sure you have the following requirements installed in your environment:
 
    > **Note**: This will start the MySQL and Redis services in Docker, as configured in the `docker-compose.yml` file already in the root of the project.
 
-5. Start the application with the following command:
+6. Start the application with the following command:
 
    ```shell
    yarn start
