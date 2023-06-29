@@ -13,6 +13,24 @@ const constants: IConstants = {
   sessionPath: './',
 }
 
+const paths = [
+  'fs',
+  'groupinfo',
+  'notgroup',
+  'welcome',
+  'wrongcmd',
+  'acceptInvite',
+  'add',
+  'ban',
+  'bl',
+  'general',
+  'td',
+  'promote',
+  'demote',
+  'dload',
+  'about',
+]
+
 const client = new Client({
   authStrategy: new LocalAuth({
     clientId: undefined,
@@ -34,4 +52,4 @@ const client = new Client({
   },
 })
 
-export { constants, client }
+export { constants, client, paths }

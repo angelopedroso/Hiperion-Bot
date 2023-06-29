@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv'
 
-import { client } from '@config/startupConfig'
+import { client, paths } from '@config/startupConfig'
 import {
   Events,
   GroupChat,
@@ -46,22 +46,7 @@ i18next.use(FsBackend).init<FsBackendOptions>({
   backend: {
     loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
   },
-  ns: [
-    'fs',
-    'groupinfo',
-    'notgroup',
-    'welcome',
-    'wrongcmd',
-    'acceptInvite',
-    'add',
-    'ban',
-    'bl',
-    'general',
-    'td',
-    'promote',
-    'demote',
-    'dload',
-  ],
+  ns: paths,
 })
 
 let botReadyTimestamp: Date | null = null
