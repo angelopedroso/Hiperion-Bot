@@ -11,7 +11,7 @@ type Params = {
 export async function socialMediaDownloader(params: Params, isAudio: boolean) {
   let media
   const { data } = await axios.post(
-    'https://donlod.hop.sh/api/json',
+    'http://localhost:9000/api/json',
     JSON.stringify(params),
     {
       headers: {

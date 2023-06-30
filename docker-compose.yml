@@ -12,3 +12,7 @@ services:
     image: redis:latest
     ports:
       - '6379:6379'
+  donlod:
+    image: angelopedroso/donlod-hiperion:1.0
+    ports:
+      - '9000:9000'
