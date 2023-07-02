@@ -1,6 +1,7 @@
 import { socialMediaDownloader } from '@api/downloader'
 import { ZapType } from '@modules/zapConstructor'
 import { isUrl } from '@utils/globalVariable'
+import { MessageMedia } from 'whatsapp-web.js'
 import ytsr, { Item } from 'ytsr'
 
 type Video = Item & {
@@ -34,7 +35,7 @@ export async function mediaDownloader(
     const params = {
       url,
       isAudioOnly: isAudio,
-      aFormat: 'ogg',
+      aFormat: 'mp3',
     }
 
     let downloadMedia
@@ -55,15 +56,29 @@ export async function mediaDownloader(
       downloadMedia = await socialMediaDownloader(params, isAudio)
     }
 
-    if (downloadMedia === 'errorAxios' || downloadMedia === 'errorSize') {
+    if (
+      downloadMedia?.type === 'errorAxios' ||
+      downloadMedia?.type === 'errorSize'
+    ) {
       message?.react('❌')
-      message?.reply(zap.translateMessage('dload', downloadMedia))
+      message?.reply(zap.translateMessage('dload', downloadMedia.type))
       return
     }
 
     if (downloadMedia) {
+      if (downloadMedia.type === 'picker') {
+        downloadMedia.media.forEach(async (url: Promise<MessageMedia>) => {
+          const media = await url
+          chat.sendMessage(media)
+        })
+
+        message?.react('🥳')
+
+        return
+      }
+
       message?.react('🥳')
-      chat.sendMessage(downloadMedia)
+      chat.sendMessage(downloadMedia.media)
     }
   } catch (error: Error | any) {
     message?.react('❌')
