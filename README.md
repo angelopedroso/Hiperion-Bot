@@ -19,7 +19,8 @@ Make sure you have the following requirements installed in your environment:
 - Node.js 16 or higher
 - Separate phone number for exclusive use by the bot
 - Google Chrome
-
+- Docker
+  
 ## Configuration
 
 1. Clone this repository to your local environment.
