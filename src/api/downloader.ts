@@ -22,7 +22,7 @@ export async function socialMediaDownloader(params: Params, isAudio: boolean) {
   )
 
   if (data.status === 'error') {
-    return 'errorAxios'
+    return { type: 'errorAxios', media: null }
   }
 
   if (data.status === 'stream') {
@@ -37,9 +37,21 @@ export async function socialMediaDownloader(params: Params, isAudio: boolean) {
     media = await MessageMedia.fromUrl(data.url)
   }
 
-  if (media?.filesize && media.filesize >= 16 * 1000 * 1000) {
-    return 'errorSize'
+  if (data.status === 'picker') {
+    return {
+      type: 'picker',
+      media: data.picker.map(
+        async (p: { url: string }) => await MessageMedia.fromUrl(p.url),
+      ),
+    }
   }
 
-  return media
+  if (media?.filesize && media.filesize >= 16 * 1000 * 1000) {
+    return { type: 'errorSize', media: null }
+  }
+
+  return {
+    type: 'success',
+    media,
+  }
 }
