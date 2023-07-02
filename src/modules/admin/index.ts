@@ -26,7 +26,13 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
       const quotedMsg = await message.getQuotedMessage()
       const user = await quotedMsg.getContact()
 
-      groupChat.removeParticipants([user.id._serialized])
+      const inGroup = groupChat.participants.find(
+        (t) => t.id._serialized === user.id._serialized,
+      )
+
+      if (inGroup) {
+        groupChat.removeParticipants([user.id._serialized])
+      }
 
       const allGroups = await db.getAllGroups()
 
@@ -43,7 +49,13 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
       const user = userId.replace('@', '')
       const formattedUser = `${user}@c.us`
 
-      groupChat.removeParticipants([formattedUser])
+      const inGroup = groupChat.participants.find(
+        (t) => t.id._serialized === formattedUser,
+      )
+
+      if (inGroup) {
+        groupChat.removeParticipants([formattedUser])
+      }
 
       const allGroups = await db.getAllGroups()
 
@@ -69,17 +81,25 @@ export async function addUser({ message, ...zap }: ZapType, userId: string) {
     const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
     if (!isBotAdmin) {
-      await message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      message?.reply(zap.translateMessage('general', 'botisnotadmin'))
       return
     }
 
     if (!isAdmin) {
-      await message?.react('❌')
+      message?.react('❌')
       return
     }
 
     const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '') + '@c.us'
 
+    const alreadyJoined = groupChat.participants.find(
+      (t) => t.id._serialized === formattedUser,
+    )
+
+    if (alreadyJoined) {
+      message?.react('❌')
+      return
+    }
     await groupChat.addParticipants([formattedUser])
     await message?.react('👌🏼')
 
