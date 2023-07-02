@@ -2,5 +2,5 @@
   "error": "Ops, não consegui baixar o conteúdo desse link 😢.\n\nEu só consigo baixar conteúdo das seguintes redes sociais:\n- BiliBili\n- Instagram\n- Reddit\n- SoundCloud\n- TikTok\n- Tumblr\n- Twitter\n- Vimeo\n- Vine\n- VK\n- Youtube",
   "errorAxios": "Ops, não consegui baixar o conteúdo desse link 😢. Tente novamente, caso persista tente trocar o link",
   "errorSize": "Tamanho do arquivo é muito grande, o máximo é 16MB 😑",
-  "help": "Você pode baixar conteúdo de redes sociais de três maneiras 😉\n\n- Enviando *!dload* + *link*\n\n- Enviando *!dload* + *link* + *audio* no final para baixar somente o áudio\n\n- Respondendo uma mensagem que tenha *~somente um link~* no corpo da mensagem"
+  "help": "Você pode baixar conteúdo de redes sociais de três maneiras 😉\n\n- Enviando *!dload* + *link*\n\n- Enviando *!dload* + *link* + *audio* no final para baixar somente o áudio\n\n- Respondendo uma mensagem que tenha *somente o link* no corpo da mensagem"
 }
