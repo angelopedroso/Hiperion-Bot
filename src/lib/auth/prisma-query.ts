@@ -182,6 +182,38 @@ export function PrismaQuery() {
       }
     },
 
+    async getParticipantsTypeFromGroups(groupIds: string[]) {
+      try {
+        const participantsInGroups = await prisma.participantGroupType.findMany(
+          {
+            where: {
+              group: {
+                g_id: {
+                  in: groupIds,
+                },
+              },
+            },
+            include: {
+              group: true,
+              participant: true,
+            },
+          },
+        )
+
+        const participantsInGroupsFormatted = participantsInGroups.map(
+          (group) => ({
+            groupId: group.group.g_id,
+            participantId: group.participant.p_id,
+          }),
+        )
+
+        return participantsInGroupsFormatted
+      } catch (error: Error | any) {
+        printError(error)
+        return []
+      }
+    },
+
     async getBlackListFromGroups(groupIds: string[]) {
       try {
         const groupBlackList = await prisma.group.findMany({
