@@ -1,6 +1,6 @@
 version: '3.7'
 
-services:
+services: #You can remove any service if u re using an external service, for example: mysql databse
   mysql:
     image: mysql:latest
     ports:
