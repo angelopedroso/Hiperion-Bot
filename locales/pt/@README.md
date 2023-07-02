@@ -17,6 +17,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 - Node.js 16 ou superior
 - Número de celular separado para uso exclusivo do bot
 - Google Chrome
+- Docker
 
 ## Configuração
 
