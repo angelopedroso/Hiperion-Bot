@@ -14,6 +14,8 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
 
     const groupIds = groups.map((group) => group.id._serialized)
     const allParticipantsGroups = await db.getParticipantsFromGroups(groupIds)
+    const existingParticipantGroupTypes =
+      await db.getParticipantsTypeFromGroups(groupIds)
 
     for (const group of groups) {
       const {
@@ -77,16 +79,9 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       }
 
       for (const p of participantsToCreate) {
-        const existsGroupType = await prisma.participantGroupType.findFirst({
-          where: {
-            participant: {
-              p_id: p.p_id,
-            },
-            group: {
-              g_id: groupId,
-            },
-          },
-        })
+        const existsGroupType = existingParticipantGroupTypes.some(
+          (pgt) => pgt.groupId === groupId && pgt.participantId === p.p_id,
+        )
 
         updates.push(
           db.updateGroupOnReady(groupId, {
