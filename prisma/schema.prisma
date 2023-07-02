@@ -10,13 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Arquivo: schema.prisma
-// participante:
-// {"id":string,"tipo":string}
-
-// grupo:
-// {"id":string,"participantes": array de id de participantes,"bemvindo":boolean,"antilink": boolean, "antitrava":objeto com status: boolean e max_characters: int,"antiflood":boolean,"antiporno":boolean,"lista_negra":array de participantes}
-
 model Participant {
   id                     String                 @id @default(uuid())
   p_id                   String                 @unique
