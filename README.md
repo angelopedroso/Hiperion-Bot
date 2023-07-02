@@ -20,7 +20,7 @@ Make sure you have the following requirements installed in your environment:
 - Separate phone number for exclusive use by the bot
 - Google Chrome
 - Docker
-  
+
 ## Configuration
 
 1. Clone this repository to your local environment.
@@ -95,6 +95,7 @@ The table below lists the available commands in the bot, their description, and 
 | `!add`      | Adds a user to the group                                        |             |
 | `!ban`      | Removes the user from the group and adds them to all blacklists |             |
 | `!ld`       | Enables/Disables the link detector in a group                   |             |
+| `!og`       | Enables/Disables the one group in a group                       |             |
 | `!md`       | Enables/Disables the malicious content detector in a group      | SightEngine |
 | `!td`       | Enables/Disables WhatsApp-freezing message detector in a group  |             |
 | `!bv`       | Enables/Disables the welcome message when someone joins a group |             |

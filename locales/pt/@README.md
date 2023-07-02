@@ -27,7 +27,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    ```shell
    yarn install
    ```
-   
+
 3. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
 
    - Na raiz do projeto, execute o seguinte comando:
@@ -69,7 +69,6 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
    > **Observação**: O arquivo `.env` será gerado automaticamente na primeira execução do bot. O bot solicitará uma reinicialização após a criação do `.env`.
 
-
 6. Inicie o aplicativo com o seguinte comando:
 
    ```shell
@@ -94,6 +93,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!add`      | Adiciona um usuário ao grupo                                                |             |
 | `!ban`      | Remove o usuário do grupo e adiciona em todas as listas negras              |             |
 | `!ld`       | Ativa/Desativa o detector de links em algum grupo                           |             |
+| `!og`       | Ativa/Desativa o apenas em um grupo em algum grupo                          |             |
 | `!md`       | Ativa/Desativa o detector de conteúdo malicioso em algum grupo              | SightEngine |
 | `!td`       | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
 | `!bv`       | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
