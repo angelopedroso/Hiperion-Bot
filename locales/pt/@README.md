@@ -104,6 +104,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!ainvite`  | Ativa/Desativa o convite automático em algum grupo                          |             |
 | `!ginfo`    | Mostra as informações de um grupo                                           |             |
 | `!dload`    | Baixa conteúdos de diversas redes sociais                                   |             |
+| `!totext`   | Converte uma mensagem de áudio para texto                                   | OpenAI      |
 
 ## Contribuição
 

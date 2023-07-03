@@ -106,6 +106,7 @@ The table below lists the available commands in the bot, their description, and 
 | `!ainvite`  | Enables/Disables automatic invitation in a group                |             |
 | `!ginfo`    | Shows information about a group                                 |             |
 | `!dload`    | Downloads content from various social media platforms           |             |
+| `!totext`   | Convert a audio message to text                                 | OpenAI      |
 
 ## Contribution
 
