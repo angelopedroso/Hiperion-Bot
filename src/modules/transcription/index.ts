@@ -10,8 +10,13 @@ import { printError } from 'cli/terminal'
 export async function transcriptionAudio({ message, ...zap }: ZapType) {
   const isOwner = await zap.IsOwner()
 
+  if (!isOwner) {
+    message?.reply(zap.translateMessage('general', 'onlyowner'))
+    return
+  }
+
   try {
-    if (isOwner && message?.hasQuotedMsg) {
+    if (message?.hasQuotedMsg) {
       const quotedMsg = await message.getQuotedMessage()
       const localPath = path.join(
         __dirname,
@@ -38,7 +43,10 @@ export async function transcriptionAudio({ message, ...zap }: ZapType) {
         await fs.unlink(file)
         message?.react('🥳')
         message.reply(data.text)
+        return
       }
+
+      message.react('⚠')
     }
   } catch (error: Error | any) {
     printError(error)
