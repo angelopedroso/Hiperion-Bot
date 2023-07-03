@@ -14,21 +14,22 @@ const constants: IConstants = {
 }
 
 const paths = [
-  'fs',
-  'groupinfo',
-  'notgroup',
-  'welcome',
-  'wrongcmd',
+  'about',
   'acceptInvite',
   'add',
   'ban',
   'bl',
-  'general',
-  'td',
-  'promote',
   'demote',
   'dload',
-  'about',
+  'fs',
+  'general',
+  'groupinfo',
+  'notgroup',
+  'promote',
+  'td',
+  'totext',
+  'welcome',
+  'wrongcmd',
 ]
 
 const client = new Client({
