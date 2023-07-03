@@ -20,6 +20,7 @@ import { sendRules } from '@modules/rules'
 import { shutDownBot } from '@modules/shutdown'
 import { sendSticker } from '@modules/sticker'
 import { toggleAutoSticker } from '@modules/sticker/command'
+import { transcriptionAudio } from '@modules/transcription'
 import { toggleTravaDetector } from '@modules/travaDetector/command'
 import { ZapType } from '@modules/zapConstructor'
 
@@ -71,5 +72,6 @@ commandMap.set('dload', {
   expectedArgs: 'any',
   fullArg: true,
 })
+commandMap.set('totext', { handler: transcriptionAudio, expectedArgs: 0 })
 
 export { commandMap }
