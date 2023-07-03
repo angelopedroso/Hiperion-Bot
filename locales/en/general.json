@@ -1,3 +1,4 @@
 {
-  "botisnotadmin": "Ops, the bot isnt admin from the group 🤐"
+  "botisnotadmin": "Ops, the bot isnt admin from the group 🤐",
+  "onlyowner": "Only bot owner can use this command 🤭"
 }

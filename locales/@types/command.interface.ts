@@ -18,7 +18,7 @@ interface LocaleAttributeMap {
   wrongcmd: 'wrongcommand'
   acceptInvite: 'error'
   bl: 'error' | 'errorR'
-  general: 'botisnotadmin'
+  general: 'botisnotadmin' | 'onlyowner'
   dload: 'error' | 'errorAxios' | 'errorSize'
   about: 'message'
 }
