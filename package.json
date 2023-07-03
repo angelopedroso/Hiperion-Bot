@@ -18,6 +18,7 @@
     "i18next": "^23.2.3",
     "i18next-fs-backend": "^2.1.5",
     "linkify-it": "^4.0.1",
+    "openai": "^3.3.0",
     "picocolors": "^1.0.0",
     "qrcode": "^1.5.3",
     "ts-node": "^10.9.1",
