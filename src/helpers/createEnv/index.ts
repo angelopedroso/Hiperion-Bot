@@ -23,7 +23,7 @@ export async function createEnvFile(infos: Info) {
      API_SIGHTENGINE_USER=
      API_SIGHTENGINE_SECRET=
      
-     # OPENAI - https://platform.openai.com - OFF
+     # OPENAI - https://platform.openai.com
      OPENAI_API_KEY=
      OPENAI_PASSWORD=
      
