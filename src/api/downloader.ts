@@ -1,4 +1,4 @@
-import { convertToMp3, convertToMp4 } from '@utils/convertStreamToReadableFile'
+import { convertToMp3, convertToMp4 } from '@utils/convertFile'
 import axios from 'axios'
 import { MessageMedia } from 'whatsapp-web.js'
 
