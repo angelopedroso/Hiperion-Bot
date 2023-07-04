@@ -28,7 +28,12 @@ async function sendSticker({ message, ...zap }: ZapType) {
   if (message?.hasQuotedMsg) {
     const quotedMsg = await message.getQuotedMessage()
 
-    if (quotedMsg.hasMedia && validTypes.includes(quotedMsg.type)) {
+    if (!quotedMsg.hasMedia) {
+      message.react('⚠')
+      return
+    }
+
+    if (validTypes.includes(quotedMsg.type)) {
       const media = await quotedMsg.downloadMedia()
 
       chat.sendMessage(media, {
