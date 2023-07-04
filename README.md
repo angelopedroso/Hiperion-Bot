@@ -81,32 +81,33 @@ Make sure you have the following requirements installed in your environment:
 
 The table below lists the available commands in the bot, their description, and if any API service is required.
 
-| Command     | Description                                                     | API Key     |
-| ----------- | --------------------------------------------------------------- | ----------- |
-| `!fs`       | Converts an image, video, or GIF into a sticker                 |             |
-| `!off`      | Turns off the bot                                               |             |
-| `!link`     | Retrieves the group invitation link                             |             |
-| `!ping`     | Checks the bot's latency                                        |             |
-| `!regras`   | Shows the group rules                                           |             |
-| `!promote`  | Promotes a user in the group                                    |             |
-| `!demote`   | Demotes a user in the group                                     |             |
-| `!join`     | Joins the group from the invitation link                        |             |
-| `!leave`    | Leaves the specified group                                      |             |
-| `!add`      | Adds a user to the group                                        |             |
-| `!ban`      | Removes the user from the group and adds them to all blacklists |             |
-| `!ld`       | Enables/Disables the link detector in a group                   |             |
-| `!og`       | Enables/Disables the one group in a group                       |             |
-| `!md`       | Enables/Disables the malicious content detector in a group      | SightEngine |
-| `!td`       | Enables/Disables WhatsApp-freezing message detector in a group  |             |
-| `!bv`       | Enables/Disables the welcome message when someone joins a group |             |
-| `!bl`       | Add the user to the blacklist of all groups                     |             |
-| `!rbl`      | Remove the user from the blacklist of the group                 |             |
-| `!rblall`   | Remove the user from all blacklists in all groups               |             |
-| `!asticker` | Enables/Disables automatic sticker creation in a group          |             |
-| `!ainvite`  | Enables/Disables automatic invitation in a group                |             |
-| `!ginfo`    | Shows information about a group                                 |             |
-| `!dload`    | Downloads content from various social media platforms           |             |
-| `!totext`   | Convert a audio message to text                                 | OpenAI      |
+| Command       | Description                                                     | API Key     |
+| ------------- | --------------------------------------------------------------- | ----------- |
+| `!fs`         | Converts an image, video, or GIF into a sticker                 |             |
+| `!off`        | Turns off the bot                                               |             |
+| `!link`       | Retrieves the group invitation link                             |             |
+| `!ping`       | Checks the bot's latency                                        |             |
+| `!regras`     | Shows the group rules                                           |             |
+| `!promote`    | Promotes a user in the group                                    |             |
+| `!demote`     | Demotes a user in the group                                     |             |
+| `!join`       | Joins the group from the invitation link                        |             |
+| `!leave`      | Leaves the specified group                                      |             |
+| `!add`        | Adds a user to the group                                        |             |
+| `!ban`        | Removes the user from the group and adds them to all blacklists |             |
+| `!ld`         | Enables/Disables the link detector in a group                   |             |
+| `!og`         | Enables/Disables the one group in a group                       |             |
+| `!md`         | Enables/Disables the malicious content detector in a group      | SightEngine |
+| `!td`         | Enables/Disables WhatsApp-freezing message detector in a group  |             |
+| `!bv`         | Enables/Disables the welcome message when someone joins a group |             |
+| `!bl`         | Add the user to the blacklist of all groups                     |             |
+| `!rbl`        | Remove the user from the blacklist of the group                 |             |
+| `!rblall`     | Remove the user from all blacklists in all groups               |             |
+| `!asticker`   | Enables/Disables automatic sticker creation in a group          |             |
+| `!ainvite`    | Enables/Disables automatic invitation in a group                |             |
+| `!ginfo`      | Shows information about a group                                 |             |
+| `!dload`      | Downloads content from various social media platforms           |             |
+| `!totext`     | Convert a audio message to text                                 | OpenAI      |
+| `!clearchats` | Clear all chats                                                 |             |
 
 ## Contribution
 
