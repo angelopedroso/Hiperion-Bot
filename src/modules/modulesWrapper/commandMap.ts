@@ -6,6 +6,7 @@ import {
   removeUserFromAllBlackList,
   removeUserFromBlackList,
 } from '@modules/blacklist'
+import { clearAllChats } from '@modules/clearChats'
 import { mediaDownloader } from '@modules/downloader'
 import { sendGroupInviteLink } from '@modules/groupInvite'
 import { toggleAutoInvite } from '@modules/groupInvite/commands'
@@ -73,5 +74,6 @@ commandMap.set('dload', {
   fullArg: true,
 })
 commandMap.set('totext', { handler: transcriptionAudio, expectedArgs: 0 })
+commandMap.set('clearchats', { handler: clearAllChats, expectedArgs: 0 })
 
 export { commandMap }
