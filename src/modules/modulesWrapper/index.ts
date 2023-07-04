@@ -5,7 +5,7 @@ import { LocaleFileName } from '@locales/@types/command.interface'
 export async function registerModules(zap: ZapType) {
   if (zap.message?.body.startsWith('!')) {
     const commandParts = zap.message.body.split(' ')
-    const commandName = commandParts[0].replace('!', '')
+    const commandName = commandParts[0].replace('!', '').toLowerCase()
     const args = commandParts.slice(1)
 
     const commandInfo = commandMap.get(commandName)
