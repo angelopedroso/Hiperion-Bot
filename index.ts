@@ -77,8 +77,7 @@ const start = () => {
       (g) => g.isGroup,
     ) as GroupChat[]
 
-    await createAllGroupsOnReady(groups)
-    await checkBlackListOnInit(groups)
+    Promise.all([createAllGroupsOnReady(groups), checkBlackListOnInit(groups)])
 
     printFooter()
   })
