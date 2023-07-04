@@ -125,6 +125,14 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return t(`${cmd}:${name}`, variables)
   }
 
+  async function clearAllChats() {
+    const chats = await client?.getChats()
+
+    if (chats) {
+      chats.map(async (chat) => await chat.clearMessages())
+    }
+  }
+
   return {
     getChat,
     getGroupChat,
@@ -132,6 +140,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getUserIsAdmin,
     isBotAdmin,
     createGroupOnBotJoin,
+    clearAllChats,
     getAllParticipantsFormattedByParticipantSchema,
     getGroupLink,
     translateMessage,
@@ -165,5 +174,6 @@ export type ZapType = {
     variables?: TranslationVariables,
   ) => string
   IsOwner: () => Promise<boolean>
+  clearAllChats: () => Promise<void>
   message?: Message
 }
