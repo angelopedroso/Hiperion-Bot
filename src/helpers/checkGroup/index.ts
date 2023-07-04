@@ -5,17 +5,24 @@ import { autoGroupInviteLink } from '@modules/groupInvite'
 import { sendAutoSticker } from '@modules/sticker'
 import { travaDectetor } from '@modules/travaDetector'
 import { ZapType } from '@modules/zapConstructor'
+import { printError } from 'cli/terminal'
 
 export async function checkGroupFeatures(zap: ZapType) {
   const chat = await zap.getChat()
 
-  if (chat.isGroup) {
-    const groupInfo = await db.getGroupInfo(chat.id._serialized)
+  try {
+    if (chat.isGroup) {
+      const groupInfo = await db.getGroupInfo(chat.id._serialized)
 
-    await linkDetector(zap, groupInfo)
-    await maliciousDetector(zap, groupInfo)
-    await travaDectetor(zap, groupInfo)
-    await sendAutoSticker(zap, groupInfo)
-    await autoGroupInviteLink(zap, groupInfo)
+      Promise.all([
+        linkDetector(zap, groupInfo),
+        maliciousDetector(zap, groupInfo),
+        travaDectetor(zap, groupInfo),
+        sendAutoSticker(zap, groupInfo),
+        autoGroupInviteLink(zap, groupInfo),
+      ])
+    }
+  } catch (error: PromiseRejectedResult | any) {
+    printError(error)
   }
 }
