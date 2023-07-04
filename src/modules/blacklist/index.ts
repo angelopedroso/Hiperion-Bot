@@ -1,5 +1,5 @@
 import { db } from '@lib/auth/prisma-query'
-import { prisma } from '@lib/prisma'
+import { prisma, redis } from '@lib/prisma'
 import { ZapType } from '@modules/zapConstructor'
 import { printError } from 'cli/terminal'
 
@@ -56,6 +56,8 @@ export async function removeUserFromBlackList(
 
         await db.removeFromBlacklist(groupChat.id._serialized, formattedUser)
 
+        redis.del(`group-info:${groupChat.id._serialized}`)
+
         message?.react('👌🏼')
       }
 
@@ -92,6 +94,8 @@ export async function removeUserFromAllBlackList(
         )
 
         await prisma.$transaction(query)
+
+        redis.del(`group-info:${groupChat.id._serialized}`)
 
         message?.react('👌🏼')
       }
