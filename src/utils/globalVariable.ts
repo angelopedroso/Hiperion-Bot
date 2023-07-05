@@ -1,3 +1,6 @@
+import path from 'path'
+import { getRandomName } from './generateRandomName'
+
 const domains = [
   'it.pinterest.com',
   'pin.it',
@@ -29,4 +32,11 @@ const domains = [
 const isUrl =
   /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/im
 
-export { domains, isUrl }
+function localPath(type: 'audio' | 'img', format: string) {
+  const mainPath = path.dirname(require.main?.filename + '')
+  return path.resolve(
+    `${mainPath}/assets/${type}/tmp/${getRandomName(`.${format}`)}`,
+  )
+}
+
+export { domains, isUrl, localPath }
