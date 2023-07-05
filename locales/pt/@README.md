@@ -56,7 +56,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    API_SIGHTENGINE_USER=
    API_SIGHTENGINE_SECRET=
 
-   # OPENAI - https://platform.openai.com - OFF
+   # OPENAI - https://platform.openai.com
    OPENAI_API_KEY=
    OPENAI_PASSWORD=
 
