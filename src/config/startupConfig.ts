@@ -26,6 +26,7 @@ const paths = [
   'groupinfo',
   'notgroup',
   'promote',
+  'recognize',
   'td',
   'totext',
   'welcome',
