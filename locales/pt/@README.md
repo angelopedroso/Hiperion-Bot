@@ -60,6 +60,11 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    OPENAI_API_KEY=
    OPENAI_PASSWORD=
 
+   # ACRCLOUD - www.acrcloud.com/
+   ACR_HOST=
+   ACR_KEY=
+   ACR_SECRET_KEY=
+
    # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
    DATABASE_URL=
 
@@ -106,6 +111,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!dload`      | Baixa conteúdos de diversas redes sociais                                   |             |
 | `!totext`     | Converte uma mensagem de áudio para texto                                   | OpenAI      |
 | `!clearchats` | Apaga a conversa de todos os chats                                          |             |
+| `!recognize`  | Identifica uma música                                                       | ACRCloud    |
 
 ## Contribuição
 

@@ -108,6 +108,7 @@ The table below lists the available commands in the bot, their description, and 
 | `!dload`      | Downloads content from various social media platforms           |             |
 | `!totext`     | Convert a audio message to text                                 | OpenAI      |
 | `!clearchats` | Clear all chats                                                 |             |
+| `!recognize`  | Identify a music                                                | ACRCloud    |
 
 ## Contribution
 
