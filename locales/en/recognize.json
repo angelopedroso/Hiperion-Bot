@@ -1,4 +1,4 @@
 {
   "help": "You can identify a music in two ways 😉\n\n- Sending a media with *!recognize* in the caption. \n\n- Replying to a media with *!recognize*.",
-  "message": "*Informations 🎵😎*\n\n- Title: *{{title}}*\n- Label: *{{label}}*\n- Artist(s): *{{artists}}*"
+  "message": "*Informations 🎵😎*\n\n- Title: *{{title}}*\n- Label: *{{label}}*\n- Artist(s): *{{artists}}*\n- Video: https://youtu.be/{{url}}"
 }
