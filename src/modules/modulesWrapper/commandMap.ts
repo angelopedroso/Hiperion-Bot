@@ -15,6 +15,7 @@ import { sendGroupStatus } from '@modules/groupStatus'
 import { leaveGroup } from '@modules/leave'
 import { toggleLinkDetector } from '@modules/linkDetector/command'
 import { toggleMaliciousDetector } from '@modules/maliciousDetector/commands'
+import { recognizeMusic } from '@modules/musicRecognition'
 import { toggleOneGroup } from '@modules/oneGroup'
 import { sendPing } from '@modules/ping'
 import { sendRules } from '@modules/rules'
@@ -75,5 +76,6 @@ commandMap.set('dload', {
 })
 commandMap.set('totext', { handler: transcriptionAudio, expectedArgs: 0 })
 commandMap.set('clearchats', { handler: clearAllChats, expectedArgs: 0 })
+commandMap.set('recognize', { handler: recognizeMusic, expectedArgs: 0 })
 
 export { commandMap }
