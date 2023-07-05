@@ -49,6 +49,7 @@ export async function recognizeMusic({ message, ...zap }: ZapType) {
             label: res.label,
             artists: res.artist,
             title: res.title,
+            url: res.link,
           }),
         )
 

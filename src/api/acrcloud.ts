@@ -115,6 +115,7 @@ class Acrcloud {
         .slice(0, -2),
       title: music[0].title,
       label: music[0].label,
+      link: music[0].external_metadata.youtube.vid,
     }
   }
 }
