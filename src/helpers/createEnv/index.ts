@@ -43,7 +43,7 @@ export async function createEnvFile(infos: Info) {
 
   outro(
     picocolors.bgGreen(
-      'Restart the application. Please check the .env file to add the other variables.',
+      'Restart the application. Please check the .env file to add the another variables, like the DATABASE_URL.',
     ),
   )
   process.exit(0)
