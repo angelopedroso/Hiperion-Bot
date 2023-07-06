@@ -1,5 +1,5 @@
 {
-  "main": "╭☾ *MAIN MENU* ☽\n│\n┝ !*menu* 1 ➝ Stickers\n┝ !*menu* 2 ➝ Group\n┝ !*menu* 3 ➝ Utilities\n┝ !*menu* 4 ➝ About\n│\n╰╼❥ {{botname}}®",
+  "main": "╭☾ *MAIN MENU* ☽\n│\n┝ !*menu* 1 ➝ Stickers\n┝ !*menu* 2 ➝ Group\n┝ !*menu* 3 ➝ Utilities\n┝ !*menu* 4 ➝ About\n┝ *!menu* 5 ➝ Admin\n│\n╰╼❥ {{botname}}®",
   "menu": [
     {
       "title": "Stickers",
@@ -68,6 +68,18 @@
         {
           "title": "ginfo",
           "description": "shows group information - admin"
+        },
+        {
+          "title": "bl",
+          "description": "add the user to the blacklist of all groups - *admin*"
+        },
+        {
+          "title": "rbl",
+          "description": "remove the user from the blacklist of the group - *admin*"
+        },
+        {
+          "title": "rblall",
+          "description": "remove the user from all blacklists in all groups - *admin*"
         }
       ]
     },
@@ -94,6 +106,31 @@
         {
           "title": "about",
           "description": "displays credits"
+        }
+      ]
+    },
+    {
+      "title": "Admin",
+      "items": [
+        {
+          "title": "ping",
+          "description": "checks the bot's latency"
+        },
+        {
+          "title": "off",
+          "description": "turns off the bot"
+        },
+        {
+          "title": "join",
+          "description": "joins the group from the invitation link"
+        },
+        {
+          "title": "leave",
+          "description": "leaves the specified group"
+        },
+        {
+          "title": "clearchats",
+          "description": "clear all chats"
         }
       ]
     }

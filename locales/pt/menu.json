@@ -1,5 +1,5 @@
 {
-  "main": "╭☾ *MENU PRINCIPAL* ☽\n│\n┝ *!menu* 1 ➝ Figurinhas\n┝ *!menu* 2 ➝ Grupo\n┝ *!menu* 3 ➝ Utilidades\n┝ *!menu* 4 ➝ Sobre\n│\n╰╼❥ *{{botname}}®*",
+  "main": "╭☾ *MENU PRINCIPAL* ☽\n│\n┝ *!menu* 1 ➝ Figurinhas\n┝ *!menu* 2 ➝ Grupo\n┝ *!menu* 3 ➝ Utilidades\n┝ *!menu* 4 ➝ Sobre\n┝ *!menu* 5 ➝ Admin\n│\n╰╼❥ *{{botname}}®*",
   "menu": [
     {
       "title": "Figurinhas",
@@ -68,6 +68,18 @@
         {
           "title": "ginfo",
           "description": "mostra as informações do grupo - *admin*"
+        },
+        {
+          "title": "bl",
+          "description": "adiciona um usuário na lista negra - *admin*"
+        },
+        {
+          "title": "rbl",
+          "description": "remove um usuário da lista negra do grupo - *admin*"
+        },
+        {
+          "title": "rblall",
+          "description": "remove um usuário da lista negra de todos os grupos - *admin*"
         }
       ]
     },
@@ -94,6 +106,31 @@
         {
           "title": "about",
           "description": "mostra os créditos"
+        }
+      ]
+    },
+    {
+      "title": "Admin",
+      "items": [
+        {
+          "title": "ping",
+          "description": "checa a latência"
+        },
+        {
+          "title": "off",
+          "description": "desliga o bot"
+        },
+        {
+          "title": "join",
+          "description": "entra no grupo do convite"
+        },
+        {
+          "title": "leave",
+          "description": "sai do grupo em questão"
+        },
+        {
+          "title": "clearchats",
+          "description": "apaga a conversa de todos os chats"
         }
       ]
     }
