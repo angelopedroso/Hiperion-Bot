@@ -1,6 +1,7 @@
 # Hiperion Bot
 
 ### Em desenvolvimento
+#### Dê uma estrela (star) para esse repositório, se você gostou 😉
 
 ## Overview
 
