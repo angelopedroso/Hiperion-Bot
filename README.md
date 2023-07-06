@@ -3,6 +3,7 @@
 > Portuguese [README](./locales/pt/@README.md)
 
 ### Under Development
+#### Starred this repo if you liked 😉
 
 ## Overview
 
