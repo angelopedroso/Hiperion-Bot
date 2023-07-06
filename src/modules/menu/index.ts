@@ -1,13 +1,14 @@
 import { ZapType } from '@modules/zapConstructor'
 import { BOT_NAME } from '@utils/envs'
 import i18next from 'i18next'
+import { getMenuPage } from './util'
 
 interface MenuItem {
   title: string
   description: string
 }
 
-interface Menu {
+export interface Menu {
   menu: {
     title: string
     items: MenuItem[]
@@ -16,42 +17,32 @@ interface Menu {
 
 export async function menuBot({ message, ...zap }: ZapType, page: string) {
   const formattedPageNum = +page
-  const { menu } = (await i18next.getResourceBundle(
+  const menu = (await i18next.getResourceBundle(
     i18next.language,
     'menu',
   )) as Menu
+  const isOwner = await zap.IsOwner()
 
   if (page && !isNaN(formattedPageNum)) {
-    if (formattedPageNum > menu.length) {
+    if (formattedPageNum > menu.menu.length) {
       message?.reply(
         zap.translateMessage('menu', 'main', {
           botname: BOT_NAME,
         }),
       )
+
       return
     }
 
-    const pageInfo = menu[formattedPageNum - 1]
-    const pageTitle = pageInfo.title
-    const pageItems = pageInfo.items
+    if (formattedPageNum === 5 && isOwner) {
+      const messageFormat = getMenuPage(menu, formattedPageNum)
 
-    const messageCmds = pageItems.reduce(
-      (acc, cur) => {
-        return {
-          title: acc.title,
-          description:
-            (acc.description += `┝ *!${cur.title}* ➝ ${cur.description}\n`),
-        }
-      },
-      {
-        title: '',
-        description: '',
-      },
-    )
+      message?.reply(messageFormat)
 
-    const messageFormat = `╭☾ *${pageTitle.toUpperCase()}* ☽\n│\n${
-      messageCmds.description
-    }│\n╰╼❥ *${BOT_NAME}®*`
+      return
+    }
+
+    const messageFormat = getMenuPage(menu, formattedPageNum)
 
     message?.reply(messageFormat)
 
