@@ -87,6 +87,7 @@ The table below lists the available commands in the bot, their description, and 
 | ------------- | --------------------------------------------------------------- | ----------- |
 | `!fs`         | Converts an image, video, or GIF into a sticker                 |             |
 | `!off`        | Turns off the bot                                               |             |
+| `!about`      | Show informations about bot                                     |             |
 | `!link`       | Retrieves the group invitation link                             |             |
 | `!ping`       | Checks the bot's latency                                        |             |
 | `!regras`     | Shows the group rules                                           |             |

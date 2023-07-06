@@ -90,6 +90,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | ------------- | --------------------------------------------------------------------------- | ----------- |
 | `!fs`         | Converte imagem, vídeo ou GIF em sticker                                    |             |
 | `!off`        | Desliga o bot                                                               |             |
+| `!about`      | Mostra os créditos                                                          |             |
 | `!link`       | Recebe o link de convite do grupo                                           |             |
 | `!ping`       | Verifica a latência do bot                                                  |             |
 | `!regras`     | Mostra as regras do grupo                                                   |             |
