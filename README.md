@@ -85,6 +85,7 @@ The table below lists the available commands in the bot, their description, and 
 
 | Command       | Description                                                     | API Key     |
 | ------------- | --------------------------------------------------------------- | ----------- |
+| `!menu`       | Shows bot's menu                                                |             |
 | `!fs`         | Converts an image, video, or GIF into a sticker                 |             |
 | `!off`        | Turns off the bot                                               |             |
 | `!about`      | Show informations about bot                                     |             |

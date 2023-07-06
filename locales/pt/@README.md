@@ -88,6 +88,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 
 | Comando       | Descrição                                                                   | API Key     |
 | ------------- | --------------------------------------------------------------------------- | ----------- |
+| `!menu`       | Mostra o menu do bot                                                        |             |
 | `!fs`         | Converte imagem, vídeo ou GIF em sticker                                    |             |
 | `!off`        | Desliga o bot                                                               |             |
 | `!about`      | Mostra os créditos                                                          |             |
