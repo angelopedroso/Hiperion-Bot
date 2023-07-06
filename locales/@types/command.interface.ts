@@ -10,6 +10,7 @@ export type LocaleFileName =
   | 'dload'
   | 'about'
   | 'recognize'
+  | 'menu'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -23,6 +24,7 @@ interface LocaleAttributeMap {
   dload: 'error' | 'errorAxios' | 'errorSize'
   about: 'message'
   recognize: 'message'
+  menu: 'main'
 }
 
 export type TranslationVariables = Record<

@@ -1,0 +1,101 @@
+{
+  "main": "╭☾ *MAIN MENU* ☽\n│\n┝ !*menu* 1 ➝ Stickers\n┝ !*menu* 2 ➝ Group\n┝ !*menu* 3 ➝ Utilities\n┝ !*menu* 4 ➝ About\n│\n╰╼❥ {{botname}}®",
+  "menu": [
+    {
+      "title": "Stickers",
+      "items": [
+        {
+          "title": "fs",
+          "description": "converts media into stickers"
+        }
+      ]
+    },
+    {
+      "title": "Group",
+      "items": [
+        {
+          "title": "link",
+          "description": "sends the group invitation link"
+        },
+        {
+          "title": "regras",
+          "description": "sends the group rules"
+        },
+        {
+          "title": "promote",
+          "description": "promotes a user in the group - admin"
+        },
+        {
+          "title": "demote",
+          "description": "demotes a user in the group - admin"
+        },
+        {
+          "title": "add",
+          "description": "adds a user to the group - admin"
+        },
+        {
+          "title": "ban",
+          "description": "removes a user from the group - admin"
+        },
+        {
+          "title": "ld",
+          "description": "enables/disables link detector in the group - admin"
+        },
+        {
+          "title": "og",
+          "description": "enables/disables mentions only in the group - admin"
+        },
+        {
+          "title": "md",
+          "description": "enables/disables malicious content detector in the group - admin"
+        },
+        {
+          "title": "td",
+          "description": "enables/disables WhatsApp-crashing message detector in the group - admin"
+        },
+        {
+          "title": "bv",
+          "description": "enables/disables the welcome message when someone joins the group - admin"
+        },
+        {
+          "title": "asticker",
+          "description": "enables/disables automatic sticker creation in the group - admin"
+        },
+        {
+          "title": "ainvite",
+          "description": "enables/disables automatic invitation in the group - admin"
+        },
+        {
+          "title": "ginfo",
+          "description": "shows group information - admin"
+        }
+      ]
+    },
+    {
+      "title": "Utilities",
+      "items": [
+        {
+          "title": "dload",
+          "description": "downloads content from various social media platforms"
+        },
+        {
+          "title": "totext",
+          "description": "converts an audio message into text"
+        },
+        {
+          "title": "recognize",
+          "description": "identifies a song"
+        }
+      ]
+    },
+    {
+      "title": "About",
+      "items": [
+        {
+          "title": "about",
+          "description": "displays credits"
+        }
+      ]
+    }
+  ]
+}

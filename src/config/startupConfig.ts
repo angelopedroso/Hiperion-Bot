@@ -24,6 +24,7 @@ const paths = [
   'fs',
   'general',
   'groupinfo',
+  'menu',
   'notgroup',
   'promote',
   'recognize',

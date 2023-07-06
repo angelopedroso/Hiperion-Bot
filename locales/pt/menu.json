@@ -1,0 +1,101 @@
+{
+  "main": "╭☾ *MENU PRINCIPAL* ☽\n│\n┝ *!menu* 1 ➝ Figurinhas\n┝ *!menu* 2 ➝ Grupo\n┝ *!menu* 3 ➝ Utilidades\n┝ *!menu* 4 ➝ Sobre\n│\n╰╼❥ *{{botname}}®*",
+  "menu": [
+    {
+      "title": "Figurinhas",
+      "items": [
+        {
+          "title": "fs",
+          "description": "converte uma mídia em figurinha"
+        }
+      ]
+    },
+    {
+      "title": "Grupo",
+      "items": [
+        {
+          "title": "link",
+          "description": "envia o link de convite do grupo"
+        },
+        {
+          "title": "regras",
+          "description": "envia as regras do grupo"
+        },
+        {
+          "title": "promote",
+          "description": "promove um usuário no grupo - *admin*"
+        },
+        {
+          "title": "demote",
+          "description": "rebaixa um usuário no grupo - *admin*"
+        },
+        {
+          "title": "add",
+          "description": "adiciona um usuário no grupo - *admin*"
+        },
+        {
+          "title": "ban",
+          "description": "remove um usuário no grupo - *admin*"
+        },
+        {
+          "title": "ld",
+          "description": "ativa/desativa o detector de links no grupo - *admin*"
+        },
+        {
+          "title": "og",
+          "description": "ativa/desativa o apenas em um grupo no grupo - *admin*"
+        },
+        {
+          "title": "md",
+          "description": "ativa/desativa o detector de conteúdo malicioso no grupo - *admin*"
+        },
+        {
+          "title": "td",
+          "description": "ativa/desativa o detector de mensagens que travam o WhatsApp no grupo - *admin*"
+        },
+        {
+          "title": "bv",
+          "description": "ativa/desativa a mensagem de boas-vindas quando alguém entra no grupo - *admin*"
+        },
+        {
+          "title": "asticker",
+          "description": "ativa/desativa a criação automática de figurinhas no grupo - *admin*"
+        },
+        {
+          "title": "ainvite",
+          "description": "ativa/desativa o convite automático no grupo - *admin*"
+        },
+        {
+          "title": "ginfo",
+          "description": "mostra as informações do grupo - *admin*"
+        }
+      ]
+    },
+    {
+      "title": "Utilidades",
+      "items": [
+        {
+          "title": "dload",
+          "description": "baixa conteúdos de diversas redes sociais"
+        },
+        {
+          "title": "totext",
+          "description": "converte uma mensagem de áudio para texto"
+        },
+        {
+          "title": "recognize",
+          "description": "identifica uma música"
+        }
+      ]
+    },
+    {
+      "title": "Sobre",
+      "items": [
+        {
+          "title": "about",
+          "description": "mostra os créditos"
+        }
+      ]
+    }
+  ]
+}
