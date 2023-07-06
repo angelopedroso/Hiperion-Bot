@@ -77,6 +77,8 @@ Make sure you have the following requirements installed in your environment:
    yarn start
    ```
 
+> **Note**: Go to startupConfig on src/config/startupConfig.ts and replace chrome's path if necessary.
+
 ## Bot Commands
 
 The table below lists the available commands in the bot, their description, and if any API service is required.

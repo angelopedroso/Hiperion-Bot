@@ -80,6 +80,8 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    yarn start
    ```
 
+> **Note**: Vá até startupConfig (src/config/startupConfig.ts) e substitua o caminho para o chrome se for preciso (caso o seu diretório for diferente).
+
 ## Comandos do Bot
 
 A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algum serviço de API é necessário.
