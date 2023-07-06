@@ -15,6 +15,7 @@ import { sendGroupStatus } from '@modules/groupStatus'
 import { leaveGroup } from '@modules/leave'
 import { toggleLinkDetector } from '@modules/linkDetector/command'
 import { toggleMaliciousDetector } from '@modules/maliciousDetector/commands'
+import { menuBot } from '@modules/menu'
 import { recognizeMusic } from '@modules/musicRecognition'
 import { toggleOneGroup } from '@modules/oneGroup'
 import { sendPing } from '@modules/ping'
@@ -34,6 +35,7 @@ interface CommandInfo {
 
 const commandMap = new Map<string, CommandInfo>()
 
+commandMap.set('menu', { handler: menuBot, expectedArgs: 'any' })
 commandMap.set('fs', { handler: sendSticker, expectedArgs: 0 })
 commandMap.set('off', { handler: shutDownBot, expectedArgs: 0 })
 commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })

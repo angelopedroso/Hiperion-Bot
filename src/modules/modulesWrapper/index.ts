@@ -35,6 +35,7 @@ export async function registerModules(zap: ZapType) {
       }
 
       if (
+        commandName === 'menu' ||
         (expectedArgs === 'any' && args.length >= 1) ||
         args.length === expectedArgs
       ) {
