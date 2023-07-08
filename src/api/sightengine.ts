@@ -22,7 +22,7 @@ export const checkIfContentIsExplict = async (
 
   await fs.unlink(filePath)
 
-  const probality = data.nudity.none < 0.15 || data.offensive.prob > 0.65
+  const probality = data.nudity.none < 0.15 || data.offensive.prob >= 0.6
 
   return probality
 }
