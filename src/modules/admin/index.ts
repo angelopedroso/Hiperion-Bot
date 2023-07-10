@@ -105,8 +105,15 @@ export async function addUser({ message, ...zap }: ZapType, userId: string) {
       return
     }
 
-    await groupChat.addParticipants([formattedUser])
-    await message?.react('👌🏼')
+    const status = await groupChat.addParticipants([formattedUser])
+
+    if (status.participants) {
+      message?.react('👌🏼')
+      return
+    }
+
+    message?.reply(zap.translateMessage('add', 'message'))
+    message?.react('❌')
 
     return
   }
