@@ -1,5 +1,5 @@
 import { ZapType } from '@modules/zapConstructor'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 
 export async function clearAllChats({ message, ...zap }: ZapType) {
   const isOwner = await zap.IsOwner()

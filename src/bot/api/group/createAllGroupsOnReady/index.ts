@@ -1,7 +1,7 @@
 import { db } from '@lib/auth/prisma-query'
 import { Participant, ParticipantType, Prisma } from '@prisma/client'
-import { printError } from 'cli/terminal'
-import { prisma } from 'lib/prisma'
+import { printError } from '@cli/terminal'
+import { prisma } from '@lib/prisma'
 import { GroupChat } from 'whatsapp-web.js'
 
 export async function createAllGroupsOnReady(groups: GroupChat[]) {

@@ -1,7 +1,7 @@
-import { prisma, redis } from 'lib/prisma'
+import { prisma, redis } from '@lib/prisma'
 import { CompleteGroup } from '@typings/prismaQueryTypes'
 import { Group, Participant, ParticipantType } from '@prisma/client'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
 export function PrismaQuery() {

@@ -9,7 +9,7 @@ import {
   cancel,
   select,
 } from '@clack/prompts'
-import { createEnvFile } from 'helpers/createEnv'
+import { createEnvFile } from '@helpers/createEnv'
 import { existsSync } from 'fs'
 import color from 'picocolors'
 

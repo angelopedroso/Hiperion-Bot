@@ -18,11 +18,13 @@
     "baseUrl": "./src",
     "paths": {
       "@config/*": ["config/*"],
-      "@modules/*": ["modules/*"],
-      "@utils/*": ["utils/*"],
-      "@typings/*": ["typings/*"],
-      "@lib/*": ["lib/*"],
-      "@api/*": ["api/*"],
+      "@modules/*": ["bot/modules/*"],
+      "@utils/*": ["bot/utils/*"],
+      "@cli/*": ["bot/cli/*"],
+      "@helpers/*": ["bot/helpers/*"],
+      "@typings/*": ["bot/typings/*"],
+      "@lib/*": ["bot/lib/*"],
+      "@api/*": ["bot/api/*"],
       "@assets/*": ["../assets/*"],
       "@locales/*": ["../locales/*"]
     }

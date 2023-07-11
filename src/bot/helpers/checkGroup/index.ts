@@ -5,7 +5,7 @@ import { autoGroupInviteLink } from '@modules/groupInvite'
 import { sendAutoSticker } from '@modules/sticker'
 import { travaDectetor } from '@modules/travaDetector'
 import { ZapType } from '@modules/zapConstructor'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 
 export async function checkGroupFeatures(zap: ZapType) {
   const chat = await zap.getChat()

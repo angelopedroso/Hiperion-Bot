@@ -4,7 +4,7 @@ import { MessageTypes } from 'whatsapp-web.js'
 import { ACR_HOST, ACR_KEY, ACR_SECRET_KEY } from '@utils/envs'
 
 import { Acrcloud } from '@api/acrcloud'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 
 export async function recognizeMusic({ message, ...zap }: ZapType) {
   const types = [MessageTypes.AUDIO, MessageTypes.VIDEO, MessageTypes.VOICE]

@@ -1,10 +1,11 @@
 import { Message } from 'whatsapp-web.js'
 import { client, constants } from '@config/startupConfig'
 
-import { checkGroupFeatures } from 'helpers/checkGroup'
+import { checkGroupFeatures } from '@helpers/checkGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
 
-import { botReadyTimestamp } from '../..'
+import { botReadyTimestamp } from '../../..'
+
 import { registerModules } from '@modules/modulesWrapper'
 
 export async function messageGetter(message: Message) {

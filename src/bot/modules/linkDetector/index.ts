@@ -1,6 +1,6 @@
 import { ZapType } from '@modules/zapConstructor'
 import { db } from '@lib/auth/prisma-query'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 import { isSocialMediaLink } from '@utils/ifExistsLink'
 import LinkifyIt from 'linkify-it'

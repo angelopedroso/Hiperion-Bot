@@ -1,7 +1,7 @@
 import { db } from '@lib/auth/prisma-query'
 import { prisma, redis } from '@lib/prisma'
 import { ZapType } from '@modules/zapConstructor'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 
 export async function addUserInBlackList(
   { message, ...zap }: ZapType,

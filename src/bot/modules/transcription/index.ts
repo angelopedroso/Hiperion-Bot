@@ -3,7 +3,7 @@ import { MessageTypes } from 'whatsapp-web.js'
 import fs from 'fs-extra'
 import { openai } from '@lib/openai'
 import { convertOggToMp3 } from '@utils/convertFile'
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 import { localPath } from '@utils/globalVariable'
 
 export async function transcriptionAudio({ message, ...zap }: ZapType) {

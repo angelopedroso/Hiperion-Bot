@@ -25,10 +25,10 @@ import {
   printFooter,
   printQRCode,
   printDisconnect,
-} from 'cli/terminal'
+} from '@cli/terminal'
 
 import { existsSync } from 'fs'
-import { messageGetter } from 'helpers/messageGetter'
+import { messageGetter } from '@helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'
 import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 

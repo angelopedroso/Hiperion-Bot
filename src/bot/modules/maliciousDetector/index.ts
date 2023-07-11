@@ -9,7 +9,7 @@ import path from 'path'
 import { getRandomName } from '@utils/generateRandomName'
 import { checkIfContentIsExplict } from '@api/sightengine'
 
-import { printError } from 'cli/terminal'
+import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 
 async function maliciousDetector(
