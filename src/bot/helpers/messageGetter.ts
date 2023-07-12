@@ -4,7 +4,7 @@ import { client, constants } from '@config/startupConfig'
 import { checkGroupFeatures } from '@helpers/checkGroup'
 import { ZapConstructor } from '@modules/zapConstructor'
 
-import { botReadyTimestamp } from '../../..'
+import { botReadyTimestamp } from '..'
 
 import { registerModules } from '@modules/modulesWrapper'
 

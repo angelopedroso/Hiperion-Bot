@@ -1,3 +1,4 @@
+import path from 'path'
 import { Client, LocalAuth } from 'whatsapp-web.js'
 
 interface IConstants {
@@ -12,6 +13,13 @@ const constants: IConstants = {
   statusBroadcast: 'status@broadcast',
   sessionPath: './',
 }
+
+const localePath = path.join(
+  __dirname,
+  '..',
+  '..',
+  '/locales/{{lng}}/{{ns}}.json',
+)
 
 const paths = [
   'about',
@@ -55,4 +63,4 @@ const client = new Client({
   },
 })
 
-export { constants, client, paths }
+export { constants, client, paths, localePath }

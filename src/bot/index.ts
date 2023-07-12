@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv'
 
-import { client, paths } from '@config/startupConfig'
+import { client, localePath, paths } from '@config/startupConfig'
 import {
   Events,
   GroupChat,
@@ -27,29 +27,27 @@ import {
   printDisconnect,
 } from '@cli/terminal'
 
-import { existsSync } from 'fs'
 import { messageGetter } from '@helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'
 import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 
 import i18next from 'i18next'
 import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
-import path from 'path'
 
 cacheMiddleware()
 configDotenv()
+
+let botReadyTimestamp: Date | null = null
 
 i18next.use(FsBackend).init<FsBackendOptions>({
   fallbackLng: LANGUAGE,
   lng: LANGUAGE,
   supportedLngs: ['en', 'pt'],
   backend: {
-    loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
+    loadPath: localePath,
   },
   ns: paths,
 })
-
-let botReadyTimestamp: Date | null = null
 
 const start = () => {
   printHeader()
@@ -108,10 +106,4 @@ const start = () => {
   client.initialize()
 }
 
-if (!existsSync('.env')) {
-  printHeader()
-} else {
-  start()
-}
-
-export { botReadyTimestamp }
+export { botReadyTimestamp, start }
