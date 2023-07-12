@@ -453,6 +453,19 @@ export function PrismaQuery() {
 
       return querys
     },
+
+    async createLog(log: {
+      command: string
+      user_name: string
+      is_group: boolean
+      chat_name: string | null
+    }) {
+      await prisma.log.create({
+        data: {
+          ...log,
+        },
+      })
+    },
   }
 }
 
