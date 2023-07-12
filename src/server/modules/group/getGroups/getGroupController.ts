@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { getGroups } from './groupService'
+import { getGroups } from './getGroupService'
 
 export async function getGroupsController(_: Request, res: Response) {
   const allGroups = await getGroups()

@@ -16,21 +16,21 @@ export async function getGroups() {
   return allGroups.map((group) => {
     return {
       id: group.id,
-      imageUrl:
+      image_url:
         groupPics?.find((pic) => pic.groupId === group.g_id)?.url || null,
-      groupId: group.g_id,
-      bemVindo: group.bem_vindo,
-      antiLink: group.anti_link,
-      antiPorn: group.anti_porn,
-      oneGroup: group.one_group,
-      autoSticker: group.auto_sticker,
-      autoInvite: group.auto_invite_link,
-      antiTrava: {
+      g_id: group.g_id,
+      bem_vindo: group.bem_vindo,
+      anti_link: group.anti_link,
+      anti_porn: group.anti_porn,
+      one_group: group.one_group,
+      auto_sticker: group.auto_sticker,
+      auto_invite_link: group.auto_invite_link,
+      anti_trava: {
         status: group.anti_trava?.status,
-        maxCharacters: group.anti_trava?.max_characters,
+        max_characters: group.anti_trava?.max_characters,
       },
-      blackList: group.black_list,
-      participantsSize: group.participants.length,
+      black_list: group.black_list,
+      participants_size: group.participants.length,
     }
   })
 }
