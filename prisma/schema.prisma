@@ -50,6 +50,15 @@ model AntiTrava {
   group          Group?
 }
 
+model Log {
+  id        String    @id @default(uuid())
+  is_group  Boolean
+  command   String
+  user_name String
+  chat_name String?
+  date_time DateTime? @default(now())
+}
+
 enum ParticipantType {
   admin
   membro
