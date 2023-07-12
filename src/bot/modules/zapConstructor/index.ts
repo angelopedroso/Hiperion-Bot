@@ -133,6 +133,29 @@ export function ZapConstructor(client?: Client, message?: Message) {
     }
   }
 
+  async function getGroupPictures() {
+    const chats = await client?.getChats()
+    const groups = chats
+      ?.filter((chat) => chat.isGroup)
+      .map((group) => group.id._serialized)
+
+    let groupPictures = null
+
+    if (groups) {
+      groupPictures = await Promise.all(
+        groups.map(async (group) => {
+          const picUrl = await client?.getProfilePicUrl(group)
+          return {
+            groupId: group,
+            url: picUrl,
+          }
+        }),
+      )
+    }
+
+    return groupPictures
+  }
+
   return {
     getChat,
     getGroupChat,
@@ -145,6 +168,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getGroupLink,
     translateMessage,
     IsOwner,
+    getGroupPictures,
     message,
   }
 }
@@ -175,5 +199,12 @@ export type ZapType = {
   ) => string
   IsOwner: () => Promise<boolean>
   clearAllChats: () => Promise<void>
+  getGroupPictures: () => Promise<
+    | {
+        groupId: string
+        url: string | undefined
+      }[]
+    | null
+  >
   message?: Message
 }
