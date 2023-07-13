@@ -1,6 +1,6 @@
+import { getGroupsController } from '@server/modules/group/getGroups/getGroupController'
+import { updateGroupController } from '@server/modules/group/updateGroup/updateGroupController'
 import { Router } from 'express'
-import { getGroupsController } from 'server/modules/group/getGroups/getGroupController'
-import { updateGroupController } from 'server/modules/group/updateGroup/updateGroupController'
 
 const groupRoutes = Router()
 

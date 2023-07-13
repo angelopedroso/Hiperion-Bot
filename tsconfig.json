@@ -25,6 +25,9 @@
       "@typings/*": ["bot/typings/*"],
       "@lib/*": ["bot/lib/*"],
       "@api/*": ["bot/api/*"],
+      "@server/errors/*": ["server/errors/*"],
+      "@server/modules/*": ["server/modules/*"],
+      "@server/routes/*": ["server/routes/*"],
       "@assets/*": ["../assets/*"],
       "@locales/*": ["../locales/*"]
     }
