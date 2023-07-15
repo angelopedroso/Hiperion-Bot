@@ -41,7 +41,7 @@ commandMap.set('off', { handler: shutDownBot, expectedArgs: 0 })
 commandMap.set('link', { handler: sendGroupInviteLink, expectedArgs: 0 })
 commandMap.set('ping', { handler: sendPing, expectedArgs: 0 })
 commandMap.set('regras', { handler: sendRules, expectedArgs: 0 })
-commandMap.set('add', { handler: addUser, expectedArgs: 1, fullArg: true })
+commandMap.set('add', { handler: addUser, expectedArgs: 'any', fullArg: true })
 commandMap.set('promote', { handler: promoteUser, expectedArgs: 'any' })
 commandMap.set('demote', { handler: demoteUser, expectedArgs: 'any' })
 commandMap.set('ban', { handler: banUser, expectedArgs: 'any' })
@@ -53,17 +53,17 @@ commandMap.set('og', { handler: toggleOneGroup, expectedArgs: 0 })
 commandMap.set('td', { handler: toggleTravaDetector, expectedArgs: 'any' })
 commandMap.set('bl', {
   handler: addUserInBlackList,
-  expectedArgs: 1,
+  expectedArgs: 'any',
   fullArg: true,
 })
 commandMap.set('rbl', {
   handler: removeUserFromBlackList,
-  expectedArgs: 1,
+  expectedArgs: 'any',
   fullArg: true,
 })
 commandMap.set('rblall', {
   handler: removeUserFromAllBlackList,
-  expectedArgs: 1,
+  expectedArgs: 'any',
   fullArg: true,
 })
 commandMap.set('bv', { handler: toggleWelcome, expectedArgs: 0 })
