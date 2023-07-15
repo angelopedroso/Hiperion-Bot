@@ -10,5 +10,5 @@ export async function updateGroupController(req: Request, res: Response) {
     ...updatedGroup,
   })
 
-  return res.status(200).json(groupUpdated)
+  return res.status(201).json(groupUpdated)
 }
