@@ -30,7 +30,7 @@ export async function groupJoined(
     const group = (await notification.getChat()) as GroupChat
 
     const participants =
-      ZapConstructor().getAllParticipantsFormattedByParticipantSchema(
+      await ZapConstructor().getAllParticipantsFormattedByParticipantSchema(
         group.participants,
       )
 

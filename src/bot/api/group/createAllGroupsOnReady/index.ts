@@ -3,6 +3,7 @@ import { Participant, ParticipantType, Prisma } from '@prisma/client'
 import { printError } from '@cli/terminal'
 import { prisma } from '@lib/prisma'
 import { GroupChat } from 'whatsapp-web.js'
+import { client } from '@config/startupConfig'
 
 export async function createAllGroupsOnReady(groups: GroupChat[]) {
   try {
@@ -23,14 +24,26 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
         participants,
       } = group
 
-      const participantData = participants.map((participant) => ({
-        p_id: participant.id.user,
-        tipo: ParticipantType[
-          participant.isAdmin || participant.isSuperAdmin ? 'admin' : 'membro'
-        ],
-      }))
+      const participantData = Promise.all(
+        participants.map(async (participant) => {
+          const contact = await client.getContactById(
+            participant.id._serialized,
+          )
 
-      const currentParticipants = participantData.map(
+          return {
+            p_id: participant.id.user,
+            tipo: ParticipantType[
+              participant.isAdmin || participant.isSuperAdmin
+                ? 'admin'
+                : 'membro'
+            ],
+            name: contact.pushname || 'Undefined',
+            imageUrl: await client.getProfilePicUrl(participant.id._serialized),
+          }
+        }),
+      )
+
+      const currentParticipants = (await participantData).map(
         (participant) => participant.p_id,
       )
 
@@ -42,15 +55,18 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
         (participant) => !currentParticipants.includes(participant.p_id),
       )
 
-      const participantsToCreate = participantData.filter((participant) => {
-        return (
-          !participantsInGroup ||
-          participantsInGroup?.participants.some(
-            (existingParticipant) =>
-              existingParticipant.p_id !== participant.p_id,
-          )
-        )
-      })
+      const participantsToCreate = (await participantData).filter(
+        (participant) => {
+          if (participantsInGroup?.participants.length) {
+            return !participantsInGroup.participants.some(
+              (existingParticipant) =>
+                existingParticipant.p_id === participant.p_id,
+            )
+          }
+
+          return participant
+        },
+      )
 
       if (removedParticipants?.length) {
         removeParticipantsPromises = removedParticipants.map(
@@ -87,6 +103,8 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
           db.updateGroupOnReady(groupId, {
             id: '',
             p_id: p.p_id,
+            name: p.name || 'Undefined',
+            image_url: p.imageUrl,
           }),
         )
 
@@ -96,7 +114,7 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       }
     }
 
-    await prisma.$transaction([...updates, ...removeParticipantsPromises])
+    await prisma.$transaction([...removeParticipantsPromises, ...updates])
   } catch (error: Error | any) {
     printError(error)
   }

@@ -1,5 +1,8 @@
 import { prisma, redis } from '@lib/prisma'
-import { CompleteGroup } from '@typings/prismaQueryTypes'
+import {
+  CompleteGroup,
+  addParticipantInGroupProps,
+} from '@typings/prismaQueryTypes'
 import { Group, Participant, ParticipantType } from '@prisma/client'
 import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
@@ -82,14 +85,19 @@ export function PrismaQuery() {
       await prisma.participant.create({
         data: {
           p_id: participant.p_id,
+          name: participant.name,
+          image_url: participant.image_url,
         },
       })
     },
 
-    async addParticipantInGroup(userId: string, groupId: string) {
+    async addParticipantInGroup(
+      user: addParticipantInGroupProps,
+      groupId: string,
+    ) {
       const existsParticipantInGroup = await prisma.participant.findUnique({
         where: {
-          p_id: userId,
+          p_id: user.userId,
         },
         include: {
           group_participant: true,
@@ -117,10 +125,12 @@ export function PrismaQuery() {
           participants: {
             connectOrCreate: {
               where: {
-                p_id: userId,
+                p_id: user.userId,
               },
               create: {
-                p_id: userId,
+                p_id: user.userId,
+                name: user.pushname,
+                image_url: user.imageUrl,
               },
             },
           },
@@ -133,13 +143,13 @@ export function PrismaQuery() {
             g_id: groupId,
           },
           participant: {
-            p_id: userId,
+            p_id: user.userId,
           },
         },
       })
 
       if (!existsGroupType) {
-        await this.createParticipantGroupType(groupId, userId, 'membro')
+        await this.createParticipantGroupType(groupId, user.userId, 'membro')
       }
     },
 
@@ -274,6 +284,8 @@ export function PrismaQuery() {
               },
               create: {
                 p_id: p.p_id,
+                name: p.name,
+                image_url: p.image_url,
               },
             },
           },
@@ -353,7 +365,9 @@ export function PrismaQuery() {
         await redis.set('all-groups', JSON.stringify(allGroups))
 
         return allGroups
-      } catch (error) {}
+      } catch (error: Error | any) {
+        printError('getAllGroups Query: ' + error.message)
+      }
     },
 
     addToBlacklist(

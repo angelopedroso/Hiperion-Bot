@@ -63,13 +63,20 @@ export function ZapConstructor(client?: Client, message?: Message) {
   function getAllParticipantsFormattedByParticipantSchema(
     participants: GroupParticipant[],
   ) {
-    return participants.map((p) => {
-      return {
-        id: '',
-        p_id: p.id.user,
-        tipo: p.isAdmin || p.isSuperAdmin ? 'admin' : 'membro',
-      } as IParticipant
-    })
+    return Promise.all(
+      participants.map(async (p) => {
+        const contact = await client?.getContactById(p.id._serialized)
+        const image = await client?.getProfilePicUrl(p.id._serialized)
+
+        return {
+          id: '',
+          p_id: p.id.user,
+          tipo: p.isAdmin || p.isSuperAdmin ? 'admin' : 'membro',
+          name: contact?.pushname || 'Undefined',
+          imageUrl: image,
+        } as IParticipant
+      }),
+    )
   }
 
   async function createGroupOnBotJoin(
@@ -102,6 +109,8 @@ export function ZapConstructor(client?: Client, message?: Message) {
         db.updateGroupOnReady(groupId, {
           id: '',
           p_id: p.p_id,
+          name: p.name,
+          image_url: p.imageUrl,
         }),
       )
       querys.push(db.createParticipantGroupType(groupId, p.p_id, p.tipo))
@@ -190,7 +199,7 @@ export type ZapType = {
   >
   getAllParticipantsFormattedByParticipantSchema: (
     participants: GroupParticipant[],
-  ) => IParticipant[]
+  ) => Promise<IParticipant[]>
   getGroupLink: () => Promise<string>
   translateMessage: <T extends LocaleFileName>(
     cmd: T,
