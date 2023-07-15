@@ -11,6 +11,7 @@ import {
 import qrCode from 'qrcode'
 
 import { createAllGroupsOnReady } from '@api/group/createAllGroupsOnReady'
+import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 
 import { removeFromGroup } from '@modules/groupNotification/removeFromGroup'
 import { userTypeChanged } from '@modules/groupNotification/userTypeChanged'
@@ -29,7 +30,6 @@ import {
 
 import { messageGetter } from '@helpers/messageGetter'
 import { cacheMiddleware } from '@lib/prisma'
-import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
 
 import i18next from 'i18next'
 import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
