@@ -19,15 +19,17 @@ export async function autoGroupInviteLink(
 ) {
   const botIsAdmin = await zap.isBotAdmin()
 
+  const messageBody = message?.body.toLowerCase()
+
   if (!botIsAdmin) {
     message?.reply(zap.translateMessage('general', 'botisnotadmin'))
     return
   }
 
-  if (groupInfo?.auto_invite_link && !message?.body.includes('!link')) {
-    if (message?.body.includes('link')) {
+  if (groupInfo?.auto_invite_link && !messageBody?.includes('!link')) {
+    if (messageBody?.includes('link')) {
       const chatLink = await zap.getGroupLink()
-      message.reply(`https://chat.whatsapp.com/${chatLink}`)
+      message?.reply(`https://chat.whatsapp.com/${chatLink}`)
     }
   }
 }
