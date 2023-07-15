@@ -13,6 +13,8 @@ datasource db {
 model Participant {
   id                     String                 @id @default(uuid())
   p_id                   String                 @unique
+  image_url              String?
+  name                   String
   group_participant      Group[]                @relation("participants_group")
   group_black_list       Group[]                @relation("participant_black_list")
   participant_group_type ParticipantGroupType[]
