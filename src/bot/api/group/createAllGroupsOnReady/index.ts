@@ -114,7 +114,7 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       }
     }
 
-    await prisma.$transaction([...removeParticipantsPromises, ...updates])
+    await prisma.$transaction([...updates, ...removeParticipantsPromises])
   } catch (error: Error | any) {
     printError(error)
   }
