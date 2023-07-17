@@ -10,7 +10,7 @@ export async function addNewUser(notification: GroupNotification) {
 
   Promise.all(
     notification.recipientIds.map(async (user) => {
-      const { pushname } = await client.getContactById(user)
+      const { pushname, shortName } = await client.getContactById(user)
       const imageUrl = await client.getProfilePicUrl(user)
 
       const formattedUser = user.replace('@c.us', '')
@@ -25,7 +25,11 @@ export async function addNewUser(notification: GroupNotification) {
       }
 
       const answer = await db.addParticipantInGroup(
-        { userId: formattedUser, pushname, imageUrl },
+        {
+          userId: formattedUser,
+          pushname: pushname || shortName || 'Undefined',
+          imageUrl,
+        },
         chat.id._serialized,
       )
 
