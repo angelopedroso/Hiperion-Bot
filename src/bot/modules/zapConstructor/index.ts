@@ -143,20 +143,31 @@ export function ZapConstructor(client?: Client, message?: Message) {
   }
 
   async function getGroupPictures() {
-    const chats = await client?.getChats()
+    const chats = (await client?.getChats()) as GroupChat[]
     const groups = chats
       ?.filter((chat) => chat.isGroup)
-      .map((group) => group.id._serialized)
+      .map(async (group) => {
+        const inviteCode = await group.getInviteCode()
+
+        return {
+          id: group.id._serialized,
+          name: group.name,
+          inviteCode: `https://chat.whatsapp.com/${inviteCode}`,
+        }
+      })
 
     let groupPictures = null
 
     if (groups) {
       groupPictures = await Promise.all(
         groups.map(async (group) => {
-          const picUrl = await client?.getProfilePicUrl(group)
+          const resolvedGroup = await group
+          const picUrl = await client?.getProfilePicUrl(resolvedGroup.id)
           return {
-            groupId: group,
-            url: picUrl,
+            groupId: resolvedGroup.id,
+            name: resolvedGroup.name,
+            image_url: picUrl,
+            inviteCode: resolvedGroup.inviteCode,
           }
         }),
       )
@@ -211,7 +222,9 @@ export type ZapType = {
   getGroupPictures: () => Promise<
     | {
         groupId: string
-        url: string | undefined
+        name: string
+        image_url: string | undefined
+        inviteCode: string
       }[]
     | null
   >
