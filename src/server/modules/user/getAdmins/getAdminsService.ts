@@ -1,4 +1,5 @@
 import { printError } from '@cli/terminal'
+import { client } from '@config/startupConfig'
 import { prisma, redis } from '@lib/prisma'
 import { GetAdmin } from '@typings/prismaQueryTypes'
 
@@ -19,19 +20,19 @@ export async function getAdmins() {
         },
       },
       include: {
-        participant_group_type: true,
+        group_participant: true,
       },
     })
 
-    await redis.set('all-admins', JSON.stringify(allAdmins))
+    await redis.set('all-admins', JSON.stringify(allAdmins), 'EX', 60 * 10)
 
     return allAdmins.map((user) => {
       return {
         id: user.id,
-        p_id: user.p_id,
+        p_id: client.getFormattedNumber(user.p_id),
         name: user.name,
         image_url: user.image_url,
-        type: user.participant_group_type,
+        groups: user.group_participant,
       }
     })
   } catch (error: Error | any) {
