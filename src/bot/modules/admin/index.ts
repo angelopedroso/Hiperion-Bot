@@ -1,5 +1,5 @@
 import { db } from '@lib/auth/prisma-query'
-import { prisma, redis } from '@lib/prisma'
+import { prisma } from '@lib/prisma'
 import { ZapType } from '@modules/zapConstructor'
 import { BOT_NUM } from '@utils/envs'
 
@@ -42,8 +42,6 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
       message.react('😈')
 
-      redis.del(`group-info:${groupId}`)
-
       return
     }
 
@@ -66,8 +64,6 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
       await prisma.$transaction(blackList)
 
       message?.react('😈')
-
-      redis.del(`group-info:${groupId}`)
 
       return
     }
