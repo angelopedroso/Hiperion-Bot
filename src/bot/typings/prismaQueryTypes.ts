@@ -1,9 +1,4 @@
-import {
-  AntiTrava,
-  Group,
-  Participant,
-  ParticipantGroupType,
-} from '@prisma/client'
+import { AntiTrava, Group, Participant } from '@prisma/client'
 
 export type CompleteGroup = Group & {
   participants: Participant[]
@@ -13,10 +8,10 @@ export type CompleteGroup = Group & {
 
 export type GetAdmin = {
   id: string
-  p_id: string
+  p_id: Promise<string>
   name: string
   image_url: string | null
-  type: ParticipantGroupType[]
+  groups: Group[]
 }[]
 
 export type addParticipantInGroupProps = {
