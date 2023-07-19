@@ -6,6 +6,8 @@ import {
 import { Group, Participant, ParticipantType } from '@prisma/client'
 import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { ZapConstructor } from '@modules/zapConstructor'
+import { client } from '@config/startupConfig'
 
 export function PrismaQuery() {
   return {
@@ -343,8 +345,7 @@ export function PrismaQuery() {
           },
         })
 
-        await redis.set(cacheKey, JSON.stringify(groupInfo))
-        await redis.expire(cacheKey, 60 * 10)
+        await redis.set(cacheKey, JSON.stringify(groupInfo), 'EX', 60 * 10)
 
         return groupInfo
       } catch (error: Error | any) {
@@ -357,14 +358,48 @@ export function PrismaQuery() {
         const cache = await redis.get('all-groups')
 
         if (cache) {
-          return JSON.parse(cache) as Group[]
+          return JSON.parse(cache) as CompleteGroup[]
         }
 
-        const allGroups = await prisma.group.findMany({})
+        const allGroups = await prisma.group.findMany({
+          include: {
+            participants: true,
+            black_list: true,
+            anti_trava: true,
+          },
+        })
 
-        await redis.set('all-groups', JSON.stringify(allGroups))
+        const groupPics = await ZapConstructor(client).getGroupPictures()
 
-        return allGroups
+        const formattedGroups = allGroups?.map((group) => {
+          return {
+            id: group.id,
+            group_info: groupPics?.find((pic) => pic.groupId === group.g_id),
+            g_id: group.g_id,
+            bem_vindo: group.bem_vindo,
+            anti_link: group.anti_link,
+            anti_porn: group.anti_porn,
+            one_group: group.one_group,
+            auto_sticker: group.auto_sticker,
+            auto_invite_link: group.auto_invite_link,
+            anti_trava_id: group.anti_trava_id,
+            anti_trava: {
+              status: group.anti_trava?.status,
+              max_characters: group.anti_trava?.max_characters,
+            },
+            black_list: group.black_list,
+            participants: group.participants,
+          }
+        })
+
+        await redis.set(
+          'all-groups',
+          JSON.stringify(formattedGroups),
+          'EX',
+          60 * 5,
+        )
+
+        return formattedGroups as CompleteGroup[]
       } catch (error: Error | any) {
         printError('getAllGroups Query: ' + error.message)
       }
@@ -373,7 +408,7 @@ export function PrismaQuery() {
     addToBlacklist(
       groupId: string,
       participantId: string,
-      allGroups: Group[] | undefined,
+      allGroups: Group[] | CompleteGroup[] | undefined,
     ) {
       const querys = []
       querys.push(
