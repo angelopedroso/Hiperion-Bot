@@ -6,6 +6,12 @@ import { existsSync } from 'fs'
 import { printHeader } from '@cli/terminal'
 import { routes } from './routes'
 
+if (!existsSync('.env')) {
+  printHeader()
+} else {
+  start()
+}
+
 const app = express()
 
 app.listen(3333)
@@ -13,9 +19,3 @@ app.listen(3333)
 app.use(express.json())
 
 app.use(routes)
-
-if (!existsSync('.env')) {
-  printHeader()
-} else {
-  start()
-}

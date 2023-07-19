@@ -11,7 +11,7 @@ export type GetAdmin = {
   p_id: Promise<string>
   name: string
   image_url: string | null
-  groups: Group[]
+  groups: Group & { image_url: string; name: string }[]
 }[]
 
 export type addParticipantInGroupProps = {
