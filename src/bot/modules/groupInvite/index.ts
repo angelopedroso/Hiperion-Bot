@@ -1,5 +1,6 @@
 import { ZapType } from '@modules/zapConstructor'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { isUrl } from '@utils/globalVariable'
 
 export async function sendGroupInviteLink({ message, ...zap }: ZapType) {
   const botIsAdmin = await zap.isBotAdmin()
@@ -20,6 +21,8 @@ export async function autoGroupInviteLink(
   const botIsAdmin = await zap.isBotAdmin()
 
   const messageBody = message?.body.toLowerCase()
+
+  if (isUrl.test(messageBody + '')) return
 
   if (!botIsAdmin) {
     message?.reply(zap.translateMessage('general', 'botisnotadmin'))
