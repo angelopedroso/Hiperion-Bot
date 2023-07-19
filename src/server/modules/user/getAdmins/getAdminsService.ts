@@ -24,12 +24,18 @@ export async function getAdmins() {
       },
     })
 
+    const formattedNumbersPromise = allAdmins.map(async (user) => {
+      return { p_id: await client.getFormattedNumber(user.p_id), id: user.id }
+    })
+
+    const formattedNumbers = await Promise.all(formattedNumbersPromise)
+
     await redis.set('all-admins', JSON.stringify(allAdmins), 'EX', 60 * 10)
 
     return allAdmins.map((user) => {
       return {
         id: user.id,
-        p_id: client.getFormattedNumber(user.p_id),
+        p_id: formattedNumbers.find((p) => p.id === user.id)?.p_id,
         name: user.name,
         image_url: user.image_url,
         groups: user.group_participant,
