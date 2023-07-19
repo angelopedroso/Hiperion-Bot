@@ -9,8 +9,6 @@ export type CompleteGroup = Group & {
   participants: Participant[]
   blackList?: Participant[]
   antiTrava?: AntiTrava
-  image_url?: string
-  participants_size?: string
 }
 
 export type GetAdmin = {
