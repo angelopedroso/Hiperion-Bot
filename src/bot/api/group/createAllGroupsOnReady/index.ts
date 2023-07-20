@@ -37,7 +37,7 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
                 ? 'admin'
                 : 'membro'
             ],
-            name: contact.pushname || 'Undefined',
+            name: contact.pushname || contact.shortName || 'Undefined',
             imageUrl: await client.getProfilePicUrl(participant.id._serialized),
           }
         }),

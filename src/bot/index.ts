@@ -33,6 +33,7 @@ import { cacheMiddleware } from '@lib/prisma'
 
 import i18next from 'i18next'
 import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
+import { updateAllUsers } from '@api/group/updateAllUsers'
 
 cacheMiddleware()
 configDotenv()
@@ -79,6 +80,7 @@ const start = () => {
       Promise.all([
         createAllGroupsOnReady(groups),
         checkBlackListOnInit(groups),
+        updateAllUsers(groups),
       ])
     }
 

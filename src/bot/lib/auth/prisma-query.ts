@@ -516,6 +516,20 @@ export function PrismaQuery() {
         },
       })
     },
+
+    updateParticipants(p: Participant) {
+      const querys = prisma.participant.updateMany({
+        where: {
+          AND: [{ p_id: p.p_id }, { NOT: { image_url: p.image_url } }],
+        },
+        data: {
+          name: p.name,
+          image_url: p.image_url,
+        },
+      })
+
+      return querys
+    },
   }
 }
 
