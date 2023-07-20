@@ -508,6 +508,7 @@ export function PrismaQuery() {
       user_name: string
       is_group: boolean
       chat_name: string | null
+      groupId: string
     }) {
       await prisma.log.create({
         data: {

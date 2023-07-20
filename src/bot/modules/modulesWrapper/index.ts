@@ -5,7 +5,7 @@ import { db } from '@lib/auth/prisma-query'
 
 export async function registerModules(zap: ZapType) {
   if (zap.message?.body.startsWith('!')) {
-    const { isGroup, name } = await zap.getChat()
+    const { isGroup, name, id } = await zap.getChat()
     const { pushname } = await zap.getUser()
     const commandParts = zap.message.body.split(' ')
     const commandName = commandParts[0].replace('!', '').toLowerCase()
@@ -44,6 +44,7 @@ export async function registerModules(zap: ZapType) {
           user_name: pushname,
           is_group: isGroup,
           chat_name: isGroup ? name : null,
+          groupId: id._serialized,
         })
 
         return

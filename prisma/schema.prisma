@@ -54,6 +54,7 @@ model AntiTrava {
 
 model Log {
   id        String    @id @default(uuid())
+  groupId   String
   is_group  Boolean
   command   String
   user_name String
