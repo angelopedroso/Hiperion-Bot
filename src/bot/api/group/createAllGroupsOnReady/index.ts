@@ -1,5 +1,5 @@
 import { db } from '@lib/auth/prisma-query'
-import { Participant, ParticipantType, Prisma } from '@prisma/client'
+import { ParticipantType } from '@prisma/client'
 import { printError } from '@cli/terminal'
 import { prisma } from '@lib/prisma'
 import { GroupChat } from 'whatsapp-web.js'
@@ -8,10 +8,6 @@ import { client } from '@config/startupConfig'
 export async function createAllGroupsOnReady(groups: GroupChat[]) {
   try {
     const updates = []
-    let removeParticipantsPromises: Prisma.Prisma__ParticipantClient<
-      Participant,
-      never
-    >[] = []
 
     const groupIds = groups.map((group) => group.id._serialized)
     const allParticipantsGroups = await db.getParticipantsFromGroups(groupIds)
@@ -69,10 +65,10 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       )
 
       if (removedParticipants?.length) {
-        removeParticipantsPromises = removedParticipants.map(
-          ({ p_id: participantId }) => {
-            return db.removeParticipantsFromGroup(participantId, groupId)
-          },
+        Promise.all(
+          removedParticipants.map(async ({ p_id: participantId }) => {
+            await db.removeParticipantsFromGroup(participantId, groupId)
+          }),
         )
       }
 
@@ -114,7 +110,7 @@ export async function createAllGroupsOnReady(groups: GroupChat[]) {
       }
     }
 
-    await prisma.$transaction([...updates, ...removeParticipantsPromises])
+    await prisma.$transaction(updates)
   } catch (error: Error | any) {
     printError(error)
   }

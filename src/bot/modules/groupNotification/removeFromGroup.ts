@@ -1,15 +1,12 @@
 import { db } from '@lib/auth/prisma-query'
-import { prisma } from '@lib/prisma'
 import { GroupNotification } from 'whatsapp-web.js'
 
 export async function removeFromGroup(notification: GroupNotification) {
-  const query: any[] = []
+  Promise.all(
+    notification.recipientIds.map(async (user) => {
+      const formattedUser = user.replace('@c.us', '')
 
-  notification.recipientIds.map(async (user) => {
-    const formattedUser = user.replace('@c.us', '')
-    query.push(
-      db.removeParticipantsFromGroup(formattedUser, notification.chatId),
-    )
-  })
-  await prisma.$transaction(query)
+      await db.removeParticipantsFromGroup(formattedUser, notification.chatId)
+    }),
+  )
 }

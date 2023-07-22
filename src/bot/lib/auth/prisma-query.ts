@@ -252,19 +252,38 @@ export function PrismaQuery() {
       }
     },
 
-    removeParticipantsFromGroup(participantId: string, groupId: string) {
-      return prisma.participant.update({
+    async removeParticipantsFromGroup(participantId: string, groupId: string) {
+      const participant = await prisma.participant.findUnique({
         where: {
           p_id: participantId,
         },
-        data: {
-          group_participant: {
-            disconnect: {
-              g_id: groupId,
-            },
-          },
+        include: {
+          group_participant: true,
         },
       })
+
+      if (!participant) return
+
+      if (participant.group_participant.length === 0) {
+        await prisma.participant.delete({
+          where: {
+            p_id: participantId,
+          },
+        })
+      } else {
+        await prisma.participant.update({
+          where: {
+            p_id: participantId,
+          },
+          data: {
+            group_participant: {
+              disconnect: {
+                g_id: groupId,
+              },
+            },
+          },
+        })
+      }
     },
 
     async deleteParticipant(participantId: string) {
