@@ -5,6 +5,7 @@ import {
   GroupChat,
   GroupParticipant,
   Message,
+  MessageMedia,
 } from 'whatsapp-web.js'
 
 import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
@@ -176,6 +177,24 @@ export function ZapConstructor(client?: Client, message?: Message) {
     return groupPictures
   }
 
+  async function updateGroupPicture(data: string, id: string) {
+    const group = (await client?.getChatById(id)) as GroupChat
+
+    if (!group) return
+
+    const media = new MessageMedia('image/jpeg', data, 'picture.jpg')
+
+    await group.setPicture(media)
+  }
+
+  async function updateGroupSubject(data: string, id: string) {
+    const group = (await client?.getChatById(id)) as GroupChat
+
+    if (!group) return
+
+    await group.setSubject(data)
+  }
+
   return {
     getChat,
     getGroupChat,
@@ -189,6 +208,8 @@ export function ZapConstructor(client?: Client, message?: Message) {
     translateMessage,
     IsOwner,
     getGroupPictures,
+    updateGroupPicture,
+    updateGroupSubject,
     message,
   }
 }
@@ -228,5 +249,7 @@ export type ZapType = {
       }[]
     | null
   >
+  updateGroupPicture: (data: string, id: string) => Promise<void>
+  updateGroupSubject: (data: string, id: string) => Promise<void>
   message?: Message
 }

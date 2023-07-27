@@ -406,7 +406,7 @@ export function PrismaQuery() {
               status: group.anti_trava?.status,
               max_characters: group.anti_trava?.max_characters,
             },
-            black_list: group.black_list,
+            blackList: group.black_list,
             participants: group.participants,
           }
         })
