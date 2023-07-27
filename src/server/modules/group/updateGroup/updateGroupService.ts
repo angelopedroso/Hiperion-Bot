@@ -1,8 +1,20 @@
-import { prisma } from '@lib/prisma'
+import { client } from '@config/startupConfig'
+import { prisma, redis } from '@lib/prisma'
+import { ZapConstructor } from '@modules/zapConstructor'
 import { CompleteGroup } from '@typings/prismaQueryTypes'
 import { AppError } from 'server/errors'
 
-export async function updateGroupService({ id, ...group }: CompleteGroup) {
+type FormattedResponseBody = CompleteGroup & {
+  avatar_image?: string
+  group_name?: string
+}
+
+export async function updateGroupService({
+  id,
+  avatar_image: avatarImage,
+  group_name: groupName,
+  ...group
+}: FormattedResponseBody) {
   const existsGroup = await prisma.group.findUnique({
     where: {
       id,
@@ -11,6 +23,14 @@ export async function updateGroupService({ id, ...group }: CompleteGroup) {
 
   if (!existsGroup) {
     throw new AppError('Group not found!')
+  }
+
+  if (avatarImage) {
+    await ZapConstructor(client).updateGroupPicture(avatarImage, group.g_id)
+  }
+
+  if (groupName) {
+    await ZapConstructor(client).updateGroupSubject(groupName, group.g_id)
   }
 
   const groupUpdated = await prisma.group.update({
@@ -25,22 +45,24 @@ export async function updateGroupService({ id, ...group }: CompleteGroup) {
       auto_sticker: group.auto_sticker,
       auto_invite_link: group.auto_invite_link,
       anti_trava: {
-        upsert: {
-          create: {
-            status: group.antiTrava?.status,
-            max_characters: group.antiTrava?.max_characters,
-          },
-          update: {
-            status: group.antiTrava?.status,
-            max_characters: group.antiTrava?.max_characters,
-          },
+        update: {
+          status: group.antiTrava?.status,
+          max_characters: group.antiTrava?.max_characters,
         },
       },
       black_list: {
-        set: group.blackList,
+        connect: group.blackList?.map((user) => ({
+          id: user.id,
+        })),
       },
     },
   })
+
+  Promise.all([
+    redis.del(`group-info:${group.g_id}`),
+    redis.del(`group:${id}`),
+    redis.del('all-groups'),
+  ])
 
   return groupUpdated
 }
