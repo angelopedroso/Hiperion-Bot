@@ -11,6 +11,7 @@
     "@clack/prompts": "^0.6.3",
     "@prisma/client": "4.15.0",
     "@types/express": "^4.17.17",
+    "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "eslint": "^8.42.0",
     "express": "^4.18.2",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
+    "@types/cors": "^2.8.13",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/fs-extra": "^11.0.1",
     "@types/linkify-it": "^3.0.2",
