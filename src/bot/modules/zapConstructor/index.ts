@@ -192,7 +192,17 @@ export function ZapConstructor(client?: Client, message?: Message) {
 
     if (!group) return
 
-    await group.setSubject(data)
+    Promise.all([
+      group.setSubject(data),
+      prisma.log.updateMany({
+        where: {
+          chat_name: group.name,
+        },
+        data: {
+          chat_name: data,
+        },
+      }),
+    ])
   }
 
   return {
