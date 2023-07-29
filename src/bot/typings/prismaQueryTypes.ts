@@ -1,9 +1,18 @@
 import { AntiTrava, Group, Participant } from '@prisma/client'
 
+type GroupInfo = {
+  groupId: string
+  name: string
+  image_url: string | undefined
+  inviteCode: string
+  isAdmin: boolean
+}
+
 export type CompleteGroup = Group & {
   participants: Participant[]
   blackList: Participant[]
   antiTrava?: AntiTrava
+  group_info?: GroupInfo
 }
 
 export type GetAdmin = {
