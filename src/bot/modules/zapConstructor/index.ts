@@ -149,11 +149,15 @@ export function ZapConstructor(client?: Client, message?: Message) {
       ?.filter((chat) => chat.isGroup)
       .map(async (group) => {
         const inviteCode = await group.getInviteCode()
+        const isAdmin = group.participants
+          .filter((p) => p.isAdmin || p.isSuperAdmin)
+          .some((admin) => admin.id._serialized === BOT_NUM + '@c.us')
 
         return {
           id: group.id._serialized,
           name: group.name,
           inviteCode: `https://chat.whatsapp.com/${inviteCode}`,
+          isAdmin,
         }
       })
 
@@ -164,11 +168,13 @@ export function ZapConstructor(client?: Client, message?: Message) {
         groups.map(async (group) => {
           const resolvedGroup = await group
           const picUrl = await client?.getProfilePicUrl(resolvedGroup.id)
+
           return {
             groupId: resolvedGroup.id,
             name: resolvedGroup.name,
             image_url: picUrl,
             inviteCode: resolvedGroup.inviteCode,
+            isAdmin: resolvedGroup.isAdmin,
           }
         }),
       )
