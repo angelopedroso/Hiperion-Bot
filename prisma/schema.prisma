@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model BotSettings {
+  id      String   @id @default(uuid())
+  private Boolean? @default(false)
+}
+
 model Participant {
   id                     String                 @id @default(uuid())
   p_id                   String                 @unique
