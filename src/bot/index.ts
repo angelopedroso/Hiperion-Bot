@@ -34,6 +34,7 @@ import { cacheMiddleware } from '@lib/prisma'
 import i18next from 'i18next'
 import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
 import { updateAllUsers } from '@api/group/updateAllUsers'
+import { db } from '@lib/auth/prisma-query'
 
 cacheMiddleware()
 configDotenv()
@@ -71,6 +72,7 @@ const start = () => {
 
   client.on(Events.READY, async () => {
     botReadyTimestamp = new Date()
+    await db.createBotInfo()
 
     const groups = (await client.getChats()).filter(
       (g) => g.isGroup,
