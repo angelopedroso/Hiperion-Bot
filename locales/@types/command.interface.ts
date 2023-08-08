@@ -48,6 +48,7 @@ export const paths = [
   'promote',
   'recognize',
   'td',
+  'toimg',
   'totext',
   'welcome',
   'wrongcmd',

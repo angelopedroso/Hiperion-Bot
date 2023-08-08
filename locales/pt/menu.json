@@ -7,6 +7,10 @@
         {
           "title": "fs",
           "description": "converte uma mídia em figurinha"
+        },
+        {
+          "title": "toimg",
+          "description": "converte uma figurinha em imagem"
         }
       ]
     },

@@ -8,6 +8,7 @@ import {
 } from '@modules/blacklist'
 import { sendBotStatus, togglePrivateMode } from '@modules/bot'
 import { clearAllChats } from '@modules/clearChats'
+import { convertStickerToImg } from '@modules/convertSticker'
 import { mediaDownloader } from '@modules/downloader'
 import { sendGroupInviteLink } from '@modules/groupInvite'
 import { toggleAutoInvite } from '@modules/groupInvite/commands'
@@ -82,5 +83,6 @@ commandMap.set('clearchats', { handler: clearAllChats, expectedArgs: 0 })
 commandMap.set('recognize', { handler: recognizeMusic, expectedArgs: 0 })
 commandMap.set('pv', { handler: togglePrivateMode, expectedArgs: 0 })
 commandMap.set('binfo', { handler: sendBotStatus, expectedArgs: 0 })
+commandMap.set('toimg', { handler: convertStickerToImg, expectedArgs: 0 })
 
 export { commandMap }
