@@ -39,31 +39,31 @@
         },
         {
           "title": "ld",
-          "description": "enables/disables link detector in the group - admin"
+          "description": "enable/disable link detector in the group - admin"
         },
         {
           "title": "og",
-          "description": "enables/disables mentions only in the group - admin"
+          "description": "enable/disable mentions only in the group - admin"
         },
         {
           "title": "md",
-          "description": "enables/disables malicious content detector in the group - admin"
+          "description": "enable/disable malicious content detector in the group - admin"
         },
         {
           "title": "td",
-          "description": "enables/disables WhatsApp-crashing message detector in the group - admin"
+          "description": "enable/disable WhatsApp-crashing message detector in the group - admin"
         },
         {
           "title": "bv",
-          "description": "enables/disables the welcome message when someone joins the group - admin"
+          "description": "enable/disable the welcome message when someone joins the group - admin"
         },
         {
           "title": "asticker",
-          "description": "enables/disables automatic sticker creation in the group - admin"
+          "description": "enable/disable automatic sticker creation in the group - admin"
         },
         {
           "title": "ainvite",
-          "description": "enables/disables automatic invitation in the group - admin"
+          "description": "enable/disable automatic invitation in the group - admin"
         },
         {
           "title": "ginfo",
@@ -131,6 +131,14 @@
         {
           "title": "clearchats",
           "description": "clear all chats"
+        },
+        {
+          "title": "pv",
+          "description": "enable/disable private mode of the bot"
+        },
+        {
+          "title": "binfo",
+          "description": "show informations about the bot"
         }
       ]
     }

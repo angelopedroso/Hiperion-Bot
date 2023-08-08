@@ -1,12 +1,28 @@
 import { BOT_NAME } from '@utils/envs'
-import { Menu } from '.'
+import { Menu, MenuItem } from '.'
 
-export function getMenuPage({ menu }: Menu, formattedPageNum: number) {
+function getGroupCommands(menuItems: MenuItem[], isAdmin: boolean) {
+  const availableCommands = menuItems.filter((item) => {
+    const isAdminCommand = item.description.includes('*admin*')
+
+    return isAdmin || !isAdminCommand
+  })
+
+  return availableCommands
+}
+
+export function getMenuPage(
+  { menu }: Menu,
+  formattedPageNum: number,
+  isAdmin: boolean = false,
+) {
   const pageInfo = menu[formattedPageNum - 1]
   const pageTitle = pageInfo.title
   const pageItems = pageInfo.items
 
-  const messageCmds = pageItems.reduce(
+  const availableCommands = getGroupCommands(pageItems, isAdmin)
+
+  const messageCmds = availableCommands.reduce(
     (acc, cur) => {
       return {
         title: acc.title,

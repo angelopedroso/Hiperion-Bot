@@ -3,7 +3,7 @@ import { BOT_NAME } from '@utils/envs'
 import i18next from 'i18next'
 import { getMenuPage } from './util'
 
-interface MenuItem {
+export interface MenuItem {
   title: string
   description: string
 }
@@ -22,6 +22,7 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
     'menu',
   )) as Menu
   const isOwner = await zap.IsOwner()
+  const isAdmin = await zap.getUserIsAdmin(message?.author || message!.from)
 
   if (page && !isNaN(formattedPageNum)) {
     if (formattedPageNum > menu.menu.length) {
@@ -42,7 +43,7 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
       return
     }
 
-    const messageFormat = getMenuPage(menu, formattedPageNum)
+    const messageFormat = getMenuPage(menu, formattedPageNum, isAdmin)
 
     message?.reply(messageFormat)
 

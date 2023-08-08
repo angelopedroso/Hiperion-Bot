@@ -131,6 +131,14 @@
         {
           "title": "clearchats",
           "description": "apaga a conversa de todos os chats"
+        },
+        {
+          "title": "pv",
+          "description": "ativa/desativa o modo privado do bot"
+        },
+        {
+          "title": "binfo",
+          "description": "mostra as informações do bot"
         }
       ]
     }
