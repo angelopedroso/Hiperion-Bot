@@ -590,6 +590,18 @@ export function PrismaQuery() {
         printError('updateBotInfo Query: ' + error.message)
       }
     },
+
+    async updateBotInfo({ private: privateChat }: BotSettings) {
+      try {
+        await prisma.botSettings.updateMany({
+          data: {
+            private: privateChat,
+          },
+        })
+      } catch (error: Error | any) {
+        printError('updateBotInfo Query: ' + error.message)
+      }
+    },
   }
 }
 
