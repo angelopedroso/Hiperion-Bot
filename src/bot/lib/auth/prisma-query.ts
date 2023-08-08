@@ -576,6 +576,20 @@ export function PrismaQuery() {
         printError('getBotInfo Query: ' + error.message)
       }
     },
+
+    async createBotInfo() {
+      try {
+        const botInfo = await prisma.botSettings.findFirst({})
+
+        if (botInfo) return
+
+        await prisma.botSettings.create({
+          data: {},
+        })
+      } catch (error: Error | any) {
+        printError('updateBotInfo Query: ' + error.message)
+      }
+    },
   }
 }
 
