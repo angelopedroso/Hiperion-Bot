@@ -1,6 +1,7 @@
 # Hiperion Bot
 
 ### Em desenvolvimento
+
 #### Dê uma estrela (star) para esse repositório, se você gostou 😉
 
 ## Overview
@@ -87,36 +88,38 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
 A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algum serviço de API é necessário.
 
-| Comando       | Descrição                                                                   | API Key     |
-| ------------- | --------------------------------------------------------------------------- | ----------- |
-| `!menu`       | Mostra o menu do bot                                                        |             |
-| `!fs`         | Converte imagem, vídeo ou GIF em sticker                                    |             |
-| `!off`        | Desliga o bot                                                               |             |
-| `!about`      | Mostra os créditos                                                          |             |
-| `!link`       | Recebe o link de convite do grupo                                           |             |
-| `!ping`       | Verifica a latência do bot                                                  |             |
-| `!regras`     | Mostra as regras do grupo                                                   |             |
-| `!promote`    | Promove um usuário no grupo                                                 |             |
-| `!demote`     | Rebaixa um usuário no grupo                                                 |             |
-| `!join`       | Entra no grupo do convite                                                   |             |
-| `!leave`      | Sai do grupo em questão                                                     |             |
-| `!add`        | Adiciona um usuário ao grupo                                                |             |
-| `!ban`        | Remove o usuário do grupo e adiciona em todas as listas negras              |             |
-| `!ld`         | Ativa/Desativa o detector de links em algum grupo                           |             |
-| `!og`         | Ativa/Desativa o apenas em um grupo em algum grupo                          |             |
-| `!md`         | Ativa/Desativa o detector de conteúdo malicioso em algum grupo              | SightEngine |
-| `!td`         | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo |             |
-| `!bv`         | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo |             |
-| `!bl`         | Adiciona o usuário à lista negra de todos os grupos                         |             |
-| `!rbl`        | Remove o usuário da lista negra do grupo                                    |             |
-| `!rblall`     | Remove o usuário de todas as lista negras dos grupos                        |             |
-| `!asticker`   | Ativa/Desativa a criação automática de stickers em algum grupo              |             |
-| `!ainvite`    | Ativa/Desativa o convite automático em algum grupo                          |             |
-| `!ginfo`      | Mostra as informações de um grupo                                           |             |
-| `!dload`      | Baixa conteúdos de diversas redes sociais                                   |             |
-| `!totext`     | Converte uma mensagem de áudio para texto                                   | OpenAI      |
-| `!clearchats` | Apaga a conversa de todos os chats                                          |             |
-| `!recognize`  | Identifica uma música                                                       | ACRCloud    |
+| Comando       | Descrição                                                                     | API Key     |
+| ------------- | ----------------------------------------------------------------------------- | ----------- |
+| `!menu`       | Mostra o menu do bot                                                          |             |
+| `!fs`         | Converte imagem, vídeo ou GIF em sticker                                      |             |
+| `!off`        | Desliga o bot                                                                 |             |
+| `!about`      | Mostra os créditos                                                            |             |
+| `!link`       | Recebe o link de convite do grupo                                             |             |
+| `!ping`       | Verifica a latência do bot                                                    |             |
+| `!regras`     | Mostra as regras do grupo                                                     |             |
+| `!promote`    | Promove um usuário no grupo                                                   |             |
+| `!demote`     | Rebaixa um usuário no grupo                                                   |             |
+| `!join`       | Entra no grupo do convite                                                     |             |
+| `!leave`      | Sai do grupo em questão                                                       |             |
+| `!add`        | Adiciona um usuário ao grupo                                                  |             |
+| `!ban`        | Remove o usuário do grupo e adiciona em todas as listas negras                |             |
+| `!ld`         | Ativa/Desativa o detector de links em algum grupo                             |             |
+| `!og`         | Ativa/Desativa o apenas em um grupo em algum grupo                            |             |
+| `!md`         | Ativa/Desativa o detector de conteúdo malicioso em algum grupo                | SightEngine |
+| `!td`         | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo   |             |
+| `!bv`         | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo   |             |
+| `!bl`         | Adiciona o usuário à lista negra de todos os grupos                           |             |
+| `!rbl`        | Remove o usuário da lista negra do grupo                                      |             |
+| `!rblall`     | Remove o usuário de todas as lista negras dos grupos                          |             |
+| `!asticker`   | Ativa/Desativa a criação automática de stickers em algum grupo                |             |
+| `!ainvite`    | Ativa/Desativa o convite automático em algum grupo                            |             |
+| `!ginfo`      | Mostra as informações de um grupo                                             |             |
+| `!dload`      | Baixa conteúdos de diversas redes sociais                                     |             |
+| `!totext`     | Converte uma mensagem de áudio para texto                                     | OpenAI      |
+| `!clearchats` | Apaga a conversa de todos os chats                                            |             |
+| `!recognize`  | Identifica uma música                                                         | ACRCloud    |
+| `!pv`         | Ativa/Desativa o modo privado(permite usar comandos no privado do bot) do bot |             |
+| `!binfo`      | Mostra as informações do bot                                                  |             |
 
 ## Contribuição
 
