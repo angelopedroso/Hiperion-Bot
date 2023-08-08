@@ -14,3 +14,7 @@ export type groupInfoCache = {
     max_characters: number | null
   } | null
 }
+
+export type botInfoCache = {
+  private: boolean | null
+}
