@@ -3,9 +3,17 @@ import {
   CompleteGroup,
   addParticipantInGroupProps,
 } from '@typings/prismaQueryTypes'
-import { Group, Participant, ParticipantType } from '@prisma/client'
+import {
+  BotSettings,
+  Group,
+  Participant,
+  ParticipantType,
+} from '@prisma/client'
 import { printError } from '@cli/terminal'
-import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import {
+  botInfoCache,
+  groupInfoCache,
+} from '@typings/cache/groupInfo.interface'
 import { ZapConstructor } from '@modules/zapConstructor'
 import { client } from '@config/startupConfig'
 
@@ -548,6 +556,25 @@ export function PrismaQuery() {
       })
 
       return querys
+    },
+
+    async getBotInfo() {
+      try {
+        const cacheKey = 'bot-info'
+        const cache = await redis.get(cacheKey)
+
+        if (cache) {
+          return JSON.parse(cache) as botInfoCache
+        }
+
+        const botInfo = await prisma.botSettings.findFirst({})
+
+        await redis.set(cacheKey, JSON.stringify(botInfo), 'EX', 60 * 15)
+
+        return botInfo
+      } catch (error: Error | any) {
+        printError('getBotInfo Query: ' + error.message)
+      }
     },
   }
 }
