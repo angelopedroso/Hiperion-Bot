@@ -12,6 +12,7 @@ export type LocaleFileName =
   | 'about'
   | 'recognize'
   | 'menu'
+  | 'botinfo'
 
 interface LocaleAttributeMap {
   welcome: 'message' | 'onegroup'
@@ -27,7 +28,30 @@ interface LocaleAttributeMap {
   about: 'message'
   recognize: 'message'
   menu: 'main'
+  botinfo: 'info'
 }
+
+export const paths = [
+  'about',
+  'acceptInvite',
+  'add',
+  'ban',
+  'bl',
+  'botinfo',
+  'demote',
+  'dload',
+  'fs',
+  'general',
+  'groupinfo',
+  'menu',
+  'notgroup',
+  'promote',
+  'recognize',
+  'td',
+  'totext',
+  'welcome',
+  'wrongcmd',
+]
 
 export type TranslationVariables = Record<
   string,

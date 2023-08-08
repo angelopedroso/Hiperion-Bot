@@ -21,27 +21,6 @@ const localePath = path.join(
   '/locales/{{lng}}/{{ns}}.json',
 )
 
-const paths = [
-  'about',
-  'acceptInvite',
-  'add',
-  'ban',
-  'bl',
-  'demote',
-  'dload',
-  'fs',
-  'general',
-  'groupinfo',
-  'menu',
-  'notgroup',
-  'promote',
-  'recognize',
-  'td',
-  'totext',
-  'welcome',
-  'wrongcmd',
-]
-
 const client = new Client({
   authStrategy: new LocalAuth({
     clientId: undefined,
@@ -63,4 +42,4 @@ const client = new Client({
   },
 })
 
-export { constants, client, paths, localePath }
+export { constants, client, localePath }

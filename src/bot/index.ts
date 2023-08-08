@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv'
 
-import { client, localePath, paths } from '@config/startupConfig'
+import { client, localePath } from '@config/startupConfig'
 import {
   Events,
   GroupChat,
@@ -9,6 +9,7 @@ import {
   WAState,
 } from 'whatsapp-web.js'
 import qrCode from 'qrcode'
+import { paths } from '@locales/@types/command.interface'
 
 import { createAllGroupsOnReady } from '@api/group/createAllGroupsOnReady'
 import { checkBlackListOnInit } from '@api/group/checkBlackListOnInit'
