@@ -2,15 +2,11 @@ import { ZapType } from '@modules/zapConstructor'
 import { commandMap } from './commandMap'
 import { LocaleFileName } from '@locales/@types/command.interface'
 import { db } from '@lib/auth/prisma-query'
-import { OWNER_NUM } from '@utils/envs'
 
 export async function registerModules(zap: ZapType) {
   if (zap.message?.body.startsWith('!')) {
     const { isGroup, name, id } = await zap.getChat()
-    const {
-      pushname,
-      id: { user },
-    } = await zap.getUser()
+    const { pushname } = await zap.getUser()
     const commandParts = zap.message.body.split(' ')
     const commandName = commandParts[0].replace('!', '').toLowerCase()
     const args = commandParts.slice(1)
@@ -19,9 +15,13 @@ export async function registerModules(zap: ZapType) {
 
     if (commandInfo) {
       const { handler, expectedArgs, fullArg } = commandInfo
-      const botInfo = await db.getBotInfo()
 
-      if (!isGroup && OWNER_NUM !== user && !botInfo?.private) return
+      if (!isGroup) {
+        const botInfo = await db.getBotInfo()
+        const isOwner = await zap.IsOwner()
+
+        if (!isOwner && !botInfo?.private) return
+      }
 
       if (args.includes('help')) {
         if (
