@@ -22,11 +22,14 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
     i18next.language,
     'menu',
   )) as Menu
+  const maxMenuPages = menu.menu.length
+
   const { isGroup } = await zap.getChat()
+
   const isOwner = await zap.IsOwner()
 
   if (page && !isNaN(formattedPageNum)) {
-    if (formattedPageNum > menu.menu.length) {
+    if (formattedPageNum > maxMenuPages) {
       message?.reply(
         zap.translateMessage('menu', 'main', {
           botname: BOT_NAME,
@@ -37,10 +40,15 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
     }
 
     if (formattedPageNum === 5 && isOwner) {
-      const messageFormat = getMenuPage(menu, formattedPageNum)
+      const menuPageMessage = getMenuPage(menu, formattedPageNum)
 
-      message?.reply(messageFormat)
+      message?.reply(menuPageMessage)
 
+      return
+    }
+
+    if (formattedPageNum === 2 && !isGroup) {
+      await message?.reply(zap.translateMessage('notgroup', 'error'))
       return
     }
 
@@ -48,9 +56,9 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
       isAdmin = await zap.getUserIsAdmin(message?.author || message!.from)
     }
 
-    const messageFormat = getMenuPage(menu, formattedPageNum, isAdmin)
+    const menuPageMessage = getMenuPage(menu, formattedPageNum, isAdmin)
 
-    message?.reply(messageFormat)
+    message?.reply(menuPageMessage)
 
     return
   }
