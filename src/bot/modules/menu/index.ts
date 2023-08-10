@@ -16,13 +16,14 @@ export interface Menu {
 }
 
 export async function menuBot({ message, ...zap }: ZapType, page: string) {
+  let isAdmin = false
   const formattedPageNum = +page
   const menu = (await i18next.getResourceBundle(
     i18next.language,
     'menu',
   )) as Menu
+  const { isGroup } = await zap.getChat()
   const isOwner = await zap.IsOwner()
-  const isAdmin = await zap.getUserIsAdmin(message?.author || message!.from)
 
   if (page && !isNaN(formattedPageNum)) {
     if (formattedPageNum > menu.menu.length) {
@@ -41,6 +42,10 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
       message?.reply(messageFormat)
 
       return
+    }
+
+    if (isGroup) {
+      isAdmin = await zap.getUserIsAdmin(message?.author || message!.from)
     }
 
     const messageFormat = getMenuPage(menu, formattedPageNum, isAdmin)
