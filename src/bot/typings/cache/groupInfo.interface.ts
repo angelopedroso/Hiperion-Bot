@@ -16,5 +16,6 @@ export type groupInfoCache = {
 }
 
 export type botInfoCache = {
+  id: string
   private: boolean | null
 }
