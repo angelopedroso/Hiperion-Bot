@@ -22,8 +22,6 @@ export async function bemVindo(notification: GroupNotification) {
 
       try {
         for (const user of notification.recipientIds) {
-          const userId = await client.getContactById(user)
-
           const countryCode = await client.getCountryCode(user)
 
           const formattedUser = user.replace('@c.us', '')
@@ -38,7 +36,7 @@ export async function bemVindo(notification: GroupNotification) {
                 group: chat.name,
               }),
               {
-                mentions: [userId],
+                mentions: [user],
               },
             )
 
@@ -54,7 +52,7 @@ export async function bemVindo(notification: GroupNotification) {
               group: chat.name,
             }),
             {
-              mentions: [userId],
+              mentions: [user],
             },
           )
         }
