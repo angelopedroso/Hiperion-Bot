@@ -43,6 +43,7 @@ export const paths = [
   'fs',
   'general',
   'groupinfo',
+  'join',
   'menu',
   'notgroup',
   'promote',
