@@ -272,12 +272,30 @@ export function PrismaQuery() {
 
       if (!participant) return
 
-      if (participant.group_participant.length === 0) {
-        await prisma.participant.delete({
-          where: {
-            p_id: participantId,
-          },
-        })
+      const groupsCount = participant.group_participant.length
+
+      if (
+        groupsCount === 1 &&
+        participant.group_participant[0].g_id === groupId
+      ) {
+        await prisma.$transaction([
+          prisma.participantGroupType.deleteMany({
+            where: {
+              participant: {
+                id: participant.id,
+              },
+              group: {
+                g_id: groupId,
+              },
+            },
+          }),
+
+          prisma.participant.delete({
+            where: {
+              p_id: participantId,
+            },
+          }),
+        ])
       } else {
         await prisma.participant.update({
           where: {
