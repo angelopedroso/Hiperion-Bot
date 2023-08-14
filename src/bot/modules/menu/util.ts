@@ -12,7 +12,7 @@ function getGroupCommands(menuItems: MenuItem[], isAdmin: boolean) {
 }
 
 export function getMenuPage(
-  { menu }: Menu,
+  { menu, desc }: Menu,
   formattedPageNum: number,
   isAdmin: boolean = false,
 ) {
@@ -36,7 +36,7 @@ export function getMenuPage(
     },
   )
 
-  const messageFormat = `╭☾ *${pageTitle.toUpperCase()}* ☽\n│\n${
+  const messageFormat = `╭☾ *${pageTitle.toUpperCase()}* ☽\n┝${desc}\n│\n${
     messageCmds.description
   }│\n╰╼❥ *${BOT_NAME}®*`
 

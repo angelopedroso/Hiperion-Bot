@@ -1,5 +1,6 @@
 {
   "main": "╭☾ *MENU PRINCIPAL* ☽\n│\n┝ *!menu* 1 ➝ Figurinhas\n┝ *!menu* 2 ➝ Grupo\n┝ *!menu* 3 ➝ Utilidades\n┝ *!menu* 4 ➝ Sobre\n┝ *!menu* 5 ➝ Admin\n│\n╰╼❥ *{{botname}}®*",
+  "desc": "*!nomedocomando* + *help* para saber mais sobre o comando",
   "menu": [
     {
       "title": "Figurinhas",

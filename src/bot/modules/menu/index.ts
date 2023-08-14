@@ -9,6 +9,7 @@ export interface MenuItem {
 }
 
 export interface Menu {
+  desc: string
   menu: {
     title: string
     items: MenuItem[]

@@ -1,5 +1,6 @@
 {
   "main": "╭☾ *MAIN MENU* ☽\n│\n┝ !*menu* 1 ➝ Stickers\n┝ !*menu* 2 ➝ Group\n┝ !*menu* 3 ➝ Utilities\n┝ !*menu* 4 ➝ About\n┝ *!menu* 5 ➝ Admin\n│\n╰╼❥ {{botname}}®",
+  "desc": "*!commandname* + *help* to know more about it",
   "menu": [
     {
       "title": "Stickers",
