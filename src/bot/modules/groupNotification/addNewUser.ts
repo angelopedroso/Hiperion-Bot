@@ -5,7 +5,7 @@ import { GroupChat, GroupNotification } from 'whatsapp-web.js'
 
 export async function addNewUser(notification: GroupNotification) {
   const chat = (await notification.getChat()) as GroupChat
-  const zap = ZapConstructor()
+  const zap = ZapConstructor(client, notification as any)
   const groupInfo = await db.getGroupInfo(chat.id._serialized)
   const isBotAdmin = await zap.isBotAdmin()
 
