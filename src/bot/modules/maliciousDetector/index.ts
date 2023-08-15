@@ -32,8 +32,6 @@ async function maliciousDetector(
             anti_porn: false,
           })
 
-          message?.reply(zap.translateMessage('general', 'botisnotadmin'))
-
           return
         }
 

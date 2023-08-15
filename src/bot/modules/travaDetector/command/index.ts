@@ -9,7 +9,13 @@ export async function toggleTravaDetector(
   const chat = await zap.getGroupChat()
   const user = await zap.getUser()
 
+  const isBotAdmin = await zap.isBotAdmin()
   const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+
+  if (!isBotAdmin) {
+    message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+    return
+  }
 
   if (!isAdmin) return
 

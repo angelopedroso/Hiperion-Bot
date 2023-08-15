@@ -28,8 +28,6 @@ const linkDetector = async (
             anti_link: false,
           })
 
-          message?.reply(zap.translateMessage('general', 'botisnotadmin'))
-
           return
         }
 
