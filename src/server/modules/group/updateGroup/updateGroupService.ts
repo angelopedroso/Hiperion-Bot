@@ -7,12 +7,14 @@ import { AppError } from 'server/errors'
 type FormattedResponseBody = CompleteGroup & {
   avatar_image?: string
   group_name?: string
+  old_group_name: string
 }
 
 export async function updateGroupService({
   id,
   avatar_image: avatarImage,
   group_name: groupName,
+  old_group_name: oldGroupName,
   ...group
 }: FormattedResponseBody) {
   const existsGroup = await prisma.group.findUnique({
@@ -30,7 +32,17 @@ export async function updateGroupService({
   }
 
   if (groupName) {
-    await ZapConstructor(client).updateGroupSubject(groupName, group.g_id)
+    Promise.all([
+      ZapConstructor(client).updateGroupSubject(groupName, group.g_id),
+      prisma.log.updateMany({
+        where: {
+          chat_name: oldGroupName,
+        },
+        data: {
+          chat_name: groupName,
+        },
+      }),
+    ])
   }
 
   const groupUpdated = await prisma.group.update({
