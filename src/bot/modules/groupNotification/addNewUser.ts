@@ -7,6 +7,7 @@ export async function addNewUser(notification: GroupNotification) {
   const chat = (await notification.getChat()) as GroupChat
   const zap = ZapConstructor()
   const groupInfo = await db.getGroupInfo(chat.id._serialized)
+  const isBotAdmin = await zap.isBotAdmin()
 
   Promise.all(
     notification.recipientIds.map(async (user) => {
@@ -19,7 +20,7 @@ export async function addNewUser(notification: GroupNotification) {
         (p) => p.p_id === formattedUser,
       )
 
-      if (blackListGroup) {
+      if (isBotAdmin && blackListGroup) {
         chat.removeParticipants([user])
         return
       }
@@ -33,7 +34,7 @@ export async function addNewUser(notification: GroupNotification) {
         chat.id._serialized,
       )
 
-      if (answer === 'ban' && groupInfo?.one_group) {
+      if (isBotAdmin && answer === 'ban' && groupInfo?.one_group) {
         chat.removeParticipants([user])
         client.sendMessage(
           notification.chatId,

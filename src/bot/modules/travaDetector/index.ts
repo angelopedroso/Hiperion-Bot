@@ -39,6 +39,8 @@ export async function travaDectetor(
           max_characters: groupInfo.anti_trava.max_characters,
         },
       })
+
+      message?.reply(zap.translateMessage('general', 'botisnotadmin'))
     }
   }
 }

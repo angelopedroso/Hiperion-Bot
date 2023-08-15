@@ -8,8 +8,14 @@ export async function toggleAutoInvite({ message, ...zap }: ZapType) {
 
   if (chat.isGroup) {
     const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+    const isBotAdmin = await zap.isBotAdmin()
 
     if (!isAdmin) return
+
+    if (!isBotAdmin) {
+      message?.reply(zap.translateMessage('general', 'botisnotadmin'))
+      return
+    }
 
     const groupId = chat.id._serialized
     const groupInfo = await db.getGroupInfo(groupId)
