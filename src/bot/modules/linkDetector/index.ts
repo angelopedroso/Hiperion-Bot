@@ -4,10 +4,12 @@ import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 import { isSocialMediaLink } from '@utils/ifExistsLink'
 import LinkifyIt from 'linkify-it'
+import { Chat } from 'whatsapp-web.js'
 
 const linkDetector = async (
   { message, ...zap }: ZapType,
   groupInfo: groupInfoCache | null | undefined,
+  chat: Chat,
 ) => {
   try {
     const user = await zap.getUser()
@@ -43,8 +45,20 @@ const linkDetector = async (
           .flat()
 
         if (invalidLinks.length !== 0) {
-          groupChat.removeParticipants([user.id._serialized])
-          message?.delete(true)
+          await Promise.all([
+            groupChat.removeParticipants([user.id._serialized]),
+            message?.delete(true),
+            db.createBanLog({
+              id: '',
+              chat_name: chat.name,
+              user_name: user.pushname,
+              user_phone: user.id.user,
+              image: '',
+              message: message!.body,
+              reason: 'link',
+              date_time: new Date(new Date().toISOString()),
+            }),
+          ])
         }
       }
     }

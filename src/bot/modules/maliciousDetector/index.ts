@@ -17,41 +17,47 @@ async function maliciousDetector(
   groupInfo: groupInfoCache | null | undefined,
 ) {
   try {
-    if (message?.type === MessageTypes.IMAGE) {
+    if (message?.type === MessageTypes.IMAGE && groupInfo?.anti_porn) {
       const group = await zap.getGroupChat()
 
       const user = await zap.getUser()
 
-      if (groupInfo?.anti_porn) {
-        const isBotAdmin = await zap.isBotAdmin()
+      const isBotAdmin = await zap.isBotAdmin()
 
-        const isSenderAdmin = await zap.getUserIsAdmin(user.id._serialized)
+      const isSenderAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
-        if (!isBotAdmin) {
-          await db.updateGroupExceptParticipants(group.id._serialized, {
-            anti_porn: false,
-          })
+      if (!isBotAdmin) {
+        await db.updateGroupExceptParticipants(group.id._serialized, {
+          anti_porn: false,
+        })
 
-          return
-        }
+        return
+      }
 
-        if (!isSenderAdmin) {
-          const media = await message.downloadMedia()
+      if (!isSenderAdmin) {
+        const media = await message.downloadMedia()
 
-          const filePath = path.resolve(
-            `assets/img/tmp/${getRandomName('.png')}`,
-          )
+        const filePath = path.resolve(`assets/img/tmp/${getRandomName('.png')}`)
 
-          await fs.writeFile(filePath, media.data, { encoding: 'base64' })
+        await fs.writeFile(filePath, media.data, { encoding: 'base64' })
 
-          const probality = await checkIfContentIsExplict(filePath)
+        const probality = await checkIfContentIsExplict(filePath)
 
-          if (probality) {
-            await Promise.all([
-              group.removeParticipants([user.id._serialized]),
-              message.delete(true),
-            ])
-          }
+        if (probality) {
+          await Promise.all([
+            group.removeParticipants([user.id._serialized]),
+            message.delete(true),
+            db.createBanLog({
+              id: '',
+              chat_name: group.name,
+              user_name: user.pushname,
+              user_phone: user.id.user,
+              image: media.data,
+              message: '',
+              reason: 'malicious',
+              date_time: new Date(new Date().toISOString()),
+            }),
+          ])
         }
       }
     }
