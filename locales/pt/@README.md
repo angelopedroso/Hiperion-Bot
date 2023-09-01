@@ -16,7 +16,7 @@ Este repositório contém uma aplicação Node que implementa um bot para gerenc
 
 Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
-- Node.js 16 ou superior
+- Node.js 18 ou superior
 - Número de celular separado para uso exclusivo do bot
 - Google Chrome
 - Docker
@@ -38,12 +38,12 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
      docker-compose up -d
      ```
 
-   > **Observação**: Isso iniciará os serviços do MySQL e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
+   > **Observação**: Isso iniciará os serviços do "Donload" e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
 
 4. Execute o seguinte comando para instalar a estrutura do banco de dados:
 
    ```shell
-   yarn prisma migrate dev
+   yarn prisma db push
    ```
 
 5. Configure o arquivo `.env` com as informações necessárias:

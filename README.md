@@ -18,7 +18,7 @@ This repository contains a Node application that implements a bot for managing W
 
 Make sure you have the following requirements installed in your environment:
 
-- Node.js 16 or higher
+- Node.js 18 or higher
 - Separate phone number for exclusive use by the bot
 - Google Chrome
 - Docker
@@ -40,12 +40,12 @@ Make sure you have the following requirements installed in your environment:
      docker-compose up -d
      ```
 
-   > **Note**: This will start the MySQL and Redis services in Docker, as configured in the `docker-compose.yml` file already in the root of the project.
+   > **Note**: This will start the Redis and "Donlod" services in Docker, as configured in the `docker-compose.yml` file already in the root of the project.
 
 4. Run the following command to install database model:
 
    ```shell
-   yarn prisma migrate dev
+   yarn prisma db push
    ```
 
 5. Configure the `.env` file with the necessary information:
@@ -64,7 +64,7 @@ Make sure you have the following requirements installed in your environment:
    OPENAI_API_KEY=
    OPENAI_PASSWORD=
 
-   # DATABASE (mysql) Example: "mysql://root:docker@localhost:3306/hiperion"
+   # DATABASE (mongodb)
    DATABASE_URL=
 
    # REDIS (optional if using a local Redis)
