@@ -4,6 +4,7 @@ import {
   addParticipantInGroupProps,
 } from '@typings/prismaQueryTypes'
 import {
+  BanLog,
   BotSettings,
   Group,
   Log,
@@ -562,6 +563,20 @@ export function PrismaQuery() {
           user_name: log.user_name,
           chat_name: log.chat_name,
           date_time: log.date_time,
+        },
+      })
+    },
+
+    async createBanLog(log: BanLog) {
+      await prisma.banLog.create({
+        data: {
+          user_phone: log.user_phone,
+          user_name: log.user_name,
+          chat_name: log.chat_name,
+          date_time: log.date_time,
+          image: log.image,
+          message: log.message,
+          reason: log.reason,
         },
       })
     },

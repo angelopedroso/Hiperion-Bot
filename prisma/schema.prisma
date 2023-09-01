@@ -73,7 +73,23 @@ model Log {
   date_time DateTime? @default(now())
 }
 
+model BanLog {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  user_phone String
+  user_name  String
+  chat_name  String
+  message    String?
+  image      String?
+  reason     ReasonType
+  date_time  DateTime?  @default(now())
+}
+
 enum ParticipantType {
   admin
   membro
+}
+
+enum ReasonType {
+  link
+  malicious
 }
