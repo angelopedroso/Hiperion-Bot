@@ -1,11 +1,11 @@
 {
   "name": "bot-hiperion",
   "version": "1.0.0",
-  "main": "src/server/server.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/server/server.ts",
-    "dev": "nodemon src/server/server.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.6.3",
