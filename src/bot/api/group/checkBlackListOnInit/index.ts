@@ -17,7 +17,7 @@ export async function checkBlackListOnInit(groups: GroupChat[]) {
     const blackList = groupBlackList
       ?.map((p) => p.p_id)
       .filter((p) => {
-        return participants.includes(p)
+        return participants.includes(`${p}@c.us`)
       })
 
     if (blackList && blackList?.length > 0) {

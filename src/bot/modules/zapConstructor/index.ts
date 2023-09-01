@@ -8,8 +8,6 @@ import {
   MessageMedia,
 } from 'whatsapp-web.js'
 
-import { Group, ParticipantGroupType, Prisma } from '@prisma/client'
-
 import { db } from '@lib/auth/prisma-query'
 import { prisma } from '@lib/prisma'
 
@@ -81,43 +79,42 @@ export function ZapConstructor(client?: Client, message?: Message) {
   }
 
   async function createGroupOnBotJoin(
-    groupId: string,
+    group: GroupChat,
     participant: IParticipant[],
   ) {
-    const querys = []
+    const groupPic = await client?.getProfilePicUrl(group.id._serialized)
 
     const existsGroup = await prisma.group.findUnique({
       where: {
-        g_id: groupId,
+        g_id: group.id._serialized,
       },
     })
 
     if (!existsGroup) {
-      querys.push(
-        prisma.group.create({
-          data: {
-            g_id: groupId,
-            anti_trava: {
-              create: {},
-            },
+      await prisma.group.create({
+        data: {
+          g_id: group.id._serialized,
+          name: group.name,
+          image_url: groupPic,
+          anti_trava: {
+            create: {},
           },
-        }),
-      )
+        },
+      })
     }
 
     for (const p of participant) {
-      querys.push(
-        db.updateGroupOnReady(groupId, {
-          id: '',
-          p_id: p.p_id,
-          name: p.name,
-          image_url: p.imageUrl,
-        }),
-      )
-      querys.push(db.createParticipantGroupType(groupId, p.p_id, p.tipo))
-    }
+      await db.updateGroupOnReady(group.id._serialized, {
+        id: '',
+        p_id: p.p_id,
+        name: p.name,
+        image_url: p.imageUrl,
+        group_black_list_ids: [],
+        group_participant_ids: [],
+      })
 
-    return querys
+      await db.createParticipantGroupType(group.id._serialized, p.p_id, p.tipo)
+    }
   }
 
   async function getGroupLink() {
@@ -143,44 +140,37 @@ export function ZapConstructor(client?: Client, message?: Message) {
     }
   }
 
-  async function getGroupPictures() {
+  async function getGroupInfo() {
     const chats = (await client?.getChats()) as GroupChat[]
     const groups = chats
       ?.filter((chat) => chat.isGroup)
       .map(async (group) => {
-        const inviteCode = await group.getInviteCode()
         const isAdmin = group.participants
           .filter((p) => p.isAdmin || p.isSuperAdmin)
           .some((admin) => admin.id._serialized === BOT_NUM + '@c.us')
 
         return {
           id: group.id._serialized,
-          name: group.name,
-          inviteCode: `https://chat.whatsapp.com/${inviteCode}`,
           isAdmin,
         }
       })
 
-    let groupPictures = null
+    let groupInfo = null
 
     if (groups) {
-      groupPictures = await Promise.all(
+      groupInfo = await Promise.all(
         groups.map(async (group) => {
           const resolvedGroup = await group
-          const picUrl = await client?.getProfilePicUrl(resolvedGroup.id)
 
           return {
             groupId: resolvedGroup.id,
-            name: resolvedGroup.name,
-            image_url: picUrl,
-            inviteCode: resolvedGroup.inviteCode,
             isAdmin: resolvedGroup.isAdmin,
           }
         }),
       )
     }
 
-    return groupPictures
+    return groupInfo
   }
 
   async function updateGroupPicture(data: string, id: string) {
@@ -223,7 +213,7 @@ export function ZapConstructor(client?: Client, message?: Message) {
     getGroupLink,
     translateMessage,
     IsOwner,
-    getGroupPictures,
+    getGroupInfo,
     updateGroupPicture,
     updateGroupSubject,
     message,
@@ -237,14 +227,9 @@ export type ZapType = {
   getUserIsAdmin: (userId: string) => Promise<boolean>
   isBotAdmin: () => Promise<boolean>
   createGroupOnBotJoin: (
-    groupId: string,
+    group: GroupChat,
     participant: IParticipant[],
-  ) => Promise<
-    | (
-        | Prisma.Prisma__GroupClient<Group, never>
-        | Prisma.Prisma__ParticipantGroupTypeClient<ParticipantGroupType, never>
-      )[]
-  >
+  ) => Promise<void>
   getAllParticipantsFormattedByParticipantSchema: (
     participants: GroupParticipant[],
   ) => Promise<IParticipant[]>
@@ -256,12 +241,10 @@ export type ZapType = {
   ) => string
   IsOwner: () => Promise<boolean>
   clearAllChats: () => Promise<void>
-  getGroupPictures: () => Promise<
+  getGroupInfo: () => Promise<
     | {
         groupId: string
-        name: string
-        image_url: string | undefined
-        inviteCode: string
+        isAdmin: boolean
       }[]
     | null
   >

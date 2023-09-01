@@ -6,6 +6,7 @@ import {
 import {
   BotSettings,
   Group,
+  Log,
   Participant,
   ParticipantType,
 } from '@prisma/client'
@@ -320,8 +321,8 @@ export function PrismaQuery() {
       })
     },
 
-    updateGroupOnReady(groupId: string, p: Participant) {
-      return prisma.group.update({
+    async updateGroupOnReady(groupId: string, p: Participant) {
+      await prisma.group.update({
         where: { g_id: groupId },
         data: {
           participants: {
@@ -414,11 +415,15 @@ export function PrismaQuery() {
           },
         })
 
-        const groupPics = await ZapConstructor(client).getGroupPictures()
+        const groupPics = await ZapConstructor(client).getGroupInfo()
 
         const formattedGroups = allGroups?.map((group) => {
           return {
             id: group.id,
+            participants_ids: group.participants_ids,
+            black_list_ids: group.black_list_ids,
+            name: group.name,
+            image_url: group.image_url,
             group_info: groupPics?.find((pic) => pic.groupId === group.g_id),
             g_id: group.g_id,
             bem_vindo: group.bem_vindo,
@@ -548,22 +553,21 @@ export function PrismaQuery() {
       return querys
     },
 
-    async createLog(log: {
-      command: string
-      user_name: string
-      is_group: boolean
-      chat_name: string | null
-      groupId: string
-    }) {
+    async createLog(log: Log) {
       await prisma.log.create({
         data: {
-          ...log,
+          command: log.command,
+          groupId: log.groupId,
+          is_group: log.is_group,
+          user_name: log.user_name,
+          chat_name: log.chat_name,
+          date_time: log.date_time,
         },
       })
     },
 
-    updateParticipants(p: Participant) {
-      const querys = prisma.participant.updateMany({
+    async updateParticipants(p: Participant) {
+      await prisma.participant.updateMany({
         where: {
           AND: [{ p_id: p.p_id }, { NOT: { image_url: p.image_url } }],
         },
@@ -572,8 +576,6 @@ export function PrismaQuery() {
           image_url: p.image_url,
         },
       })
-
-      return querys
     },
 
     async getBotInfo() {

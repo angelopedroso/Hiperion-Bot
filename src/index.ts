@@ -36,6 +36,7 @@ import i18next from 'i18next'
 import FsBackend, { FsBackendOptions } from 'i18next-fs-backend'
 import { updateAllUsers } from '@api/group/updateAllUsers'
 import { db } from '@lib/auth/prisma-query'
+import { existsSync } from 'fs'
 
 cacheMiddleware()
 configDotenv()
@@ -116,4 +117,10 @@ const start = () => {
   client.initialize()
 }
 
-export { botReadyTimestamp, start }
+if (!existsSync('.env')) {
+  printHeader()
+} else {
+  start()
+}
+
+export { botReadyTimestamp }

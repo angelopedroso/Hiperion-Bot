@@ -10,9 +10,10 @@ export async function leaveGroup({ message, ...zap }: ZapType) {
       Promise.all([
         message?.react('👋🏼'),
         db.deleteGroup(groupChat.id._serialized),
+        await groupChat.leave(),
       ])
 
-      await groupChat.leave()
+      await groupChat.delete()
 
       return
     }

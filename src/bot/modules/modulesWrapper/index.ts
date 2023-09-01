@@ -52,6 +52,8 @@ export async function registerModules(zap: ZapType) {
           is_group: isGroup,
           chat_name: isGroup ? name : null,
           groupId: id._serialized,
+          date_time: new Date(new Date().toISOString()),
+          id: '',
         })
 
         return

@@ -6,39 +6,36 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model BotSettings {
-  id      String   @id @default(uuid())
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
   private Boolean? @default(false)
 }
 
 model Participant {
-  id                     String                 @id @default(uuid())
+  id                     String                 @id @default(auto()) @map("_id") @db.ObjectId
+  group_participant_ids  String[]               @db.ObjectId
+  group_black_list_ids   String[]               @db.ObjectId
   p_id                   String                 @unique
   image_url              String?
   name                   String
-  group_participant      Group[]                @relation("participants_group")
-  group_black_list       Group[]                @relation("participant_black_list")
+  group_participant      Group[]                @relation("participants_group", fields: [group_participant_ids], references: [id])
+  group_black_list       Group[]                @relation("participants_black_list", fields: [group_black_list_ids], references: [id])
   participant_group_type ParticipantGroupType[]
 }
 
-model ParticipantGroupType {
-  id            String           @id @default(uuid())
-  tipo          ParticipantType?
-  group         Group            @relation(fields: [groupId], references: [id])
-  groupId       String
-  participant   Participant      @relation(fields: [participantId], references: [id])
-  participantId String
-}
-
 model Group {
-  id                     String                 @id @default(uuid())
+  id                     String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name                   String?
+  image_url              String?
   g_id                   String                 @unique
-  participants           Participant[]          @relation("participants_group")
-  black_list             Participant[]          @relation("participant_black_list")
+  participants_ids       String[]               @db.ObjectId
+  black_list_ids         String[]               @db.ObjectId
+  participants           Participant[]          @relation("participants_group", fields: [participants_ids], references: [id])
+  black_list             Participant[]          @relation("participants_black_list", fields: [black_list_ids], references: [id])
   bem_vindo              Boolean?               @default(false)
   one_group              Boolean?               @default(false)
   auto_invite_link       Boolean?               @default(false)
@@ -46,19 +43,28 @@ model Group {
   anti_link              Boolean?               @default(false)
   anti_porn              Boolean?               @default(false)
   anti_trava             AntiTrava?             @relation(fields: [anti_trava_id], references: [id])
-  anti_trava_id          String?                @unique
+  anti_trava_id          String?                @unique @db.ObjectId
   participant_group_type ParticipantGroupType[]
 }
 
+model ParticipantGroupType {
+  id            String           @id @default(auto()) @map("_id") @db.ObjectId
+  tipo          ParticipantType?
+  group         Group            @relation(fields: [groupId], references: [id])
+  groupId       String           @db.ObjectId
+  participant   Participant      @relation(fields: [participantId], references: [id])
+  participantId String           @db.ObjectId
+}
+
 model AntiTrava {
-  id             String   @id @default(uuid())
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   status         Boolean? @default(false)
   max_characters Int?     @default(1000)
   group          Group?
 }
 
 model Log {
-  id        String    @id @default(uuid())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   groupId   String
   is_group  Boolean
   command   String

@@ -1,4 +1,3 @@
-import { prisma } from '@lib/prisma'
 import { bemVindo } from '@modules/bemVindo'
 import { addNewUser } from '@modules/groupNotification/addNewUser'
 import { ZapConstructor } from '@modules/zapConstructor'
@@ -34,12 +33,7 @@ export async function groupJoined(
         group.participants,
       )
 
-    const create = await ZapConstructor().createGroupOnBotJoin(
-      notification.chatId,
-      participants,
-    )
-
-    await prisma.$transaction(create)
+    await ZapConstructor().createGroupOnBotJoin(group, participants)
 
     return
   }
