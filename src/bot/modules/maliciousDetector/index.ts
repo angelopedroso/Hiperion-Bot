@@ -47,17 +47,18 @@ async function maliciousDetector(
           await Promise.all([
             group.removeParticipants([user.id._serialized]),
             message.delete(true),
-            db.createBanLog({
-              id: '',
-              chat_name: group.name,
-              user_name: user.pushname,
-              user_phone: user.id.user,
-              image: media.data,
-              message: '',
-              reason: 'malicious',
-              date_time: new Date(new Date().toISOString()),
-            }),
           ])
+
+          await db.createBanLog({
+            id: '',
+            chat_name: group.name,
+            user_name: user.pushname,
+            user_phone: user.id.user,
+            image: media.data,
+            message: '',
+            reason: 'malicious',
+            date_time: new Date(new Date().toISOString()),
+          })
         }
       }
     }

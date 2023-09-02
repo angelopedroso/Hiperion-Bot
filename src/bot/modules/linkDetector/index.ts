@@ -48,17 +48,18 @@ const linkDetector = async (
           await Promise.all([
             groupChat.removeParticipants([user.id._serialized]),
             message?.delete(true),
-            db.createBanLog({
-              id: '',
-              chat_name: chat.name,
-              user_name: user.pushname,
-              user_phone: user.id.user,
-              image: '',
-              message: message!.body,
-              reason: 'link',
-              date_time: new Date(new Date().toISOString()),
-            }),
           ])
+
+          await db.createBanLog({
+            id: '',
+            chat_name: chat.name,
+            user_name: user.pushname,
+            user_phone: user.id.user,
+            image: '',
+            message: message!.body,
+            reason: 'link',
+            date_time: new Date(new Date().toISOString()),
+          })
         }
       }
     }
