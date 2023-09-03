@@ -14,12 +14,7 @@ const constants: IConstants = {
   sessionPath: './',
 }
 
-const localePath = path.join(
-  __dirname,
-  '..',
-  '..',
-  '/locales/{{lng}}/{{ns}}.json',
-)
+const localePath = path.join(__dirname, '..', '/locales/{{lng}}/{{ns}}.json') // build
 
 const client = new Client({
   authStrategy: new LocalAuth({
@@ -28,8 +23,7 @@ const client = new Client({
   }),
   puppeteer: {
     headless: true,
-    executablePath:
-      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // replace path if necessary
+    executablePath: '/usr/bin/google-chrome', // Docker, replace it if you dont use docker
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
