@@ -23,7 +23,7 @@ const client = new Client({
   }),
   puppeteer: {
     headless: true,
-    executablePath: '/usr/bin/google-chrome', // Docker, replace it if you dont use docker
+    executablePath: '/usr/bin/google-chrome', // Docker, replace it with u executable chrome path if you dont use docker
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',

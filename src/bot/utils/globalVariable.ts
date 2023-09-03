@@ -33,11 +33,7 @@ const isUrl =
   /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/im
 
 function localPath(type: 'audio' | 'img', format: string) {
-  const mainPath = path.resolve(
-    path.dirname(require.main?.filename + ''),
-    '..',
-    '..',
-  )
+  const mainPath = path.resolve(path.dirname(require.main?.filename + ''), '..') // build
 
   return path.resolve(
     `${mainPath}/assets/${type}/tmp/${getRandomName(`.${format}`)}`,
