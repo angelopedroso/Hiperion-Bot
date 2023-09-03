@@ -76,6 +76,8 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
      docker compose start
      ```
 
+   > **Note**: Veja o log do bot para escanear o qr code na primeira vez - `docker compose logs bot -f`.
+
 4. Para buildar e iniciar o bot sem o Docker, use os seguintes comandos:
    - Build a imagem para o docker:
 

@@ -66,8 +66,6 @@ Make sure you have the following requirements installed in your environment:
      REDIS_URI=
      ```
 
-     > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
-
 3. If you prefer to use a Dockerfile, you can build and run the Docker container separately:
    - Build the Docker:
 
@@ -80,6 +78,8 @@ Make sure you have the following requirements installed in your environment:
      ```shell
      docker compose start
      ```
+
+    > **Note**: See the bot log to scan qr code at the first time - `docker compose logs bot -f`.
 
 4. To build and start the application without Docker, use the following commands:
    - Build the application:
