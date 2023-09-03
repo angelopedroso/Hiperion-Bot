@@ -67,13 +67,13 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    - Build a imagem para o docker:
 
      ```shell
-     docker build -t nome-da-imagem .
+     docker compose up -d
      ```
 
    - Run o container do docker:
 
      ```shell
-     docker run -d nome-da-imagem
+     docker compose start
      ```
 
 4. Para buildar e iniciar o bot sem o Docker, use os seguintes comandos:

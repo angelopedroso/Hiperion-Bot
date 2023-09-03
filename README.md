@@ -69,16 +69,16 @@ Make sure you have the following requirements installed in your environment:
      > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
 
 3. If you prefer to use a Dockerfile, you can build and run the Docker container separately:
-   - Build the Docker image:
+   - Build the Docker:
 
      ```shell
-     docker build -t your-image-name .
+     docker compose up -d
      ```
 
    - Run the Docker container:
 
      ```shell
-     docker run -d your-image-name
+     docker compose start
      ```
 
 4. To build and start the application without Docker, use the following commands:
