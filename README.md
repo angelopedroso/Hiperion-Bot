@@ -32,12 +32,6 @@ Make sure you have the following requirements installed in your environment:
      yarn install
      ```
 
-   - Apply the database migrations using Prisma:
-
-     ```shell
-     yarn prisma db push
-     ```
-
    - Configure the `.env` file with the necessary information:
 
      ```plaintext
@@ -64,6 +58,12 @@ Make sure you have the following requirements installed in your environment:
 
      # REDIS (optional if using a local Redis)
      REDIS_URI=
+     ```
+
+   - Apply the database migrations using Prisma:
+
+     ```shell
+     yarn prisma db push
      ```
 
 3. If you prefer to use a Dockerfile, you can build and run the Docker container separately:
