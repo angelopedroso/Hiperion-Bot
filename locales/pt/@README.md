@@ -1,15 +1,14 @@
 # Hiperion Bot
 
-### Em desenvolvimento
+## Em desenvolvimento
 
-#### Dê uma estrela (star) para esse repositório, se você gostou 😉
+### Dê uma estrela (star) para esse repositório, se você gostou 😉
 
 ## Overview
 
 Este repositório contém uma aplicação Node que implementa um bot para gerenciamento de grupos do WhatsApp usando a biblioteca [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js). O bot oferece suporte aos comandos listados abaixo e permite a interação em **inglês (english)** e **português**.
 
 > **Observação**: Esse bot jamais terá uma feature para enviar mensagens em massa no privado dos usuários ou em grupos.
-
 > **Aviso**: Não me responsabilizo pelas as ações de quem for utilizá-lo.
 
 ## Requisitos
@@ -30,59 +29,67 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    yarn install
    ```
 
-3. Para executar o MySQL e o Redis no Docker, utilize o Docker Compose. Certifique-se de que o Docker Compose esteja instalado em seu ambiente.
-
-   - Na raiz do projeto, execute o seguinte comando:
+   - Aplique as migrations do banco de dados usando o Prisma:
 
      ```shell
-     docker-compose up -d
+     yarn prisma db push
      ```
 
-   > **Observação**: Isso iniciará os serviços do "Donload" e do Redis no Docker, conforme configurado no arquivo `docker-compose.yml` que já está na raiz do projeto.
+   - Configure o arquivo `.env` com as informações necessárias:
 
-4. Execute o seguinte comando para instalar a estrutura do banco de dados:
+      ```plaintext
+      BOT_NAME=
+      OWNER_NUM=
+      BOT_NUM=
+      LANGUAGE=
 
-   ```shell
-   yarn prisma db push
-   ```
+      # SightEngine - https://dashboard.sightengine.com/login
+      API_SIGHTENGINE_USER=
+      API_SIGHTENGINE_SECRET=
 
-5. Configure o arquivo `.env` com as informações necessárias:
+      # OPENAI - https://platform.openai.com
+      OPENAI_API_KEY=
+      OPENAI_PASSWORD=
 
-   ```plaintext
-   BOT_NAME=
-   OWNER_NUM=
-   BOT_NUM=
-   LANGUAGE=
+      # ACRCLOUD - www.acrcloud.com/
+      ACR_HOST=
+      ACR_KEY=
+      ACR_SECRET_KEY=
 
-   # SightEngine - https://dashboard.sightengine.com/login
-   API_SIGHTENGINE_USER=
-   API_SIGHTENGINE_SECRET=
+      # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
+      DATABASE_URL=
 
-   # OPENAI - https://platform.openai.com
-   OPENAI_API_KEY=
-   OPENAI_PASSWORD=
+      # REDIS (opcional se você estiver usando um redis local)
+      REDIS_URI=
+      ```
 
-   # ACRCLOUD - www.acrcloud.com/
-   ACR_HOST=
-   ACR_KEY=
-   ACR_SECRET_KEY=
+3. Se você preferir usar o DockerFile, você pode buildar e iniciar o container do Docker separadamente:
+   - Build a imagem para o docker:
 
-   # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
-   DATABASE_URL=
+     ```shell
+     docker build -t nome-da-imagem .
+     ```
 
-   # REDIS (opcional se você estiver usando um redis local)
-   REDIS_URI=
-   ```
+   - Run o container do docker:
 
-   > **Observação**: O arquivo `.env` será gerado automaticamente na primeira execução do bot. O bot solicitará uma reinicialização após a criação do `.env`.
+     ```shell
+     docker run -d nome-da-imagem
+     ```
 
-6. Inicie o aplicativo com o seguinte comando:
+4. Para buildar e iniciar o bot sem o Docker, use os seguintes comandos:
+   - Build a imagem para o docker:
 
-   ```shell
-   yarn start
-   ```
+     ```shell
+     yarn build
+     ```
 
-> **Note**: Vá até startupConfig (src/config/startupConfig.ts) e substitua o caminho para o chrome se for preciso (caso o seu diretório for diferente).
+   - Run o container do docker:
+
+     ```shell
+     yarn start
+     ```
+
+   > **Note**: Vá até startupConfig (src/config/startupConfig.ts) e substitua o caminho para o chrome se for preciso (caso o seu diretório for diferente).
 
 ## Comandos do Bot
 

@@ -2,16 +2,15 @@
 
 > Portuguese [README](./locales/pt/@README.md)
 
-### Under Development
+## Under Development
 
-#### Starred this repo if you liked 😉
+### Starred this repo if you liked 😉
 
 ## Overview
 
 This repository contains a Node application that implements a bot for managing WhatsApp groups using the [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js) library. The bot supports the commands listed below and allows interaction in **English** and **Portuguese**.
 
 > **Note**: This bot will never have a feature to send bulk messages in private to users or groups.
-
 > **Warning**: I am not responsible for the actions of anyone who uses it.
 
 ## Requirements
@@ -26,60 +25,76 @@ Make sure you have the following requirements installed in your environment:
 ## Configuration
 
 1. Clone this repository to your local environment.
-2. Run the following command to install the dependencies using Yarn:
-
-   ```shell
-   yarn install
-   ```
-
-3. To run MySQL and Redis in Docker, use Docker Compose. Make sure Docker Compose is installed in your environment.
-
-   - In the root of the project, run the following command:
+2. Execute the following commands to set up the environment:
+   - Install the dependencies using Yarn or another package manager (e.g., npm):
 
      ```shell
-     docker-compose up -d
+     yarn install
      ```
 
-   > **Note**: This will start the Redis and "Donlod" services in Docker, as configured in the `docker-compose.yml` file already in the root of the project.
+   - Apply the database migrations using Prisma:
 
-4. Run the following command to install database model:
+     ```shell
+     yarn prisma db push
+     ```
 
-   ```shell
-   yarn prisma db push
-   ```
+   - Configure the `.env` file with the necessary information:
 
-5. Configure the `.env` file with the necessary information:
+     ```plaintext
+     BOT_NAME=
+     OWNER_NUM=
+     BOT_NUM=
+     LANGUAGE=
 
-   ```plaintext
-   BOT_NAME=
-   OWNER_NUM=
-   BOT_NUM=
-   LANGUAGE=
+     # SightEngine - https://dashboard.sightengine.com/login
+     API_SIGHTENGINE_USER=
+     API_SIGHTENGINE_SECRET=
 
-   # SightEngine - https://dashboard.sightengine.com/login
-   API_SIGHTENGINE_USER=
-   API_SIGHTENGINE_SECRET=
+     # OPENAI - https://platform.openai.com
+     OPENAI_API_KEY=
+     OPENAI_PASSWORD=
 
-   # OPENAI - https://platform.openai.com
-   OPENAI_API_KEY=
-   OPENAI_PASSWORD=
+     # ACRCLOUD - https://www.acrcloud.com
+     ACR_HOST=
+     ACR_KEY=
+     ACR_SECRET_KEY=
 
-   # DATABASE (mongodb)
-   DATABASE_URL=
+     # DATABASE (mongodb)
+     DATABASE_URL=
 
-   # REDIS (optional if using a local Redis)
-   REDIS_URI=
-   ```
+     # REDIS (optional if using a local Redis)
+     REDIS_URI=
+     ```
 
-   > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
+     > **Note**: The `.env` file will be automatically generated on the first bot execution. The bot will request a restart after the creation of `.env`.
 
-6. Start the application with the following command:
+3. If you prefer to use a Dockerfile, you can build and run the Docker container separately:
+   - Build the Docker image:
 
-   ```shell
-   yarn start
-   ```
+     ```shell
+     docker build -t your-image-name .
+     ```
 
-> **Note**: Go to startupConfig on src/config/startupConfig.ts and replace chrome's path if necessary.
+   - Run the Docker container:
+
+     ```shell
+     docker run -d your-image-name
+     ```
+
+4. To build and start the application without Docker, use the following commands:
+   - Build the application:
+
+     ```shell
+     yarn build
+     ```
+
+   - Start the application:
+
+     ```shell
+     yarn start
+     ```
+
+   > **Note**: Go to startupConfig on src/config/startupConfig.ts and replace Chrome's path if necessary.
 
 ## Bot Commands
 
