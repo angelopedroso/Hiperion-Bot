@@ -32,7 +32,7 @@ export async function createEnvFile(infos: Info) {
      ACR_KEY=
      ACR_SECRET_KEY=
      
-     # DATABASE (mysql) Example: "mysql://root:docker@localhost:3306/hiperion"
+     # DATABASE (mongodb)
      DATABASE_URL=
 
      # REDIS (optional if you use a local redis, you can create a remote redis on https://app.redislabs.com/#/)
