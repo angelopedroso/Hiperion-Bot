@@ -29,12 +29,6 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    yarn install
    ```
 
-   - Aplique as migrations do banco de dados usando o Prisma:
-
-     ```shell
-     yarn prisma db push
-     ```
-
    - Configure o arquivo `.env` com as informações necessárias:
 
       ```plaintext
@@ -62,6 +56,12 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
       # REDIS (opcional se você estiver usando um redis local)
       REDIS_URI=
       ```
+      
+   - Aplique as migrations do banco de dados usando o Prisma:
+
+     ```shell
+     yarn prisma db push
+     ```
 
 3. Se você preferir usar o DockerFile, você pode buildar e iniciar o container do Docker separadamente:
    - Build a imagem para o docker:
