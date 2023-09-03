@@ -1,6 +1,9 @@
 version: '3.7'
 
 services:
+  bot:
+    build:
+      context: .
   donlod:
     image: angelopedroso/donlod-hiperion:1.0
     ports:
