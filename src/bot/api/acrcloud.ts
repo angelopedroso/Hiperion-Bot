@@ -110,12 +110,12 @@ class Acrcloud {
     } = await this.identify(fileBuffer)
 
     return {
-      artist: music[0].artists
+      artist: music[0]?.artists
         .reduce((acc, cur) => acc + cur.name + ', ', '')
         .slice(0, -2),
-      title: music[0].title,
-      label: music[0].label,
-      link: music[0].external_metadata.youtube.vid,
+      title: music[0]?.title,
+      label: music[0]?.label,
+      link: music[0].external_metadata.youtube?.vid,
     }
   }
 }
