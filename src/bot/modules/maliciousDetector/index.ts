@@ -11,6 +11,7 @@ import { checkIfContentIsExplict } from '@api/sightengine'
 
 import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { resizeImage } from '@utils/reduceBase64Size'
 
 async function maliciousDetector(
   { message, ...zap }: ZapType,
@@ -49,12 +50,18 @@ async function maliciousDetector(
             message.delete(true),
           ])
 
+          const resizedImage = await resizeImage(
+            `data:${media.mimetype};base64,${media.data}`,
+          )
+
+          const sliceIndex = resizedImage.indexOf('base64,')
+
           await db.createBanLog({
             id: '',
             chat_name: group.name,
             user_name: user.pushname,
             user_phone: user.id.user,
-            image: media.data,
+            image: resizedImage.slice(0, sliceIndex),
             message: '',
             reason: 'malicious',
             date_time: new Date(new Date().toISOString()),
