@@ -21,6 +21,7 @@ const domains = [
   't.twitter.com',
   't.co',
   'twitter.co',
+  'x.com',
   'chat.whatsapp.com',
   'wa.me',
   'youtube.com',
