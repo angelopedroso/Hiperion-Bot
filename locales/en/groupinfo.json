@@ -1,3 +1,3 @@
 {
-  "info": "- *Link Detector:* {{link}}\n- *Offensive Image Detector:* {{malicious}}\n- *Crash Detector:* {{at}} characters\n- *Welcome Message:* {{bv}}\n- *Only One Group:* {{og}}\n- *Auto Invitation:* {{ail}}\n- *Auto Sticker:* {{as}}\n- *Blacklist:* {{bl}} user(s)"
+  "info": "- *Link Detector:* {{link}}\n- *Offensive Image Detector:* {{malicious}}\n- *Offensive Profane Detector:* {{profane}}\n- *Crash Detector:* {{at}} characters\n- *Welcome Message:* {{bv}}\n- *Only One Group:* {{og}}\n- *Auto Invitation:* {{ail}}\n- *Auto Sticker:* {{as}}\n- *Blacklist:* {{bl}} user(s)"
 }

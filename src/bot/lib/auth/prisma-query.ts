@@ -378,6 +378,7 @@ export function PrismaQuery() {
           select: {
             anti_link: true,
             anti_porn: true,
+            anti_profane: true,
             bem_vindo: true,
             one_group: true,
             auto_invite_link: true,
@@ -430,6 +431,7 @@ export function PrismaQuery() {
             bem_vindo: group.bem_vindo,
             anti_link: group.anti_link,
             anti_porn: group.anti_porn,
+            anti_profane: group.anti_profane,
             one_group: group.one_group,
             auto_sticker: group.auto_sticker,
             auto_invite_link: group.auto_invite_link,

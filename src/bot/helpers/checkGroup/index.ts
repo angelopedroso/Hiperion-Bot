@@ -6,6 +6,7 @@ import { sendAutoSticker } from '@modules/sticker'
 import { travaDectetor } from '@modules/travaDetector'
 import { ZapType } from '@modules/zapConstructor'
 import { printError } from '@cli/terminal'
+import { profanityDetector } from '@modules/profanityDetector'
 
 export async function checkGroupFeatures(zap: ZapType) {
   const chat = await zap.getChat()
@@ -14,9 +15,10 @@ export async function checkGroupFeatures(zap: ZapType) {
     if (chat.isGroup) {
       const groupInfo = await db.getGroupInfo(chat.id._serialized)
 
-      Promise.all([
+      await Promise.all([
         linkDetector(zap, groupInfo, chat),
         maliciousDetector(zap, groupInfo),
+        profanityDetector(zap, groupInfo),
         travaDectetor(zap, groupInfo),
         sendAutoSticker(zap, groupInfo),
         autoGroupInviteLink(zap, groupInfo),

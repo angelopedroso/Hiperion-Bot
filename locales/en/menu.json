@@ -55,6 +55,10 @@
           "description": "enable/disable malicious content detector in the group - admin"
         },
         {
+          "title": "pd",
+          "description": "enable/disable profanes content detector in the group - admin"
+        },
+        {
           "title": "td",
           "description": "enable/disable WhatsApp-crashing message detector in the group - admin"
         },

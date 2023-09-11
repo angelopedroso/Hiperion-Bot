@@ -8,6 +8,7 @@ export type groupInfoCache = {
   auto_sticker: boolean | null
   anti_link: boolean | null
   anti_porn: boolean | null
+  anti_profane: boolean | null
   black_list: Participant[]
   anti_trava: {
     status: boolean | null

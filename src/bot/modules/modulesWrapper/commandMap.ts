@@ -21,6 +21,7 @@ import { menuBot } from '@modules/menu'
 import { recognizeMusic } from '@modules/musicRecognition'
 import { toggleOneGroup } from '@modules/oneGroup'
 import { sendPing } from '@modules/ping'
+import { toggleProfanityDetector } from '@modules/profanityDetector/commands'
 import { sendRules } from '@modules/rules'
 import { shutDownBot } from '@modules/shutdown'
 import { sendSticker } from '@modules/sticker'
@@ -51,6 +52,7 @@ commandMap.set('join', { handler: joinNewGroup, expectedArgs: 1 })
 commandMap.set('leave', { handler: leaveGroup, expectedArgs: 0 })
 commandMap.set('ld', { handler: toggleLinkDetector, expectedArgs: 0 })
 commandMap.set('md', { handler: toggleMaliciousDetector, expectedArgs: 0 })
+commandMap.set('pd', { handler: toggleProfanityDetector, expectedArgs: 0 })
 commandMap.set('og', { handler: toggleOneGroup, expectedArgs: 0 })
 commandMap.set('td', { handler: toggleTravaDetector, expectedArgs: 'any' })
 commandMap.set('bl', {

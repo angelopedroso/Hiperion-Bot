@@ -43,6 +43,7 @@ model Group {
   auto_sticker           Boolean?               @default(false)
   anti_link              Boolean?               @default(false)
   anti_porn              Boolean?               @default(false)
+  anti_profane           Boolean?               @default(false)
   anti_trava             AntiTrava?             @relation(fields: [anti_trava_id], references: [id])
   anti_trava_id          String?                @unique @db.ObjectId
   participant_group_type ParticipantGroupType[]

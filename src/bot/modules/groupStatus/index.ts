@@ -15,6 +15,7 @@ export async function sendGroupStatus({ message, ...zap }: ZapType) {
     const config = {
       link: groupInfo?.anti_link ? '🟩' : '🟥',
       malicious: groupInfo?.anti_porn ? '🟩' : '🟥',
+      profane: groupInfo?.anti_profane ? '🟩' : '🟥',
       bv: groupInfo?.bem_vindo ? '🟩' : '🟥',
       og: groupInfo?.one_group ? '🟩' : '🟥',
       ail: groupInfo?.auto_invite_link ? '🟩' : '🟥',

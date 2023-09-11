@@ -55,6 +55,10 @@
           "description": "ativa/desativa o detector de conteúdo malicioso no grupo - *admin*"
         },
         {
+          "title": "pd",
+          "description": "ativa/desativa o detector de palavras de baixo-calão no grupo - *admin*"
+        },
+        {
           "title": "td",
           "description": "ativa/desativa o detector de mensagens que travam o WhatsApp no grupo - *admin*"
         },
