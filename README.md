@@ -26,6 +26,7 @@ Make sure you have the following requirements installed in your environment:
 
 1. Clone this repository to your local environment.
 2. Execute the following commands to set up the environment:
+
    - Install the dependencies using Yarn or another package manager (e.g., npm):
 
      ```shell
@@ -67,6 +68,7 @@ Make sure you have the following requirements installed in your environment:
      ```
 
 3. If you prefer to use a Dockerfile, you can build and run the Docker container separately:
+
    - Build the Docker:
 
      ```shell
@@ -79,9 +81,10 @@ Make sure you have the following requirements installed in your environment:
      docker compose start
      ```
 
-    > **Note**: See the bot log to scan qr code at the first time - `docker compose logs bot -f`.
+   > **Note**: See the bot log to scan qr code at the first time - `docker compose logs bot -f`.
 
 4. To build and start the application without Docker, use the following commands:
+
    - Build the application:
 
      ```shell
@@ -118,6 +121,7 @@ The table below lists the available commands in the bot, their description, and 
 | `!ld`         | Enables/Disables the link detector in a group                                       |             |
 | `!og`         | Enables/Disables the one group in a group                                           |             |
 | `!md`         | Enables/Disables the malicious content detector in a group                          | SightEngine |
+| `!pd`         | Enables/Disables the profanity content detector in a group                          |             |
 | `!td`         | Enables/Disables WhatsApp-freezing message detector in a group                      |             |
 | `!bv`         | Enables/Disables the welcome message when someone joins a group                     |             |
 | `!bl`         | Add the user to the blacklist of all groups                                         |             |

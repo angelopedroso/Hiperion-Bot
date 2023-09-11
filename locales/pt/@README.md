@@ -31,32 +31,32 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
 
    - Configure o arquivo `.env` com as informações necessárias:
 
-      ```plaintext
-      BOT_NAME=
-      OWNER_NUM=
-      BOT_NUM=
-      LANGUAGE=
+     ```plaintext
+     BOT_NAME=
+     OWNER_NUM=
+     BOT_NUM=
+     LANGUAGE=
 
-      # SightEngine - https://dashboard.sightengine.com/login
-      API_SIGHTENGINE_USER=
-      API_SIGHTENGINE_SECRET=
+     # SightEngine - https://dashboard.sightengine.com/login
+     API_SIGHTENGINE_USER=
+     API_SIGHTENGINE_SECRET=
 
-      # OPENAI - https://platform.openai.com
-      OPENAI_API_KEY=
-      OPENAI_PASSWORD=
+     # OPENAI - https://platform.openai.com
+     OPENAI_API_KEY=
+     OPENAI_PASSWORD=
 
-      # ACRCLOUD - www.acrcloud.com/
-      ACR_HOST=
-      ACR_KEY=
-      ACR_SECRET_KEY=
+     # ACRCLOUD - www.acrcloud.com/
+     ACR_HOST=
+     ACR_KEY=
+     ACR_SECRET_KEY=
 
-      # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
-      DATABASE_URL=
+     # DATABASE (mysql) Exemplo: "mysql://root:docker@localhost:3306/hiperion"
+     DATABASE_URL=
 
-      # REDIS (opcional se você estiver usando um redis local)
-      REDIS_URI=
-      ```
-      
+     # REDIS (opcional se você estiver usando um redis local)
+     REDIS_URI=
+     ```
+
    - Aplique as migrations do banco de dados usando o Prisma:
 
      ```shell
@@ -64,6 +64,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
      ```
 
 3. Se você preferir usar o DockerFile, você pode buildar e iniciar o container do Docker separadamente:
+
    - Build a imagem para o docker:
 
      ```shell
@@ -79,6 +80,7 @@ Certifique-se de ter os seguintes requisitos instalados em seu ambiente:
    > **Note**: Veja o log do bot para escanear o qr code na primeira vez - `docker compose logs bot -f`.
 
 4. Para buildar e iniciar o bot sem o Docker, use os seguintes comandos:
+
    - Build a imagem para o docker:
 
      ```shell
@@ -115,6 +117,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!ld`         | Ativa/Desativa o detector de links em algum grupo                             |             |
 | `!og`         | Ativa/Desativa o apenas em um grupo em algum grupo                            |             |
 | `!md`         | Ativa/Desativa o detector de conteúdo malicioso em algum grupo                | SightEngine |
+| `!pd`         | Ativa/Desativa o detector de mensagens de baixo-calão em algum grupo          |             |
 | `!td`         | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo   |             |
 | `!bv`         | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo   |             |
 | `!bl`         | Adiciona o usuário à lista negra de todos os grupos                           |             |
