@@ -1,10 +1,8 @@
 import { ZapType } from '@modules/zapConstructor'
 import { MessageTypes } from 'whatsapp-web.js'
-import fs from 'fs-extra'
-import { openai } from '@lib/openai'
-import { convertOggToMp3 } from '@utils/convertFile'
 import { printError } from '@cli/terminal'
 import { localPath } from '@utils/globalVariable'
+import { transcription } from '@utils/transcriptionFunction'
 
 export async function transcriptionAudio({ message, ...zap }: ZapType) {
   const isOwner = await zap.IsOwner()
@@ -24,18 +22,10 @@ export async function transcriptionAudio({ message, ...zap }: ZapType) {
       if (quotedMsg.hasMedia && quotedMsg.type === MessageTypes.VOICE) {
         const media = await quotedMsg.downloadMedia()
 
-        await fs.writeFile(path, media.data, { encoding: 'base64' })
+        const messageTranscripted = await transcription({ media, path })
 
-        const file = await convertOggToMp3(path)
-
-        const { data } = await openai.createTranscription(
-          fs.createReadStream(file) as any,
-          'whisper-1',
-        )
-
-        await fs.unlink(file)
         message?.react('🥳')
-        message.reply(data.text)
+        message.reply(messageTranscripted)
         return
       }
 
