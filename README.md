@@ -121,7 +121,7 @@ The table below lists the available commands in the bot, their description, and 
 | `!ld`         | Enables/Disables the link detector in a group                                       |             |
 | `!og`         | Enables/Disables the one group in a group                                           |             |
 | `!md`         | Enables/Disables the malicious content detector in a group                          | SightEngine |
-| `!pd`         | Enables/Disables the profanity content detector in a group                          |             |
+| `!pd`         | Enables/Disables the profanity message/voice detector in a group                    |             |
 | `!td`         | Enables/Disables WhatsApp-freezing message detector in a group                      |             |
 | `!bv`         | Enables/Disables the welcome message when someone joins a group                     |             |
 | `!bl`         | Add the user to the blacklist of all groups                                         |             |

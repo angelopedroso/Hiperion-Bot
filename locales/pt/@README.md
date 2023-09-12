@@ -117,7 +117,7 @@ A tabela abaixo lista os comandos disponíveis no bot, sua descrição e se algu
 | `!ld`         | Ativa/Desativa o detector de links em algum grupo                             |             |
 | `!og`         | Ativa/Desativa o apenas em um grupo em algum grupo                            |             |
 | `!md`         | Ativa/Desativa o detector de conteúdo malicioso em algum grupo                | SightEngine |
-| `!pd`         | Ativa/Desativa o detector de mensagens de baixo-calão em algum grupo          |             |
+| `!pd`         | Ativa/Desativa o detector de mensagens/aúdios de baixo-calão em algum grupo          |             |
 | `!td`         | Ativa/Desativa o detector de mensagens que travam o WhatsApp em algum grupo   |             |
 | `!bv`         | Ativa/Desativa a mensagem de boas-vindas quando alguém entra em algum grupo   |             |
 | `!bl`         | Adiciona o usuário à lista negra de todos os grupos                           |             |
