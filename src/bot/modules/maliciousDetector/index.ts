@@ -56,22 +56,26 @@ async function handleMaliciousImage(
   user: Contact,
   message: ZapType['message'],
 ) {
-  if (message) {
-    const media = await message.downloadMedia()
-    const filePath = path.resolve(`assets/img/tmp/${getRandomName('.png')}`)
-    await fs.writeFile(filePath, media.data, { encoding: 'base64' })
+  try {
+    if (message) {
+      const media = await message.downloadMedia()
+      const filePath = path.resolve(`assets/img/tmp/${getRandomName('.png')}`)
+      await fs.writeFile(filePath, media.data, { encoding: 'base64' })
 
-    const probability = await checkIfContentIsExplict(filePath)
+      const probability = await checkIfContentIsExplict(filePath)
 
-    if (probability) {
-      await handleMaliciousContent(
-        group,
-        user,
-        message,
-        media.mimetype,
-        media.data,
-      )
+      if (probability) {
+        await handleMaliciousContent(
+          group,
+          user,
+          message,
+          media.mimetype,
+          media.data,
+        )
+      }
     }
+  } catch (error: Error | any) {
+    printError('Malicious detection: ' + error.message)
   }
 }
 
@@ -130,8 +134,14 @@ async function handleMaliciousContent(
   mimetype: string,
   content: string,
 ) {
-  const resizedImage = await resizeImage(`data:${mimetype};base64,${content}`)
-  const sliceIndex = resizedImage.indexOf('base64,')
+  const isImage = message?.type === MessageTypes.IMAGE
+  let sliceIndex: number = 0
+  let resizedImage: string = ''
+
+  if (!isImage) {
+    resizedImage = await resizeImage(`data:${mimetype};base64,${content}`)
+    sliceIndex = resizedImage.indexOf('base64,')
+  }
 
   await Promise.all([
     group.removeParticipants([user.id._serialized]),
@@ -143,7 +153,7 @@ async function handleMaliciousContent(
     chat_name: group.name,
     user_name: user.pushname,
     user_phone: user.id.user,
-    image: resizedImage.slice(0, sliceIndex),
+    image: isImage ? content : resizedImage.slice(0, Number(sliceIndex)),
     message: '',
     reason: 'malicious',
     date_time: new Date(new Date().toISOString()),
