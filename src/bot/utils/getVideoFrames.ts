@@ -14,37 +14,32 @@ async function getVideoDuration(videoPath: string): Promise<number> {
   })
 }
 
-function calculateFrameTimes(duration: number): number[] {
-  const middleTime = duration / 2
-  return [0, middleTime]
+function getRandomTime(duration: number): number {
+  return Math.random() * duration
 }
 
-async function extractFrames(
+async function extractRandomFrame(
   videoPath: string,
   outputDir: string,
-  frameTimes: number[],
-): Promise<string[]> {
-  return new Promise<string[]>((resolve, reject) => {
-    const framePaths: string[] = []
+): Promise<string> {
+  const duration = await getVideoDuration(videoPath)
+  const randomTime = getRandomTime(duration)
 
+  return new Promise<string>((resolve, reject) => {
     ffmpeg(videoPath)
-      .on('filenames', (filenames) => {
-        for (const filename of filenames) {
-          framePaths.push(path.join(outputDir, filename))
-        }
-      })
       .on('end', () => {
-        resolve(framePaths)
+        const framePath = path.join(outputDir, 'random-frame.png')
+        resolve(framePath)
       })
       .on('error', (err) => {
         reject(err)
       })
       .screenshots({
-        timestamps: frameTimes,
+        timestamps: [randomTime],
         folder: outputDir,
-        filename: 'frame-%w-%s.png',
+        filename: 'random-frame.png',
       })
   })
 }
 
-export { extractFrames, calculateFrameTimes, getVideoDuration }
+export { extractRandomFrame, getVideoDuration }
