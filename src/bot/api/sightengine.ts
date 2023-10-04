@@ -20,9 +20,12 @@ export const checkIfContentIsExplict = async (filePath: string) => {
       headers: form.getHeaders(),
     })
 
-    await fs.unlink(filePath)
-
     const probality = data.nudity.none < 0.15 || data.offensive.prob >= 0.6
+
+    // if (!probality) {
+    //   await fs.unlink(filePath)
+    // }
+    await fs.unlink(filePath)
 
     return probality
   } catch (error: Error | any) {
