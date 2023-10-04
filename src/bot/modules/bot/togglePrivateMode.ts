@@ -21,5 +21,5 @@ export async function togglePrivateMode({ message, ...zap }: ZapType) {
     return
   }
 
-  await message?.reply(zap.translateMessage('notgroup', 'error'))
+  await message?.reply(zap.translateMessage('general', 'onlyowner'))
 }
