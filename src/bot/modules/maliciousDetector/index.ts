@@ -9,14 +9,10 @@ import fs from 'fs-extra'
 import path from 'path'
 
 import { getRandomName } from '@utils/generateRandomName'
-import { resizeImage } from '@utils/reduceBase64Size'
-import {
-  calculateFrameTimes,
-  extractFrames,
-  getVideoDuration,
-} from '@utils/getVideoFrames'
+import { extractRandomFrame } from '@utils/getVideoFrames'
 
 import { printError } from '@cli/terminal'
+// import { uploadImage } from '@utils/uploadImage'
 
 async function maliciousDetector(
   { message, ...zap }: ZapType,
@@ -47,6 +43,7 @@ async function maliciousDetector(
       }
     }
   } catch (error: Error | any) {
+    // console.log('🚀 ~ file: index.ts:50 ~ error:', error)
     printError('Malicious detection: ' + error.message)
   }
 }
@@ -56,26 +53,26 @@ async function handleMaliciousImage(
   user: Contact,
   message: ZapType['message'],
 ) {
-  try {
-    if (message) {
-      const media = await message.downloadMedia()
+  if (message) {
+    const media = await message.downloadMedia()
+
+    if (media) {
       const filePath = path.resolve(`assets/img/tmp/${getRandomName('.png')}`)
       await fs.writeFile(filePath, media.data, { encoding: 'base64' })
 
-      const probability = await checkIfContentIsExplict(filePath)
+      try {
+        const probability = await checkIfContentIsExplict(filePath)
 
-      if (probability) {
-        await handleMaliciousContent(
-          group,
-          user,
-          message,
-          media.mimetype,
-          media.data,
+        if (probability) {
+          await handleMaliciousContent(group, user, message, media.data)
+        }
+      } catch (error: Error | any) {
+        printError(
+          'Malicious detection - handleMaliciousImage: ' + error.message,
         )
+        // console.log(error)
       }
     }
-  } catch (error: Error | any) {
-    printError('Malicious detection: ' + error.message)
   }
 }
 
@@ -84,45 +81,36 @@ async function handleMaliciousVideo(
   user: Contact,
   message: ZapType['message'],
 ) {
-  if (message) {
+  if (message?.hasMedia) {
     const media = await message.downloadMedia()
-    const videoData = Buffer.from(media.data, 'base64')
 
-    const filePath = path.resolve(`assets/img/tmp/${getRandomName('.mp4')}`)
-    const outputDir = path.resolve('assets/img/tmp/')
+    if (media) {
+      const videoData = Buffer.from(media.data, 'base64')
 
-    try {
-      await fs.writeFile(filePath, videoData)
+      const filePath = path.resolve(`assets/img/tmp/${getRandomName('.mp4')}`)
+      const outputDir = path.resolve('assets/img/tmp/')
 
-      const duration = await getVideoDuration(filePath)
-      const frameTimes = calculateFrameTimes(duration)
-      const framePaths = await extractFrames(filePath, outputDir, frameTimes)
+      try {
+        await fs.writeFile(filePath, videoData)
 
-      const probabilities = await Promise.all(
-        framePaths.map(async (framePath) => ({
-          status: await checkIfContentIsExplict(framePath),
-          path: framePath,
-        })),
-      )
+        const framePath = await extractRandomFrame(filePath, outputDir)
 
-      const isMalicious = probabilities.find((frame) => frame.status)
+        const probability = await checkIfContentIsExplict(framePath)
 
-      if (isMalicious) {
-        const imageDataBuffer = fs.readFileSync(isMalicious.path)
-        const imageDataBase64 = imageDataBuffer.toString('base64')
+        if (probability) {
+          const imageDataBuffer = fs.readFileSync(framePath)
+          const imageDataBase64 = imageDataBuffer.toString('base64')
 
-        await handleMaliciousContent(
-          group,
-          user,
-          message,
-          'image/jpeg',
-          imageDataBase64,
+          await handleMaliciousContent(group, user, message, imageDataBase64)
+        }
+      } catch (error: Error | any) {
+        // console.log('🚀 ~ file: index.ts:113 ~ error:', error)
+        printError(
+          'Malicious detection - handleMaliciousVideo: ' + error.message,
         )
+      } finally {
+        await fs.unlink(filePath)
       }
-    } catch (error: Error | any) {
-      printError('Malicious detection - handleMaliciousVideo: ' + error.message)
-    } finally {
-      await fs.unlink(filePath)
     }
   }
 }
@@ -131,33 +119,29 @@ async function handleMaliciousContent(
   group: GroupChat,
   user: Contact,
   message: ZapType['message'],
-  mimetype: string,
   content: string,
 ) {
-  const isImage = message?.type === MessageTypes.IMAGE
-  let sliceIndex: number = 0
-  let resizedImage: string = ''
+  try {
+    // const imgUrl = await uploadImage(content)
 
-  if (!isImage) {
-    resizedImage = await resizeImage(`data:${mimetype};base64,${content}`)
-    sliceIndex = resizedImage.indexOf('base64,')
+    await Promise.all([
+      group.removeParticipants([user.id._serialized]),
+      message?.delete(true),
+    ])
+
+    await db.createBanLog({
+      id: '',
+      chat_name: group.name,
+      user_name: user.pushname,
+      user_phone: user.id.user,
+      image: content,
+      message: '',
+      reason: 'malicious',
+      date_time: new Date(new Date().toISOString()),
+    })
+  } catch (error: Error | any) {
+    printError('Malicious detection - handleMaliciousContent: ' + error.message)
   }
-
-  await Promise.all([
-    group.removeParticipants([user.id._serialized]),
-    message?.delete(true),
-  ])
-
-  await db.createBanLog({
-    id: '',
-    chat_name: group.name,
-    user_name: user.pushname,
-    user_phone: user.id.user,
-    image: isImage ? content : resizedImage.slice(0, Number(sliceIndex)),
-    message: '',
-    reason: 'malicious',
-    date_time: new Date(new Date().toISOString()),
-  })
 }
 
 export { maliciousDetector }
