@@ -40,10 +40,20 @@ export async function menuBot({ message, ...zap }: ZapType, page: string) {
       return
     }
 
-    if (formattedPageNum === 5 && isOwner) {
-      const menuPageMessage = getMenuPage(menu, formattedPageNum)
+    if (formattedPageNum === 5) {
+      if (isOwner) {
+        const menuPageMessage = getMenuPage(menu, formattedPageNum)
 
-      message?.reply(menuPageMessage)
+        message?.reply(menuPageMessage)
+
+        return
+      }
+
+      message?.reply(
+        zap.translateMessage('menu', 'main', {
+          botname: BOT_NAME,
+        }),
+      )
 
       return
     }
