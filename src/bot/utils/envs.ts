@@ -17,7 +17,7 @@ const DATABASE_URL = process.env.DATABASE_URL || ''
 
 const REDIS_URI = process.env.REDIS_URI || ''
 
-const PORT = process.env.PORT || 3001
+const STORE_IMG = process.env.STORE_IMG || ''
 
 export {
   API_SIGHTENGINE_SECRET,
@@ -33,5 +33,5 @@ export {
   ACR_KEY,
   ACR_SECRET_KEY,
   REDIS_URI,
-  PORT,
+  STORE_IMG,
 }
