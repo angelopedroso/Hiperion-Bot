@@ -4,12 +4,10 @@ import { printError } from '@cli/terminal'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
 import { isSocialMediaLink } from '@utils/ifExistsLink'
 import LinkifyIt from 'linkify-it'
-import { Chat } from 'whatsapp-web.js'
 
 const linkDetector = async (
   { message, ...zap }: ZapType,
   groupInfo: groupInfoCache | null | undefined,
-  chat: Chat,
 ) => {
   try {
     const user = await zap.getUser()

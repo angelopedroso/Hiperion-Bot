@@ -16,7 +16,7 @@ export async function checkGroupFeatures(zap: ZapType) {
       const groupInfo = await db.getGroupInfo(chat.id._serialized)
 
       await Promise.all([
-        linkDetector(zap, groupInfo, chat),
+        linkDetector(zap, groupInfo),
         maliciousDetector(zap, groupInfo),
         profanityDetector(zap, groupInfo),
         travaDectetor(zap, groupInfo),
