@@ -48,7 +48,7 @@ export async function registerModules(zap: ZapType) {
 
         await db.createLog({
           command: commandName,
-          user_name: pushname,
+          user_name: pushname || 'Undefined',
           is_group: isGroup,
           chat_name: isGroup ? name : null,
           groupId: id._serialized,
