@@ -65,20 +65,24 @@ export function PrismaQuery() {
     },
 
     async deleteGroup(groupId: string) {
-      await prisma.$transaction([
-        prisma.participantGroupType.deleteMany({
-          where: {
-            group: {
+      try {
+        await prisma.$transaction([
+          prisma.participantGroupType.deleteMany({
+            where: {
+              group: {
+                g_id: groupId,
+              },
+            },
+          }),
+          prisma.group.delete({
+            where: {
               g_id: groupId,
             },
-          },
-        }),
-        prisma.group.delete({
-          where: {
-            g_id: groupId,
-          },
-        }),
-      ])
+          }),
+        ])
+      } catch (error: Error | any) {
+        console.log(error.message)
+      }
     },
 
     async findParticipantsByIds(participantIds: string[]) {
@@ -107,61 +111,65 @@ export function PrismaQuery() {
       user: addParticipantInGroupProps,
       groupId: string,
     ) {
-      const existsParticipantInGroup = await prisma.participant.findUnique({
-        where: {
-          p_id: user.userId,
-        },
-        include: {
-          group_participant: true,
-          participant_group_type: true,
-        },
-      })
+      try {
+        const existsParticipantInGroup = await prisma.participant.findUnique({
+          where: {
+            p_id: user.userId,
+          },
+          include: {
+            group_participant: true,
+            participant_group_type: true,
+          },
+        })
 
-      const participantType =
-        existsParticipantInGroup?.participant_group_type.find(
-          (p) => p.participantId === existsParticipantInGroup.id,
+        const participantType =
+          existsParticipantInGroup?.participant_group_type.find(
+            (p) => p.participantId === existsParticipantInGroup.id,
+          )
+
+        if (
+          existsParticipantInGroup &&
+          participantType?.tipo === 'membro' &&
+          existsParticipantInGroup.group_participant.length > 0
         )
+          return 'ban'
 
-      if (
-        existsParticipantInGroup &&
-        participantType?.tipo === 'membro' &&
-        existsParticipantInGroup.group_participant.length > 0
-      )
-        return 'ban'
-
-      await prisma.group.update({
-        where: {
-          g_id: groupId,
-        },
-        data: {
-          participants: {
-            connectOrCreate: {
-              where: {
-                p_id: user.userId,
-              },
-              create: {
-                p_id: user.userId,
-                name: user.pushname,
-                image_url: user.imageUrl,
+        await prisma.group.update({
+          where: {
+            g_id: groupId,
+          },
+          data: {
+            participants: {
+              connectOrCreate: {
+                where: {
+                  p_id: user.userId,
+                },
+                create: {
+                  p_id: user.userId,
+                  name: user.pushname,
+                  image_url: user.imageUrl,
+                },
               },
             },
           },
-        },
-      })
+        })
 
-      const existsGroupType = await prisma.participantGroupType.findFirst({
-        where: {
-          group: {
-            g_id: groupId,
+        const existsGroupType = await prisma.participantGroupType.findFirst({
+          where: {
+            group: {
+              g_id: groupId,
+            },
+            participant: {
+              p_id: user.userId,
+            },
           },
-          participant: {
-            p_id: user.userId,
-          },
-        },
-      })
+        })
 
-      if (!existsGroupType) {
-        await this.createParticipantGroupType(groupId, user.userId, 'membro')
+        if (!existsGroupType) {
+          await this.createParticipantGroupType(groupId, user.userId, 'membro')
+        }
+      } catch (error: Error | any) {
+        console.log(error.message)
       }
     },
 
@@ -263,25 +271,25 @@ export function PrismaQuery() {
     },
 
     async removeParticipantsFromGroup(participantId: string, groupId: string) {
-      const participant = await prisma.participant.findUnique({
-        where: {
-          p_id: participantId,
-        },
-        include: {
-          group_participant: true,
-        },
-      })
+      try {
+        const participant = await prisma.participant.findUnique({
+          where: {
+            p_id: participantId,
+          },
+          include: {
+            group_participant: true,
+          },
+        })
 
-      if (!participant) return
+        if (!participant) return
 
-      const groupsCount = participant.group_participant.length
+        const groupsCount = participant.group_participant.length
 
-      if (
-        groupsCount === 1 &&
-        participant.group_participant[0].g_id === groupId
-      ) {
-        await prisma.$transaction([
-          prisma.participantGroupType.deleteMany({
+        if (
+          groupsCount === 1 &&
+          participant.group_participant[0].g_id === groupId
+        ) {
+          await prisma.participantGroupType.deleteMany({
             where: {
               participant: {
                 id: participant.id,
@@ -290,56 +298,66 @@ export function PrismaQuery() {
                 g_id: groupId,
               },
             },
-          }),
+          })
 
-          prisma.participant.delete({
+          await prisma.participant.delete({
             where: {
               p_id: participantId,
             },
-          }),
-        ])
-      } else {
-        await prisma.participant.update({
-          where: {
-            p_id: participantId,
-          },
-          data: {
-            group_participant: {
-              disconnect: {
-                g_id: groupId,
+          })
+        } else {
+          await prisma.participant.update({
+            where: {
+              p_id: participantId,
+            },
+            data: {
+              group_participant: {
+                disconnect: {
+                  g_id: groupId,
+                },
               },
             },
-          },
-        })
+          })
+        }
+      } catch (error: Error | any) {
+        console.log(error.message)
       }
     },
 
     async deleteParticipant(participantId: string) {
-      await prisma.participant.delete({
-        where: {
-          p_id: participantId,
-        },
-      })
+      try {
+        await prisma.participant.delete({
+          where: {
+            p_id: participantId,
+          },
+        })
+      } catch (error: Error | any) {
+        console.log(error.message)
+      }
     },
 
     async updateGroupOnReady(groupId: string, p: Participant) {
-      await prisma.group.update({
-        where: { g_id: groupId },
-        data: {
-          participants: {
-            connectOrCreate: {
-              where: {
-                p_id: p.p_id,
-              },
-              create: {
-                p_id: p.p_id,
-                name: p.name,
-                image_url: p.image_url,
+      try {
+        await prisma.group.update({
+          where: { g_id: groupId },
+          data: {
+            participants: {
+              connectOrCreate: {
+                where: {
+                  p_id: p.p_id,
+                },
+                create: {
+                  p_id: p.p_id,
+                  name: p.name,
+                  image_url: p.image_url,
+                },
               },
             },
           },
-        },
-      })
+        })
+      } catch (error: Error | any) {
+        console.log(error.message)
+      }
     },
 
     createParticipantGroupType(
