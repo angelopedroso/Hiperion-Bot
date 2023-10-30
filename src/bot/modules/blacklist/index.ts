@@ -25,7 +25,11 @@ export async function addUserInBlackList(
           allGroups,
         )
 
-        if (res) {
+        const userInGroup = groupChat.participants.some(
+          (participant) => participant.id.user === formattedUser,
+        )
+
+        if (res && userInGroup) {
           await groupChat.removeParticipants([formattedUser])
         }
 
