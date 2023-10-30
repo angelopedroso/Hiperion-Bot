@@ -9,35 +9,37 @@ export async function addUserInBlackList(
 ) {
   const groupChat = await zap.getGroupChat()
 
-  try {
-    if (groupChat.isGroup) {
-      const user = await zap.getUser()
-      const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
+  if (groupChat.isGroup) {
+    const user = await zap.getUser()
+    const isAdmin = await zap.getUserIsAdmin(user.id._serialized)
 
-      if (isAdmin) {
-        const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '')
+    if (isAdmin) {
+      const formattedUser = userId.replace(/[^a-zA-Z0-9]/g, '')
 
+      try {
         const allGroups = await db.getAllGroups()
 
-        const query = db.addToBlacklist(
+        const res = await db.addToBlacklist(
           groupChat.id._serialized,
           formattedUser,
           allGroups,
         )
 
-        await prisma.$transaction(query)
+        if (res) {
+          await groupChat.removeParticipants([formattedUser])
+        }
 
         message?.react('👌🏼')
+      } catch (error: Event | any) {
+        await message?.reply(zap.translateMessage('bl', 'error'))
+        printError(error.message)
       }
-
-      return
     }
 
-    await message?.reply(zap.translateMessage('notgroup', 'error'))
-  } catch (error: Event | any) {
-    await message?.reply(zap.translateMessage('bl', 'error'))
-    printError(error.message)
+    return
   }
+
+  await message?.reply(zap.translateMessage('notgroup', 'error'))
 }
 
 export async function removeUserFromBlackList(

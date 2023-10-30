@@ -10,6 +10,7 @@ import {
   Log,
   Participant,
   ParticipantType,
+  Prisma,
 } from '@prisma/client'
 import { printError } from '@cli/terminal'
 import {
@@ -476,44 +477,63 @@ export function PrismaQuery() {
       }
     },
 
-    addToBlacklist(
+    async addToBlacklist(
       groupId: string,
       participantId: string,
       allGroups: Group[] | CompleteGroup[] | undefined,
     ) {
-      const querys = []
-      querys.push(
-        prisma.group.update({
+      try {
+        await prisma.group.update({
           where: { g_id: groupId },
           data: {
             black_list: {
               connect: { p_id: participantId },
             },
           },
-        }),
-      )
+        })
 
-      const otherGroups = allGroups?.filter(
-        (otherGroup: any) => otherGroup.g_id !== groupId,
-      )
-      if (otherGroups) {
-        for (const otherGroup of otherGroups) {
-          querys.push(
-            prisma.group.update({
+        const otherGroups = allGroups?.filter(
+          (otherGroup: any) => otherGroup.g_id !== groupId,
+        )
+
+        if (otherGroups) {
+          for (const otherGroup of otherGroups) {
+            await prisma.group.update({
               where: { g_id: otherGroup.g_id },
               data: {
                 black_list: {
                   connect: { p_id: participantId },
                 },
               },
-            }),
-          )
+            })
+          }
         }
+
+        redis.del('group-info:' + groupId)
+
+        return true
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === 'P1001') {
+            printError('Database is offline.')
+            return
+          }
+
+          if (error.code === 'P1002') {
+            printError('Time out in execution, try again.')
+            return
+          }
+
+          if (error.code === 'P1008') {
+            printError('Operation time outed.')
+            return
+          }
+
+          printError(`Black list error: ${error.message}`)
+        }
+
+        return false
       }
-
-      redis.del('group-info:' + groupId)
-
-      return querys
     },
 
     async removeFromBlacklist(groupId: string, participantId: string) {
