@@ -89,13 +89,14 @@ async function handleMaliciousVideo(
 
       const filePath = path.resolve(`assets/img/tmp/${getRandomName('.mp4')}`)
       const outputDir = path.resolve('assets/img/tmp/')
+      let framePath = ''
 
       try {
         await fs.writeFile(filePath, videoData)
 
-        const framePath = await extractRandomFrame(filePath, outputDir)
+        framePath = await extractRandomFrame(filePath, outputDir)
 
-        const probability = await checkIfContentIsExplict(framePath)
+        const probability = await checkIfContentIsExplict(framePath, 'video')
 
         if (probability) {
           const imageDataBuffer = fs.readFileSync(framePath)
@@ -110,6 +111,7 @@ async function handleMaliciousVideo(
         )
       } finally {
         await fs.unlink(filePath)
+        await fs.unlink(framePath)
       }
     }
   }

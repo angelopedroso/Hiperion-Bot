@@ -4,7 +4,10 @@ import FormData from 'form-data'
 import { API_SIGHTENGINE_SECRET, API_SIGHTENGINE_USER } from '@utils/envs'
 import { printError } from '@cli/terminal'
 
-export const checkIfContentIsExplict = async (filePath: string) => {
+export const checkIfContentIsExplict = async (
+  filePath: string,
+  type: 'video' | 'image' = 'image',
+) => {
   try {
     const form = new FormData()
 
@@ -22,10 +25,9 @@ export const checkIfContentIsExplict = async (filePath: string) => {
 
     const probality = data.nudity.none < 0.15 || data.offensive.prob >= 0.6
 
-    // if (!probality) {
-    //   await fs.unlink(filePath)
-    // }
-    await fs.unlink(filePath)
+    if (type === 'image') {
+      await fs.unlink(filePath)
+    }
 
     return probality
   } catch (error: Error | any) {

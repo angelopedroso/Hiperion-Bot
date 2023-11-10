@@ -1,5 +1,4 @@
 import { db } from '@lib/auth/prisma-query'
-import { prisma } from '@lib/prisma'
 import { ZapType } from '@modules/zapConstructor'
 import { BOT_NUM } from '@utils/envs'
 
@@ -36,9 +35,7 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
       const allGroups = await db.getAllGroups()
 
-      const blackList = db.addToBlacklist(groupId, user.id.user, allGroups)
-
-      await prisma.$transaction(blackList)
+      await db.addToBlacklist(groupId, user.id.user, allGroups)
 
       message.react('😈')
 
@@ -59,9 +56,7 @@ export async function banUser({ message, ...zap }: ZapType, userId: string) {
 
       const allGroups = await db.getAllGroups()
 
-      const blackList = db.addToBlacklist(groupId, user, allGroups)
-
-      await prisma.$transaction(blackList)
+      await db.addToBlacklist(groupId, user, allGroups)
 
       message?.react('😈')
 
