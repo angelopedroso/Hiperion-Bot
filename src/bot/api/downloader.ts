@@ -1,5 +1,6 @@
+import { printError } from '@cli/terminal'
 import { convertToMp3, convertToMp4 } from '@utils/convertFile'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { MessageMedia } from 'whatsapp-web.js'
 
 type Params = {
@@ -8,50 +9,73 @@ type Params = {
   aFormat: string
 }
 
-export async function socialMediaDownloader(params: Params, isAudio: boolean) {
+export async function socialMediaDownloader(
+  { url, isAudioOnly, aFormat }: Params,
+  isAudio: boolean,
+) {
   let media
-  const { data } = await axios.post(
-    'http://localhost:9000/api/json',
-    JSON.stringify(params),
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+
+  const vQuality = 1080
+  const formattedUrl = encodeURIComponent(url)
+
+  const requestBody = {
+    url: formattedUrl,
+    vQuality: `${vQuality}`,
+    isAudioOnly,
+    aFormat: `${aFormat}`,
+  }
+
+  try {
+    const { data } = await axios.post(
+      'https://co.wuk.sh/api/json',
+      JSON.stringify(requestBody),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       },
-    },
-  )
+    )
 
-  if (data.status === 'error') {
-    return { type: 'errorAxios', media: null }
-  }
-
-  if (data.status === 'stream') {
-    if (isAudio) {
-      media = await convertToMp3(data.url)
-    } else {
-      media = await convertToMp4(data.url)
+    if (data.status === 'error') {
+      return { type: 'errorAxios', media: null }
     }
-  }
 
-  if (data.status === 'redirect' || data.status === 'success') {
-    media = await MessageMedia.fromUrl(data.url)
-  }
+    if (data.status === 'stream') {
+      if (isAudio) {
+        media = await convertToMp3(data.url)
+      } else {
+        media = await convertToMp4(data.url)
+      }
+    }
 
-  if (data.status === 'picker') {
+    if (data.status === 'redirect' || data.status === 'success') {
+      media = await MessageMedia.fromUrl(data.url)
+    }
+
+    if (data.status === 'picker') {
+      return {
+        type: 'picker',
+        media: data.picker.map(
+          async (p: { url: string }) => await MessageMedia.fromUrl(p.url),
+        ),
+      }
+    }
+
+    if (media?.filesize && media.filesize >= 16 * 1000 * 1000) {
+      return { type: 'errorSize', media: null }
+    }
+
     return {
-      type: 'picker',
-      media: data.picker.map(
-        async (p: { url: string }) => await MessageMedia.fromUrl(p.url),
-      ),
+      type: 'success',
+      media,
     }
-  }
+  } catch (error: any) {
+    if (error instanceof AxiosError) {
+      printError('Downloader Error: ' + error.message)
+      return
+    }
 
-  if (media?.filesize && media.filesize >= 16 * 1000 * 1000) {
-    return { type: 'errorSize', media: null }
-  }
-
-  return {
-    type: 'success',
-    media,
+    printError(error.message as any)
   }
 }

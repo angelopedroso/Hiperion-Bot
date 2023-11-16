@@ -35,7 +35,7 @@ export async function mediaDownloader(
     const params = {
       url,
       isAudioOnly: isAudio,
-      aFormat: 'mp3',
+      aFormat: isAudio ? 'mp3' : 'mp4',
     }
 
     let downloadMedia
@@ -78,7 +78,9 @@ export async function mediaDownloader(
       }
 
       message?.react('🥳')
-      chat.sendMessage(downloadMedia.media)
+      await message?.reply(downloadMedia.media as MessageMedia, undefined, {
+        media: downloadMedia.media,
+      })
     }
   } catch (error: Error | any) {
     message?.react('❌')
