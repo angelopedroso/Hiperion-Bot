@@ -36,7 +36,7 @@ export async function bemVindo(notification: GroupNotification) {
                 group: chat.name,
               }),
               {
-                mentions: [user],
+                mentions: [user] as any,
               },
             )
 
@@ -52,7 +52,7 @@ export async function bemVindo(notification: GroupNotification) {
               group: chat.name,
             }),
             {
-              mentions: [user],
+              mentions: [user] as any,
             },
           )
         }
