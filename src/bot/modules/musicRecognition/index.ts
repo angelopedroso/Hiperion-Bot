@@ -15,10 +15,10 @@ export async function recognizeMusic({ message, ...zap }: ZapType) {
     accessSecret: ACR_SECRET_KEY,
   })
 
-  message?.react('🔄')
-
   try {
     if (message?.hasMedia && types.includes(message.type)) {
+      message?.react('🔄')
+
       const media = await message.downloadMedia()
 
       const res = await acr.recognize(media)

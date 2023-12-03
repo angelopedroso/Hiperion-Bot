@@ -1,5 +1,6 @@
 import { ZapType } from '@modules/zapConstructor'
 import { groupInfoCache } from '@typings/cache/groupInfo.interface'
+import { makeSticker } from '@utils/convertFile'
 import { BOT_NAME } from '@utils/envs'
 
 import { MessageTypes } from 'whatsapp-web.js'
@@ -13,15 +14,21 @@ const validTypes = [MessageTypes.IMAGE, MessageTypes.VIDEO]
 async function sendSticker({ message, ...zap }: ZapType) {
   const chat = await zap.getChat()
 
+  message?.react('🔃')
+
   try {
     if (message?.hasMedia && validTypes.includes(message.type)) {
       const media = await message.downloadMedia()
 
-      await chat.sendMessage(media, {
+      const formattedMedia = await makeSticker(media)
+
+      await chat.sendMessage(formattedMedia, {
         sendMediaAsSticker: true,
         stickerAuthor: BOT_NAME,
         stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
       })
+
+      message.react('🥳')
 
       return
     }
@@ -37,11 +44,17 @@ async function sendSticker({ message, ...zap }: ZapType) {
       if (validTypes.includes(quotedMsg.type)) {
         const media = await quotedMsg.downloadMedia()
 
-        await chat.sendMessage(media, {
+        const formattedMedia = await makeSticker(media)
+
+        await chat.sendMessage(formattedMedia, {
           sendMediaAsSticker: true,
           stickerAuthor: BOT_NAME,
-          stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
+          stickerName: zap.translateMessage('fs', 'madeby', {
+            name: BOT_NAME,
+          }),
         })
+
+        message.react('🥳')
       }
     }
   } catch (error: Error | any) {
@@ -61,9 +74,12 @@ async function sendAutoSticker(
     if (message?.hasMedia && validTypes.includes(message.type)) {
       if (groupInfo?.auto_sticker) {
         const chat = await zap.getChat()
+
         const media = await message.downloadMedia()
 
-        await chat.sendMessage(media, {
+        const formattedMedia = await makeSticker(media)
+
+        await chat.sendMessage(formattedMedia, {
           sendMediaAsSticker: true,
           stickerAuthor: BOT_NAME,
           stickerName: zap.translateMessage('fs', 'madeby', { name: BOT_NAME }),
